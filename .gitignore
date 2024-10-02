@@ -16,6 +16,9 @@
 *.csproj.user
 *~
 
+# Script
+/Script/*
+
 # Application specific.
 /program
 BisonParser.c
