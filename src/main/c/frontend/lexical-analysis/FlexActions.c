@@ -34,7 +34,62 @@ static void _logLexicalAnalyzerContext(const char * functionName, LexicalAnalyze
 	free(escapedLexeme);
 }
 
+Token logAndReturnToken(void * f, LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	_logLexicalAnalyzerContext(f, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->token = token;
+	return token;
+}
+
 /* PUBLIC FUNCTIONS */
+
+
+// The ones we are actually working on:
+
+Token MainFragmentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
+Token SpecifiersLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
+Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
+Token LogicLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
+Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->integer = lexicalAnalyzerContext->lexeme;
+	return STRING;
+}
+
+
+Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->integer = atoi(lexicalAnalyzerContext->lexeme);
+	return INTEGER;
+}
+
+Token alphaNumericLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->integer = lexicalAnalyzerContext->lexeme;
+	return ID;
+}
+
+Token ParenthesisLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
+Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	return UNKNOWN;
+}
+
+// examples, pre-made:
 
 void BeginMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	if (_logIgnoredLexemes) {
@@ -58,21 +113,4 @@ Token ArithmeticOperatorLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerCon
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->token = token;
 	return token;
-}
-
-Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
-	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->integer = atoi(lexicalAnalyzerContext->lexeme);
-	return INTEGER;
-}
-
-Token ParenthesisLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token) {
-	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->token = token;
-	return token;
-}
-
-Token UnknownLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
-	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	return UNKNOWN;
 }

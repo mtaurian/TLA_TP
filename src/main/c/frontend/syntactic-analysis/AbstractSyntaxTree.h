@@ -21,6 +21,7 @@ typedef struct Constant Constant;
 typedef struct Expression Expression;
 typedef struct Factor Factor;
 typedef struct Program Program;
+typedef struct Fragment Fragment;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
@@ -64,6 +65,10 @@ struct Expression {
 
 struct Program {
 	Expression * expression;
+};
+
+struct Fragment {
+	int * placeholder;
 };
 
 /**
