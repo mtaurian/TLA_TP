@@ -45,6 +45,26 @@
 %token <token> OPEN_PARENTHESIS
 %token <token> SUB
 
+%token <token> IS_LOWER_THAN
+%token <token> IS_GREATER_THAN
+%token <token> IS_LOWER_OR_EQUAL_TO
+%token <token> IS_GREATER_OR_EQUAL_TO
+%token <token> IS_LOWEST
+%token <token> IS_GREATEST
+%token <token> EQUALS_TO
+%token <token> IS_DIFFERENT_FROM
+%token <token> IS_MULTIPLE_OF
+%token <token> IS_DIVISOR_OF
+%token <token> IS_IN_OPTIONS
+%token <token> IS_TRUE
+%token <token> IS_FALSE
+%token <token> MATH_VALID
+%token <token> SATISFIES
+%token <token> LIKE
+%token <token> CONTAINS
+%token <token> DOES_LENGTH_EQUAL
+%token <token> IS_EMPTY
+
 %token <token> UNKNOWN
 
 /** Non-terminals. */
