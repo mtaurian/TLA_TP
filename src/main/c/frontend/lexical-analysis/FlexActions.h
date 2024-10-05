@@ -35,6 +35,7 @@ Token ParenthesisLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, T
 Token LogicLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token SpecifiersLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token LibraryLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 void BeginMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 void EndMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);

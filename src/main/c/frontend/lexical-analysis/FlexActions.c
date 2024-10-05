@@ -53,6 +53,10 @@ Token SpecifiersLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, To
 	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
 }
 
+Token LibraryLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
 Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
 	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
 }
