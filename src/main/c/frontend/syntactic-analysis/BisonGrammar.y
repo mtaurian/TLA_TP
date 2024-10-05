@@ -12,6 +12,7 @@
 
 	int integer;
 	Token token;
+	char * string;
 
 	/** Non-terminals. */
 
@@ -19,6 +20,7 @@
 	Expression * expression;
 	Factor * factor;
 	Program * program;
+	Fragment * fragment;
 }
 
 /**
@@ -37,13 +39,35 @@
 */
 
 /** Terminals. */
-%token <integer> INTEGER
-%token <token> ADD
-%token <token> CLOSE_PARENTHESIS
-%token <token> DIV
-%token <token> MUL
+
+//the ones we are actually using:
+%token <token> UNKNOWN
 %token <token> OPEN_PARENTHESIS
-%token <token> SUB
+%token <token> CLOSE_PARENTHESIS
+%token <token> CONFIG
+%token <token> STEP
+%token <token> SECTION
+%token <token> QUESTION
+%token <token> GLITCH
+%token <token> GL_ERROR
+%token <token> GETAWAYCAR
+%token <token> SHOWIF
+%token <token> DO
+%token <token> TASK
+%token <token> CLOSURE
+%token <token> SUBMIT_TEXT
+%token <token> SAFE_AND_SOUND
+%token <token> THEME
+%token <token> TITLE
+%token <token> DESCRIPTION
+%token <token> DEFAULT
+%token <token> TYPE
+%token <token> HELP
+%token <token> OPTIONS
+%token <token> PLACE_HOLDER
+%token <token> MESSAGE
+%token <token> OPEN_BRACKETS
+%token <token> CLOSE_BRACKETS
 
 %token <token> IS_LOWER_THAN
 %token <token> IS_GREATER_THAN
@@ -65,13 +89,28 @@
 %token <token> DOES_LENGTH_EQUAL
 %token <token> IS_EMPTY
 
-%token <token> UNKNOWN
+
+%token <string> ID
+%token <string> STRING
+
+%token <integer> INTEGER
+
+//maths and logic
+%token <token> AND
+%token <token> OR
+%token <token> NOT
+%token <token> ADD
+%token <token> DIV
+%token <token> MUL
+%token <token> SUB
+
 
 /** Non-terminals. */
 %type <constant> constant
 %type <expression> expression
 %type <factor> factor
 %type <program> program
+%type <fragment> fragment
 
 /**
  * Precedence and associativity.
@@ -81,10 +120,18 @@
 %left ADD SUB
 %left MUL DIV
 
+%left OR
+%left AND
+%right NOT
+
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
+//this is just to see what happens, TODO grammar. :)
+fragment : 	QUESTION ID OPEN_BRACKETS CLOSE_BRACKETS										{$$ = NULL;}
+
+/*
 program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
 	;
 
@@ -101,5 +148,5 @@ factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				{ $$ = ExpressionFactor
 
 constant: INTEGER													{ $$ = IntegerConstantSemanticAction($1); }
 	;
-
+*/
 %%
