@@ -34,7 +34,7 @@ static void _logLexicalAnalyzerContext(const char * functionName, LexicalAnalyze
 	free(escapedLexeme);
 }
 
-Token logAndReturnToken(void * f, LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+Token logAndReturnToken(const char * f, LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
 	_logLexicalAnalyzerContext(f, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->token = token;
 	return token;

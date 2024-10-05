@@ -65,9 +65,9 @@
 "/"                                 {}
 
 
-"and"|"AND"                         { return logicLexemeAction(createLexicalAnalyzerContext(), AND);}
-"or"|"OR"                           { return logicLexemeAction(createLexicalAnalyzerContext(), OR);}
-"not"|"NOT"                         { return logicLexemeAction(createLexicalAnalyzerContext(), NOT);}
+"and"|"AND"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), AND);}
+"or"|"OR"                           { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
+"not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
 
 "value"                             {}
 "selected"                          {}
