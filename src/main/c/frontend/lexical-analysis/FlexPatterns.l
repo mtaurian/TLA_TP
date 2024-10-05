@@ -51,6 +51,26 @@
 "#PlaceHolder"                      {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), PLACE_HOLDER);}
 "#Message"                          {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), MESSAGE);}
 
+"isLowerThan"                       {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_LOWER_THAN);}
+"isGreaterThan"                     {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_GREATER_THAN);}
+"isLowerOrEqualTo"                  {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_LOWER_OR_EQUAL_TO);}
+"isGreaterOrEqualTo"                {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_GREATER_OR_EQUAL_TO);}
+"isLowest"                          {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_LOWEST);}
+"isGreatest"                        {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_GREATEST);}
+"equals"                            {return LibraryLexemeAction(createLexicalAnalyzerContext(), EQUALS);}
+"isDifferentFrom"                   {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_DIFFERENT_FROM);}
+"isMultipleOf"                      {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_MULTIPLE_OF);}
+"isDivisorOf"                       {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_DIVISOR_OF);}
+"isInOptions"                       {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_IN_OPTIONS);}
+"isTrue"                            {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_TRUE);}
+"isFalse"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_FALSE);}
+"mathValid"                         {return LibraryLexemeAction(createLexicalAnalyzerContext(), MATH_VALID);}
+"satisfies"                         {return LibraryLexemeAction(createLexicalAnalyzerContext(), SATISFIES);}
+"like"                              {return LibraryLexemeAction(createLexicalAnalyzerContext(), LIKE);}
+"contains"                          {return LibraryLexemeAction(createLexicalAnalyzerContext(), CONTAINS);}
+"doesLengthEqual"                   {return LibraryLexemeAction(createLexicalAnalyzerContext(), DOES_LENGTH_EQUAL);}
+"isEmpty"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_EMPTY);}
+
 "{"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), OPEN_BRACKETS);}
 "}"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACKETS);}
 "("									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), OPEN_PARENTHESIS); }
