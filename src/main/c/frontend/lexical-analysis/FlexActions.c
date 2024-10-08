@@ -57,6 +57,10 @@ Token LibraryLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token
 	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
 }
 
+Token TypesLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
+	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
+}
+
 Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token){
 	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
 }
@@ -71,6 +75,11 @@ Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	return STRING;
 }
 
+Token PointLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->token = POINT;
+	return POINT;
+}
 
 Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);

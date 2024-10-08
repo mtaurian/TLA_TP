@@ -71,32 +71,37 @@
 "doesLengthEqual"                   {return LibraryLexemeAction(createLexicalAnalyzerContext(), DOES_LENGTH_EQUAL);}
 "isEmpty"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_EMPTY);}
 
+"CheckBox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
+"Radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
+"Select"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
+"Text"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), TEXT);}
+"Image"                             {return TypesLexemeAction(createLexicalAnalyzerContext(), IMAGE);}
+"Document"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), DOCUMENT);}
+"LongText"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
+"Numeric"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
+
 "{"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), OPEN_BRACKETS);}
 "}"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACKETS);}
 "("									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), OPEN_PARENTHESIS); }
 ")"									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
-"."                                 {}
-"="                                 {}
-">"                                 {}
-"<"                                 {}
-"+"                                 {}
-"-"                                 {}
-"*"                                 {}
-"/"                                 {}
+"."                                 { return PointLexemeAction(createLexicalAnalyzerContext());}
+"="                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_EQUALS);}
+">"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_GRATHER);}
+"<"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_LOWER);}
+"+"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), ADD);}
+"-"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), SUB);}
+"*"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MUL);}
+"/"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), DIV);}
 
 
 "and"|"AND"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), AND);}
 "or"|"OR"                           { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
 "not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
 
-"value"                             {}
-"selected"                          {}
-
-
 [[:digit:]]+						{ return IntegerLexemeAction(createLexicalAnalyzerContext()); }
 [a-zA-Z][a-zA-Z0-9]*                { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
 
-[[:space:]]+		    				{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
+[[:space:]]+		    			{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 
 "\""                                { BEGIN(STRING_CONTEXT); }
 <STRING_CONTEXT>"\""                { BEGIN(INITIAL);} 
@@ -107,7 +112,7 @@
 <MULTILINE_COMMENT>[^*]+			{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 <MULTILINE_COMMENT>.				{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 
-.									                { return UnknownLexemeAction(createLexicalAnalyzerContext()); }
+.									{ return UnknownLexemeAction(createLexicalAnalyzerContext()); }
 
 
 %%

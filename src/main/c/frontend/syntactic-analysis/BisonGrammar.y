@@ -89,6 +89,17 @@
 %token <token> DOES_LENGTH_EQUAL
 %token <token> IS_EMPTY
 
+%token <token> CHECKBOX
+%token <token> RADIOS
+%token <token> SELECT
+%token <token> TEXT
+%token <token> IMAGE
+%token <token> DOCUMENT
+%token <token> LONGTEXT
+%token <token> NUMERIC
+
+%token <token> POINT
+
 
 %token <string> ID
 %token <string> STRING
@@ -103,6 +114,9 @@
 %token <token> DIV
 %token <token> MUL
 %token <token> SUB
+%token <token> MATH_EQUALS
+%token <token> MATH_GRATHER
+%token <token> MATH_LOWER
 
 
 /** Non-terminals. */
