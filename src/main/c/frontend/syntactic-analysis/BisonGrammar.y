@@ -68,6 +68,8 @@
 %token <token> MESSAGE
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
+%token <token> OPEN_BRACES
+%token <token> CLOSE_BRACES
 
 %token <token> IS_LOWER_THAN
 %token <token> IS_GREATER_THAN
@@ -97,9 +99,10 @@
 %token <token> DOCUMENT
 %token <token> LONGTEXT
 %token <token> NUMERIC
+%token <token> PASSWORD
 
 %token <token> POINT
-
+%token <token> COMMA
 
 %token <string> ID
 %token <string> STRING
@@ -143,7 +146,45 @@
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
 //this is just to see what happens, TODO grammar. :)
-fragment : 	QUESTION ID OPEN_BRACKETS CLOSE_BRACKETS										{$$ = NULL;}
+fragment : 	QUESTION ID OPEN_BRACES  question_fg CLOSE_BRACES										{$$ = NULL;}
+
+
+question_fg : question_sub_fg
+	| question_sp
+	| question_sub_fg question_fg
+	| question_sp question_fg
+	
+
+question_sub_fg : showif 
+	| glitch
+	| do
+
+question_sp: DEFAULT STRING
+	//| DEFAULT NUMBER
+	| TITLE STRING
+	| type_definition
+	| HELP STRING
+	| options
+	| PLACE_HOLDER STRING
+
+options : OPEN_BRACKETS list_options CLOSE_BRACKETS
+
+list_options: option
+	| option COMMA list_options
+
+option : STRING 
+	| NUMBER
+
+type_definition : TYPE CHECKBOX
+	| TYPE RADIOS
+	| TYPE SELECT
+	| TYPE TEXT
+	| TYPE IMAGE
+	| TYPE DOCUMENT
+	| TYPE LONGTEXT
+	| TYPE NUMERIC
+	| TYPE PASSWORD
+
 
 /*
 program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
