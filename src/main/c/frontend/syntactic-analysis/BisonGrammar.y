@@ -201,8 +201,32 @@ condition: ID lib_function value logic_conector condition
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
 
-lib_function:
-//TODO: list alllibFunctions
+lib_function: IS_LOWER_THAN number
+	| IS_GREATER_THAN number
+	| IS_LOWER_OR_EQUAL_TO number
+	| IS_GREATER_OR_EQUAL_TO number
+	| IS_LOWEST number
+	| IS_GREATEST number
+	| EQUALS value
+	| IS_DIFFERENT_FROM value
+	| IS_MULTIPLE_OF number
+	| IS_DIVISOR_OF number
+	| IS_IN_OPTIONS list_options
+	| IS_TRUE
+	| IS_FALSE
+	| MATH_VALID
+	| SATISFIES
+	| LIKE STRING
+	| CONTAINS STRING
+	| DOES_LENGTH_EQUAL INTEGER
+	| IS_EMPTY
+	| IS_BEFORE DATE
+	| IS_AFTER DATE
+	| IS_WEEKEND DATE
+	;
+
+number: INTEGER
+	| FLOAT
 	;
 
 value: INTEGER 
