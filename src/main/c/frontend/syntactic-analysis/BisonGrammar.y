@@ -165,6 +165,16 @@ question_fg : question_sub_fg
 	| question_sp question_fg
 	;
 
+question_sp: DEFAULT STRING
+	| DEFAULT FLOAT
+	| DEFAULT INTEGER
+	| TITLE STRING
+	| type_definition
+	| HELP STRING					
+	| options
+	| PLACE_HOLDER STRING
+	;
+
 question_sub_fg : showif 
 	| glitch
 	| do
@@ -200,16 +210,6 @@ value: INTEGER
 
 logic_conector : AND 
 	| OR 
-	;
-
-question_sp: DEFAULT STRING
-	| DEFAULT FLOAT
-	| DEFAULT INTEGER
-	| TITLE STRING
-	| type_definition
-	| HELP STRING					
-	| options
-	| PLACE_HOLDER STRING
 	;
 
 options : OPEN_BRACKETS list_options CLOSE_BRACKETS
