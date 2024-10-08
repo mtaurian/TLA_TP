@@ -102,8 +102,9 @@
 "or"|"OR"                           { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
 "not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
 
-[[:digit:]]+						{ return IntegerLexemeAction(createLexicalAnalyzerContext()); }
-[a-zA-Z][a-zA-Z0-9]*                { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
+[[:digit:]]+						        { return IntegerLexemeAction(createLexicalAnalyzerContext()); }
+[a-zA-Z][a-zA-Z0-9]*                        { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
+[+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?   { return FloatLexemeAction(createLexicalAnalyzerContext());}
 
 [[:space:]]+		    			{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 

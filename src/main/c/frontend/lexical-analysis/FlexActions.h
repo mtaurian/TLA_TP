@@ -40,8 +40,8 @@ Token PointLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token CommaLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 Token TypesLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+Token FloatLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 void BeginMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 void EndMultilineCommentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 void IgnoredLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-
 #endif

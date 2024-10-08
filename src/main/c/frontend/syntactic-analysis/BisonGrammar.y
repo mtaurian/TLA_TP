@@ -13,6 +13,7 @@
 	int integer;
 	Token token;
 	char * string;
+	float float;
 
 	/** Non-terminals. */
 
@@ -108,6 +109,7 @@
 %token <string> STRING
 
 %token <integer> INTEGER
+%token <float> FLOAT
 
 //maths and logic
 %token <token> AND
@@ -173,7 +175,8 @@ list_options: option
 	| option COMMA list_options
 
 option : STRING 
-	| NUMBER
+	| INTEGER 
+	| FLOAT
 
 type_definition : TYPE CHECKBOX
 	| TYPE RADIOS
