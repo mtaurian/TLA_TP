@@ -13,7 +13,7 @@
 	int integer;
 	Token token;
 	char * string;
-	float float;
+	float t_float;
 
 	/** Non-terminals. */
 
@@ -21,7 +21,7 @@
 	Expression * expression;
 	Factor * factor;
 	Program * program;
-	Fragment * fragment;
+	Question * question;
 }
 
 /**
@@ -110,7 +110,7 @@
 %token <string> STRING
 
 %token <integer> INTEGER
-%token <float> FLOAT
+%token <t_float> FLOAT
 
 //maths and logic
 %token <token> AND
@@ -129,8 +129,7 @@
 %type <constant> constant
 %type <expression> expression
 %type <factor> factor
-%type <program> program
-%type <fragment> fragment
+%type <question> question
 
 /**
  * Precedence and associativity.
@@ -148,64 +147,82 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-//this is just to see what happens, TODO grammar. :)
-fragment : 	QUESTION ID OPEN_BRACES  question_fg CLOSE_BRACES										{$$ = NULL;}
-glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES
-gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES
-do : DO OPEN_BRACES do_fg CLOSE_BRACES
-task : TASK OPEN_BRACES task CLOSE_BRACES
-showif : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
+
+question : 	QUESTION ID OPEN_BRACES  question_fg CLOSE_BRACES	
+	;									
+glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
+	;
+gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES 
+	;
+do : DO OPEN_BRACES do_fg CLOSE_BRACES 
+	;
+task : TASK OPEN_BRACES CLOSE_BRACES  // todo
+	;
 
 question_fg : question_sub_fg
-	| question_sp
+	| question_sp 
 	| question_sub_fg question_fg
 	| question_sp question_fg
-	
+	;
+
 question_sub_fg : showif 
 	| glitch
 	| do
-
+	;
 
 glitch_fg : gl_error
+	;
 
 gl_error_fg : condition MESSAGE
 	| MESSAGE condition
+	;
+
+do_fg : task
+	;
+
+showif : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
+	;
 
 condition: ID lib_function value logic_conector condition
 	| ID lib_function value 
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
+	;
 
 lib_function:
 //TODO: list alllibFunctions
+	;
 
 value: INTEGER 
 	| FLOAT
 	| STRING
 	| DATE	
+	;
 
 logic_conector : AND 
 	| OR 
-
-
-do_fg : task
-
+	;
 
 question_sp: DEFAULT STRING
-	//| DEFAULT NUMBER
+	| DEFAULT FLOAT
+	| DEFAULT INTEGER
 	| TITLE STRING
 	| type_definition
-	| HELP STRING
+	| HELP STRING					
 	| options
 	| PLACE_HOLDER STRING
+	;
 
 options : OPEN_BRACKETS list_options CLOSE_BRACKETS
+	;
 
 list_options: option
 	| option COMMA list_options
+	;
 
 option : STRING 
 	| INTEGER 
 	| FLOAT
+	;
 
 type_definition : TYPE CHECKBOX
 	| TYPE RADIOS
@@ -217,7 +234,7 @@ type_definition : TYPE CHECKBOX
 	| TYPE NUMERIC
 	| TYPE PASSWORD
 	| TYPE DATE
-
+	;
 
 /*
 program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }

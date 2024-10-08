@@ -104,14 +104,14 @@
 "not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
 
 [[:digit:]]+						        { return IntegerLexemeAction(createLexicalAnalyzerContext()); }
-[a-zA-Z][a-zA-Z0-9]*                        { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
+[[:alpha:]][[:alnum:]]+                     { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
 [+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?   { return FloatLexemeAction(createLexicalAnalyzerContext());}
 
 [[:space:]]+		    			{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
 
 "\""                                { BEGIN(STRING_CONTEXT); }
 <STRING_CONTEXT>"\""                { BEGIN(INITIAL);} 
-<STRING_CONTEXT>[^\"]               { stringLexemeAction(createLexicalAnalyzerContext());} 
+<STRING_CONTEXT>[^\"]+              { stringLexemeAction(createLexicalAnalyzerContext());} 
 "/*"								{ BEGIN(MULTILINE_COMMENT); BeginMultilineCommentLexemeAction(createLexicalAnalyzerContext()); }
 <MULTILINE_COMMENT>"*/"				{ EndMultilineCommentLexemeAction(createLexicalAnalyzerContext()); BEGIN(INITIAL); }
 <MULTILINE_COMMENT>[[:space:]]+		{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
