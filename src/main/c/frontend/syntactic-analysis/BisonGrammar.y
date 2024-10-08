@@ -91,6 +91,9 @@
 %token <token> CONTAINS
 %token <token> DOES_LENGTH_EQUAL
 %token <token> IS_EMPTY
+%token <token> IS_BEFORE
+%token <token> IS_AFTER
+%token <token> IS_WEEKEND
 
 %token <token> CHECKBOX
 %token <token> RADIOS

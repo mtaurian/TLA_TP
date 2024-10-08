@@ -70,6 +70,11 @@
 "contains"                          {return LibraryLexemeAction(createLexicalAnalyzerContext(), CONTAINS);}
 "doesLengthEqual"                   {return LibraryLexemeAction(createLexicalAnalyzerContext(), DOES_LENGTH_EQUAL);}
 "isEmpty"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_EMPTY);}
+"isBefore"                          {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_BEFORE);}
+"isAfter"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_AFTER);}
+"isWeekend"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_WEEKEND);}
+
+
 
 "CheckBox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
 "Radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
