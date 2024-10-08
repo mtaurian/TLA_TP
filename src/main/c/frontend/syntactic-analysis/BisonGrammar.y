@@ -154,6 +154,7 @@ glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES
 gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES
 do : DO OPEN_BRACES do_fg CLOSE_BRACES
 task : TASK OPEN_BRACES task CLOSE_BRACES
+showif : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 
 question_fg : question_sub_fg
 	| question_sp
@@ -164,14 +165,26 @@ question_sub_fg : showif
 	| glitch
 	| do
 
-showif : 
 
 glitch_fg : gl_error
 
 gl_error_fg : condition MESSAGE
 	| MESSAGE condition
 
-condition: 
+condition: ID lib_function value logic_conector condition
+	| ID lib_function value 
+	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
+
+lib_function:
+//TODO: list alllibFunctions
+
+value: INTEGER 
+	| FLOAT
+	| STRING
+	| DATE	
+
+logic_conector : AND 
+	| OR 
 
 
 do_fg : task
