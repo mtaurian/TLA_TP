@@ -148,17 +148,32 @@
 
 //this is just to see what happens, TODO grammar. :)
 fragment : 	QUESTION ID OPEN_BRACES  question_fg CLOSE_BRACES										{$$ = NULL;}
-
+glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES
+gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES
+do : DO OPEN_BRACES do_fg CLOSE_BRACES
+task : TASK OPEN_BRACES task CLOSE_BRACES
 
 question_fg : question_sub_fg
 	| question_sp
 	| question_sub_fg question_fg
 	| question_sp question_fg
 	
-
 question_sub_fg : showif 
 	| glitch
 	| do
+
+showif : 
+
+glitch_fg : gl_error
+
+gl_error_fg : condition MESSAGE
+	| MESSAGE condition
+
+condition: 
+
+
+do_fg : task
+
 
 question_sp: DEFAULT STRING
 	//| DEFAULT NUMBER
