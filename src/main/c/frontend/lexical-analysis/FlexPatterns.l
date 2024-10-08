@@ -80,6 +80,7 @@
 "LongText"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
 "Numeric"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
 "Password"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
+"Date"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
 
 "["                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), OPEN_BRACKETS);}
 "]"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACKETS);}
