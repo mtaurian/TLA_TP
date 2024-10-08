@@ -100,6 +100,7 @@
 %token <token> LONGTEXT
 %token <token> NUMERIC
 %token <token> PASSWORD
+%token <token> DATE
 
 %token <token> POINT
 %token <token> COMMA
@@ -184,6 +185,7 @@ type_definition : TYPE CHECKBOX
 	| TYPE LONGTEXT
 	| TYPE NUMERIC
 	| TYPE PASSWORD
+	| TYPE DATE
 
 
 /*
