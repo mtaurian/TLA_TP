@@ -71,7 +71,7 @@ Token LogicLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token t
 
 Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->integer = lexicalAnalyzerContext->lexeme;
+	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
 	return STRING;
 }
 
@@ -81,6 +81,13 @@ Token PointLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	return POINT;
 }
 
+Token CommaLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
+	lexicalAnalyzerContext->semanticValue->token = COMMA;
+	return COMMA;
+}
+
+
 Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->integer = atoi(lexicalAnalyzerContext->lexeme);
@@ -89,7 +96,7 @@ Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 
 Token alphaNumericLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->integer = lexicalAnalyzerContext->lexeme;
+	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
 	return ID;
 }
 
