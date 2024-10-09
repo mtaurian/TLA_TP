@@ -15,7 +15,7 @@
 	@Section {
 		#Title "First Section of s1"
 		#Description "First Section Desc"
-		@SowIf isOlderThan18 { howOld isGratherThan 18 }
+		@ShowIf isOlderThan18 { howOld isGratherThan 18 }
 
 		@Question name {
 			#Type text
@@ -27,7 +27,7 @@
 			@Glitch {
 				@Error {
 					#Message "Too long"
-					@Showif { name isLongerThan 20}
+					@Showif { name isLongerThan 20 }
 				}
 				@Error {
 					#Message "Too short"
@@ -46,7 +46,7 @@
 			#Type select text
 			#Title "Whats your favorite beer"
 			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGratherThan 21 }]
-			@Showif(isOlderThan18)
+			@Showif(isOlderThan 18)
 		}		
 	}
 	@Section {
@@ -56,13 +56,13 @@
 		@Question brhama {
 			#Type text
 			#Title "Whats your favorite brhama?"
-			@Showif { favoriteBeer equals "brhama"}
+			@Showif { favoriteBeer equals "brhama" }
 		}
 		
 		@Question patagonia {
 			#Type text
 			#Title "Whats your favorite patagonia?"
-			@Showif { favoriteBeer equals "patagonia"}
+			@Showif { favoriteBeer equals "patagonia" }
 		}
 		
 		@Showif {
@@ -86,11 +86,11 @@
 	#Description "Step 3 desc"
 	@Question s3q1 {
 		#Type date
-		#Title "when did you born?"
+		#Title "When were you born?"
 		@Glitch {
 			@Error {
 				#Message "You are too old"
-				@Showif { s3q1 isBefore 15/12/2000}
+				@Showif { s3q1 isBefore 15/12/2000 }
 			}
 		}
 	}
