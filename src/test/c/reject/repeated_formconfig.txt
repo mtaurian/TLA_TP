@@ -1,0 +1,16 @@
+#Title "Repeated Form Config"
+#Closure "Thanks for submiting the form"
+@FormConfig {
+	#SubmitBtnText "Submit"
+	#SafeAndSound
+	#Theme Fearless
+}
+@Question name {
+    #Type text
+    #Title Insert your name
+    #Required
+}
+@FormConfig {
+	#SubmitBtnText "Submit Form"
+	#Theme Red
+}
