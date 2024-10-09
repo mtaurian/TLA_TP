@@ -106,6 +106,18 @@
 %token <token> PASSWORD
 %token <token> DATE
 
+%token <token> DEBUT
+%token <token> FEARLESS
+%token <token> SPEAK_NOW
+%token <token> RED
+%token <token> _1989
+%token <token> REPUTATION
+%token <token> LOVER
+%token <token> FOLKLORE
+%token <token> EVERMORE
+%token <token> MIDNIGHTS
+%token <token> TTPD
+
 %token <token> POINT
 %token <token> COMMA
 
