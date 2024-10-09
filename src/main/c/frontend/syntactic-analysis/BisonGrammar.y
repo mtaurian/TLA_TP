@@ -97,6 +97,10 @@
 %token <token> IS_AFTER
 %token <token> IS_WEEKEND
 
+%token <token> WHEN
+%token <token> GOTO
+%token <token> END
+
 %token <token> CHECKBOX
 %token <token> RADIOS
 %token <token> SELECT
