@@ -53,6 +53,8 @@ Token TypesLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token t
 
 Token ThemesLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
+Token TransportLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
+
 Token BracketsLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
 Token FloatLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
