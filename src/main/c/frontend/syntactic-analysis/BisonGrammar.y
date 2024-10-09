@@ -164,6 +164,8 @@
 
 config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
 	;
+section: SECTION OPEN_BRACES section_fg CLOSE_BRACES
+	;
 question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES	
 	;									
 glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
@@ -194,6 +196,19 @@ theme_sp: DEBUT
 	| TTPD
 	;
 
+section_fg: section_sub_fg
+	| section_sp
+	| section_fg section_sp
+	| section_sp section_fg
+	;
+
+section_sub_fg: question_fg
+	| showif
+	;
+
+section_sp: TITLE
+	| DESCRIPTION
+	;
 
 question_fg : question_sub_fg
 	| question_sp 
