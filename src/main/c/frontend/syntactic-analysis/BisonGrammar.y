@@ -162,12 +162,12 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
+question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES		{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
+	;									
 config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
 	;
 section: SECTION OPEN_BRACES section_fg CLOSE_BRACES
 	;
-question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES	
-	;									
 glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
 	;
 gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES 
@@ -181,6 +181,7 @@ task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 form_config_sp: SUBMIT_TEXT
 	| SAFE_AND_SOUND
 	| THEME theme_sp
+	| form_config_sp form_config_sp
 	;
 
 theme_sp: DEBUT
@@ -198,8 +199,7 @@ theme_sp: DEBUT
 
 section_fg: section_sub_fg
 	| section_sp
-	| section_fg section_sp
-	| section_sp section_fg
+	| section_fg section_fg 
 	;
 
 section_sub_fg: question_fg
@@ -212,8 +212,7 @@ section_sp: TITLE
 
 question_fg : question_sub_fg
 	| question_sp 
-	| question_sub_fg question_fg
-	| question_sp question_fg
+	| question_fg question_fg
 	;
 
 question_sp: DEFAULT STRING
@@ -231,23 +230,28 @@ question_sub_fg : showif
 	| do
 	;
 
-glitch_fg : gl_error
+glitch_fg : gl_error glitch_fg
+	| gl_error
 	;
 
 gl_error_fg : condition MESSAGE
 	| MESSAGE condition
 	;
 
-do_fg : task
+do_fg : task do_fg
+	| task
 	;
 
 showif : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
-condition: ID lib_function value logic_conector condition
-	| ID lib_function value 
+condition: optional_not ID lib_function logic_binary_conector condition
+	| optional_not ID lib_function 
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
+
+optional_not: NOT 
+	| %empty
 
 lib_function: IS_LOWER_THAN number_or_id
 	| IS_GREATER_THAN number_or_id
@@ -303,11 +307,11 @@ value_or_id: value
 	| ID
 	;
 
-logic_conector : AND 
+logic_binary_conector : AND 
 	| OR 
 	;
 
-options : OPEN_BRACKETS list_options CLOSE_BRACKETS
+options : OPTIONS OPEN_BRACKETS list_options CLOSE_BRACKETS
 	;
 
 list_options: option
@@ -317,11 +321,12 @@ list_options: option
 option : STRING 
 	| INTEGER 
 	| FLOAT
+	| DATE
 	;
 
 type_definition : TYPE CHECKBOX
 	| TYPE RADIOS
-	| TYPE SELECT
+	| TYPE SELECT 
 	| TYPE TEXT
 	| TYPE IMAGE
 	| TYPE DOCUMENT

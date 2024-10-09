@@ -126,7 +126,7 @@
 
 "\""                                { BEGIN(STRING_CONTEXT); }
 <STRING_CONTEXT>"\""                { BEGIN(INITIAL);} 
-<STRING_CONTEXT>[^\"]+              { stringLexemeAction(createLexicalAnalyzerContext());} 
+<STRING_CONTEXT>[^\"]+              { return stringLexemeAction(createLexicalAnalyzerContext());} 
 "/*"								{ BEGIN(MULTILINE_COMMENT); BeginMultilineCommentLexemeAction(createLexicalAnalyzerContext()); }
 <MULTILINE_COMMENT>"*/"				{ EndMultilineCommentLexemeAction(createLexicalAnalyzerContext()); BEGIN(INITIAL); }
 <MULTILINE_COMMENT>[[:space:]]+		{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
