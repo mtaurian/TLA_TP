@@ -90,6 +90,8 @@
 %token <token> LIKE
 %token <token> CONTAINS
 %token <token> DOES_LENGTH_EQUAL
+%token <token> IS_LONGER_THAN
+%token <token> IS_SHORTER_THAN
 %token <token> IS_EMPTY
 %token <token> IS_BEFORE
 %token <token> IS_AFTER
@@ -273,6 +275,8 @@ lib_function: IS_LOWER_THAN number_or_id
 	| LIKE string_or_id
 	| CONTAINS string_or_id
 	| DOES_LENGTH_EQUAL integer_or_id
+	| IS_LONGER_THAN integer_or_id
+	| IS_SHORTER_THAN integer_or_id
 	| IS_EMPTY
 	| IS_BEFORE date_or_id
 	| IS_AFTER date_or_id
