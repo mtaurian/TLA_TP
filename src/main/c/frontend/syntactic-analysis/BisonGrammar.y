@@ -67,6 +67,8 @@
 %token <token> OPTIONS
 %token <token> PLACE_HOLDER
 %token <token> MESSAGE
+%token <token> REQUIRED
+
 %token <token> OPEN_BRACKETS
 %token <token> CLOSE_BRACKETS
 %token <token> OPEN_BRACES

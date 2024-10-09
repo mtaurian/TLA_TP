@@ -50,6 +50,7 @@
 "#Options"                          {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), OPTIONS);}
 "#PlaceHolder"                      {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), PLACE_HOLDER);}
 "#Message"                          {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), MESSAGE);}
+"#Required"                         {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), REQUIRED);}
 
 "isLowerThan"                       {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_LOWER_THAN);}
 "isGreaterThan"                     {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_GREATER_THAN);}
