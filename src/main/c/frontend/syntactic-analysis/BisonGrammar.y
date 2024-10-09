@@ -181,6 +181,7 @@ step: STEP ID OPEN_BRACES step_fg CLOSE_BRACES
 getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES
 	;
 transports : WHEN condition GOTO ID
+	| WHEN condition GOTO END
 	;
 glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
 	;
@@ -204,6 +205,8 @@ step_sub_fg: sections getaway
 
 step_sp: TITLE STRING
 	| DESCRIPTION STRING
+	;
+
 sections : section 
 	| section sections
 	;
