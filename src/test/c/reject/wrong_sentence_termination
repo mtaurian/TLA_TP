@@ -1,0 +1,6 @@
+#Title "Wrong Sentence Termination"
+@Question name {
+    #Type text
+    #Title Insert your name
+    #Required
+
