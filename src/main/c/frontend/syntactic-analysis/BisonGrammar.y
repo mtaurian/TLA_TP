@@ -110,7 +110,7 @@
 %token <token> FEARLESS
 %token <token> SPEAK_NOW
 %token <token> RED
-%token <token> _1989
+%token <token> NINETEEN_EIGHTY_NINE
 %token <token> REPUTATION
 %token <token> LOVER
 %token <token> FOLKLORE
@@ -178,8 +178,22 @@ task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 
 form_config_sp: SUBMIT_TEXT
 	| SAFE_AND_SOUND
-	| THEME
+	| THEME theme_sp
 	;
+
+theme_sp: DEBUT
+	| FEARLESS
+	| SPEAK_NOW
+	| RED
+	| NINETEEN_EIGHTY_NINE
+	| REPUTATION
+	| LOVER
+	| FOLKLORE
+	| EVERMORE
+	| MIDNIGHTS
+	| TTPD
+	;
+
 
 question_fg : question_sub_fg
 	| question_sp 
