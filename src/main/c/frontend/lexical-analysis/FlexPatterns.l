@@ -76,6 +76,10 @@
 "isAfter"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_AFTER);}
 "isWeekend"                         {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_WEEKEND);}
 
+"when"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), WHEN);}
+"goto"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), GOTO);}
+"end"                               {return TransportLexemeAction(createLexicalAnalyzerContext(), END);}
+
 "CheckBox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
 "Radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
 "Select"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
