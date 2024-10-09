@@ -169,8 +169,26 @@
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
+form : form_fg 								{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
+	;
 
-question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES		{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
+form_fg : form_sub_fg
+	| form_sp
+	| form_sub_fg form_fg
+	| form_sp form_fg
+	;
+
+form_sub_fg : config 
+	| step 
+	| question //esto acepta preguntas sueltas aunque hayan pasos definidos. TODO: Podemos rebotarlo en back o complejizar mas esta grmática.
+	;
+
+form_sp : TITLE STRING
+	| DESCRIPTION STRING
+	| CLOSURE STRING
+	;
+
+question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES		
 	;									
 config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
 	;
