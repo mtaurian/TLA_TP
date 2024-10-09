@@ -1,0 +1,22 @@
+#Title "Missing Parent Mandatory Statement"
+#Description "Because the parent is present, there are mandatory statements. In this case, the #Title is missing"
+@Section s1 {
+    @Question name {
+        #Type text
+        #Title "Name"
+        #PlaceHolder "Enter your name"
+        #Default ""
+        #Required
+        #Help "your name goes here"
+        @Glitch {
+            @Error {
+                #Message "Too long"
+                @Showif { name isLongerThan 20}
+            }
+            @Error {
+                #Message "Too short"
+                @Showif { name isShorterThan 1 or name isEmpty }
+            }
+        }
+    }	
+}
