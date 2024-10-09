@@ -1,0 +1,99 @@
+#Title "The Form Title"
+#Closure "Thanks for submiting the form"
+@FormConfig {
+	#SubmitBtnText "Submit"
+	#SafeAndSound
+	#Theme Fearless
+}
+@Step s1 {
+	#Title "Step 1: Data"
+	#Description "Fill your personal Data"
+	@GetAwayCar {
+		when howOld isLowerThan 13 goto END
+		when howOld isGratherThan 18 or howOld isEmpty goto s3 
+	}
+	@Section {
+		#Title "First Section of s1"
+		#Description "First Section Desc"
+		@SowIf isOlderThan18 { howOld isGratherThan 18 }
+
+		@Question name {
+			#Type text
+			#Title "Name"
+			#PlaceHolder "Enter your name"
+			#Default ""
+			#Required
+			#Help "your name goes here"
+			@Glitch {
+				@Error {
+					#Message "Too long"
+					@Showif { name isLongerThan 20}
+				}
+				@Error {
+					#Message "Too short"
+					@Showif { name isShorterThan 1 or name isEmpty }
+				}
+			}
+		}
+
+		@Question howOld {
+			#Type numeric
+			#Title "How old are you"
+			#Required		
+		}
+
+		@Question favoriteBeer {
+			#Type select text
+			#Title "Whats your favorite beer"
+			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGratherThan 21 }]
+			@Showif(isOlderThan18)
+		}		
+	}
+	@Section {
+		#Title Second Section of s1"
+		#Description "Second Section Desc"
+
+		@Question brhama {
+			#Type text
+			#Title "Whats your favorite brhama?"
+			@Showif { favoriteBeer equals "brhama"}
+		}
+		
+		@Question patagonia {
+			#Type text
+			#Title "Whats your favorite patagonia?"
+			@Showif { favoriteBeer equals "patagonia"}
+		}
+		
+		@Showif {
+			(favoriteBeer equals "brhama" or favoriteBeer equals "Patagonia") and howOld isGratherThan 18
+		}
+	}
+	
+}
+
+@Step s2 {
+	#Title "Step 2"
+	#Description "Step 2 desc"
+	@Question s2q1 {
+		#Type text
+		#Title "Step 2 question"
+	}
+}
+
+@Step s3 {
+	#Title "Step 3"
+	#Description "Step 3 desc"
+	@Question s3q1 {
+		#Type date
+		#Title "when did you born?"
+		@Glitch {
+			@Error {
+				#Message "You are too old"
+				@Showif { s3q1 isBefore 15/12/2000}
+			}
+		}
+	}
+}
+	
+	

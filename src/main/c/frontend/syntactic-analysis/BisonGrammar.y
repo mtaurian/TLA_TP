@@ -176,6 +176,12 @@ config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
 	;
 section: SECTION OPEN_BRACES section_fg CLOSE_BRACES
 	;
+step: STEP ID OPEN_BRACES step_fg CLOSE_BRACES
+	;
+getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES
+	;
+transports : WHEN condition GOTO ID
+	;
 glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
 	;
 gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES 
@@ -186,7 +192,23 @@ task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 	;
 
 
-form_config_sp: SUBMIT_TEXT
+step_fg : step_sub_fg
+	| step_sp
+	| step_sub_fg step_fg
+	| step_sp step_fg
+	;
+
+step_sub_fg: sections getaway
+	| getaway sections
+	;
+
+step_sp: TITLE STRING
+	| DESCRIPTION STRING
+sections : section 
+	| section sections
+	;
+
+form_config_sp: SUBMIT_TEXT STRING
 	| SAFE_AND_SOUND
 	| THEME theme_sp
 	| form_config_sp form_config_sp
@@ -215,8 +237,8 @@ section_sub_fg: question_fg
 	| showif
 	;
 
-section_sp: TITLE
-	| DESCRIPTION
+section_sp: TITLE STRING
+	| DESCRIPTION STRING
 	;
 
 question_fg : question_sub_fg
@@ -233,6 +255,7 @@ question_sp: DEFAULT STRING
 	| HELP STRING					
 	| options
 	| PLACE_HOLDER STRING
+	| REQUIRED
 	;
 
 question_sub_fg : showif 
@@ -244,15 +267,26 @@ glitch_fg : gl_error glitch_fg
 	| gl_error
 	;
 
-gl_error_fg : condition MESSAGE
-	| MESSAGE condition
+gl_error_fg : MESSAGE STRING showif_call
+	| MESSAGE STRING showif_on_scope
 	;
 
 do_fg : task do_fg
 	| task
 	;
 
-showif : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
+showif: showif_on_scope
+	| showif_call
+	| showif_declaration
+	;
+
+showif_declaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES
+	;
+
+showif_call : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
+	;
+
+showif_on_scope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
 condition: optional_not ID lib_function logic_binary_conector condition
@@ -338,7 +372,9 @@ option : STRING
 
 type_definition : TYPE CHECKBOX
 	| TYPE RADIOS
-	| TYPE SELECT 
+	| TYPE SELECT TEXT
+	| TYPE SELECT NUMERIC
+	| TYPE SELECT DATE
 	| TYPE TEXT
 	| TYPE IMAGE
 	| TYPE DOCUMENT
