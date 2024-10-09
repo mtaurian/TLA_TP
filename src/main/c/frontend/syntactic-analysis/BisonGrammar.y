@@ -150,8 +150,9 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-
-question : 	QUESTION ID OPEN_BRACES  question_fg CLOSE_BRACES	
+config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
+	;
+question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES	
 	;									
 glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
 	;
@@ -160,6 +161,12 @@ gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES
 do : DO OPEN_BRACES do_fg CLOSE_BRACES 
 	;
 task : TASK OPEN_BRACES CLOSE_BRACES  // todo
+	;
+
+
+form_config_sp: SUBMIT_TEXT
+	| SAFE_AND_SOUND
+	| THEME
 	;
 
 question_fg : question_sub_fg
