@@ -199,7 +199,8 @@ theme_sp: DEBUT
 
 section_fg: section_sub_fg
 	| section_sp
-	| section_fg section_fg 
+	| section_sp section_fg 
+	| section_sub_fg section_fg
 	;
 
 section_sub_fg: question_fg
@@ -212,7 +213,8 @@ section_sp: TITLE
 
 question_fg : question_sub_fg
 	| question_sp 
-	| question_fg question_fg
+	| question_sp question_fg 
+	| question_sub_fg question_fg
 	;
 
 question_sp: DEFAULT STRING

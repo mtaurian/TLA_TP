@@ -41,7 +41,7 @@ const int main(const int count, const char ** arguments) {
 		// Beginning of the Backend... ------------------------------------------------------------
 		logDebugging(logger, "Computing expression value...");
 		Program * program = compilerState.abstractSyntaxtTree;
-		ComputationResult computationResult = computeExpression(program->expression);
+		/*ComputationResult computationResult = computeExpression(program->expression);
 		if (computationResult.succeed) {
 			compilerState.value = computationResult.value;
 			generate(&compilerState);
@@ -49,7 +49,7 @@ const int main(const int count, const char ** arguments) {
 		else {
 			logError(logger, "The computation phase rejects the input program.");
 			compilationStatus = FAILED;
-		}
+		}*/
 		// ...end of the Backend. -----------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------
 		logDebugging(logger, "Releasing AST resources...");
@@ -61,8 +61,8 @@ const int main(const int count, const char ** arguments) {
 	}
 
 	logDebugging(logger, "Releasing modules resources...");
-	shutdownGeneratorModule();
-	shutdownCalculatorModule();
+	/*shutdownGeneratorModule();
+	shutdownCalculatorModule();*/
 	shutdownAbstractSyntaxTreeModule();
 	shutdownSyntacticAnalyzerModule();
 	shutdownBisonActionsModule();
