@@ -306,8 +306,9 @@ showif_call : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
 showif_on_scope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
-condition: optional_not ID lib_function logic_binary_conector condition
-	| optional_not ID lib_function 
+condition: ID lib_function
+	| condition logic_binary_conector condition
+	| NOT condition 
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
 
