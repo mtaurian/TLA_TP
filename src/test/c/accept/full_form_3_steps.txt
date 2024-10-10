@@ -46,7 +46,7 @@
 			#Type select text
 			#Title "Whats your favorite beer"
 			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
-			@ShowIf(isOlderThan 18)
+			@ShowIf(isOlderThan18)
 		}		
 	}
 	@Section {
