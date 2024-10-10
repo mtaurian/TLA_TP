@@ -151,7 +151,53 @@
 
 /** Non-terminals. */
 
-
+%type <form> form
+%type <form_fg> form_fg
+%type <form_sub_fg> form_sub_fg
+%type <question> question
+%type <config> config
+%type <section> section 
+%type <setp> step
+%type <getaway> getaway
+%type <transport> transport
+%type <transports> transports
+%type <glitch> glitch
+%type <gl_error> gl_error
+%type <do> do
+%type <task> task
+%type <step_fg> step_fg
+%type <step_sp> step_sp
+%type <form_config_fg> form_config_fg
+%type <form_config_sp> form_config_sp
+%type <theme_sp> theme_sp
+%type <section_fg> section_fg
+%type <section_sub_fg> section_sub_fg
+%type <section_sp> section_sp
+%type <question_fg> question_fg
+%type <question_sp> question_sp
+%type <question_sub_fg> question_sub_fg
+%type <glitch_fg> glitch_fg
+%type <gl_error_fg> gl_error_fg
+%type <do_fg> do_fg
+%type <showif> showif
+%type <showif_declaration> showif_declaration
+%type <showif_call> showif_call
+%type <showif_on_scope> showif_on_scope
+%type <condition> condition
+%type <lib_function> lib_function 
+%type <number> number
+%type <number_or_id> number_or_id
+%type <string_or_id> string_or_id
+%type <integer_or_id> integer_or_id
+%type <date> date
+%type <date_or_id> date_or_id
+%type <value> value
+%type <value_or_id> value_or_id
+%type <options> options
+%type <list_options> list_options
+%type <value> option
+%type <opt_showif> opt_showif
+%type <type_definition> type_definition
 /**
  * Precedence and associativity.
  *
