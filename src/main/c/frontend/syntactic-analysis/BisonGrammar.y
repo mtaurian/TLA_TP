@@ -190,7 +190,7 @@ form_sp : TITLE STRING
 
 question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES		
 	;									
-config: CONFIG OPEN_BRACES form_config_sp CLOSE_BRACES
+config: CONFIG OPEN_BRACES form_config_fg CLOSE_BRACES
 	;
 section: SECTION OPEN_BRACES section_fg CLOSE_BRACES
 	;
@@ -229,10 +229,13 @@ sections : section
 	| section sections
 	;
 
-form_config_sp: SUBMIT_TEXT STRING
-	| SAFE_AND_SOUND
-	| THEME theme_sp
-	| form_config_sp form_config_sp
+form_config_fg : form_config_sp
+	| form_config_sp form_config_fg
+	;
+
+form_config_sp: SUBMIT_TEXT STRING 
+	| SAFE_AND_SOUND 
+	| THEME theme_sp 
 	;
 
 theme_sp: DEBUT
@@ -254,7 +257,7 @@ section_fg: section_sub_fg
 	| section_sub_fg section_fg
 	;
 
-section_sub_fg: question_fg
+section_sub_fg: question
 	| showif
 	;
 
