@@ -77,20 +77,20 @@
 "isAfter"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_AFTER);}
 "isWeekend"                         {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_WEEKEND);}
 
-"when"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), WHEN);}
-"goto"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), GOTO);}
-"end"                               {return TransportLexemeAction(createLexicalAnalyzerContext(), END);}
+"when"|"WHEN"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), WHEN);}
+"goto"|"GOTO"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), GOTO);}
+"end"|"END"                               {return TransportLexemeAction(createLexicalAnalyzerContext(), END);}
 
-"CheckBox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
-"Radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
-"Select"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
-"Text"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), TEXT);}
-"Image"                             {return TypesLexemeAction(createLexicalAnalyzerContext(), IMAGE);}
-"Document"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), DOCUMENT);}
-"LongText"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
-"Numeric"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
-"Password"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
-"Date"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
+"CheckBox"|"CHECKBOX"|"checkbox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
+"Radios"|"RADIOS"|"radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
+"Select"|"SELECT"|"select"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
+"Text"|"TEXT"|"text"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), TEXT);}
+"Image"|"IMAGE"|"image"                             {return TypesLexemeAction(createLexicalAnalyzerContext(), IMAGE);}
+"Document"|"DOCUMENT"|"document"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), DOCUMENT);}
+"LongText"|"LONGTEXT"|"longtext"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
+"Numeric"|"NUMERIC"|"numeric"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
+"Password"|"PASSWORD"|"password"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
+"Date"|"DATE"|"date"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
 
 "Debut"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), DEBUT);}
 "Fearless"                           {return ThemesLexemeAction(createLexicalAnalyzerContext(), FEARLESS);}
@@ -126,7 +126,7 @@
 "not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
 
 [[:digit:]]+						        { return IntegerLexemeAction(createLexicalAnalyzerContext()); }
-[[:alpha:]][[:alnum:]]+                     { return alphaNumericLexemeAction(createLexicalAnalyzerContext());}
+[[:alpha:]][[:alnum:]]+                     { return IDLexemeAction(createLexicalAnalyzerContext());}
 [+-]?([0-9]*[.])?[0-9]+([eE][+-]?[0-9]+)?   { return FloatLexemeAction(createLexicalAnalyzerContext());}
 
 [[:space:]]+		    			{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
