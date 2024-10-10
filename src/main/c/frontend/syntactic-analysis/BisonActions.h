@@ -29,4 +29,6 @@ Value * ValueIntegerSemanticAction(int the_integer);
 Value * ValueFloatSemanticAction(float the_float);
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year);
 Value * ValueDateSemanticAction( Date * the_date);
+ValueOrId * ValueOrIdValueSemanticAction(Value * the_value);
+ValueOrId * ValueOrIdIdSemanticAction(char * the_id);
 #endif

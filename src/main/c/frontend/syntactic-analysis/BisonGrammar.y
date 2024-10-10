@@ -24,6 +24,7 @@
 	Question * question;
 	Value * value;
 	Date * date;
+	ValueOrId * valueOrId;
 }
 
 /**
@@ -198,8 +199,9 @@
 */
 %type <value> value
 %type <value> option
-/*
+
 %type <valueOrId> valueOrId
+/*
 %type <options> options
 %type <listOptions> listOptions
 %type <optShowIf> optShowIf
@@ -427,8 +429,8 @@ value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
 	| date						{$$ = ValueDateSemanticAction($1);}
 	;
 
-valueOrId: value
-	| ID
+valueOrId: value				{$$ = ValueOrIdValueSemanticAction($1);}
+	| ID						{$$ = ValueOrIdIdSemanticAction($1);}
 	;
 
 options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS

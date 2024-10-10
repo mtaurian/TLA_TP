@@ -17,6 +17,7 @@ void shutdownAbstractSyntaxTreeModule();
 typedef enum ExpressionType ExpressionType;
 typedef enum FactorType FactorType;
 typedef enum ValueType ValueType;
+typedef enum ValueOrIdType ValueOrIdType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -25,6 +26,7 @@ typedef struct Program Program;
 typedef struct Question Question;
 typedef struct Value Value;
 typedef struct Date Date;
+typedef struct ValueOrId ValueOrId;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
@@ -43,6 +45,10 @@ enum ValueType {
 	VALUE_TYPE_INTEGER,
 	VALUE_TYPE_FLOAT, 
 	VALUE_TYPE_DATE
+};
+enum ValueOrIdType {
+	VALUE_OR_ID_TYPE_VALUE,
+	VALUE_OR_ID_TYPE_ID
 };
 
 enum FactorType {
@@ -96,6 +102,15 @@ struct Value {
 	};
 	
 	ValueType type;
+};
+
+struct ValueOrId {
+
+	union {
+		Value * value;
+		char * id;
+	};
+	ValueOrIdType type;
 };
 
 /**
