@@ -93,6 +93,21 @@ DateOrId * DateOrIdDateSemanticAction(Date * the_date){
 		return dateOrId;
 }
 
+IntegerOrId * IntegerOrIdIdSemanticAction(char * the_id){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		IntegerOrId * integerOrId = calloc(1,sizeof(IntegerOrId));
+		integerOrId->v_id=the_id;
+		integerOrId->type=INTEGER_OR_ID_TYPE_ID;
+		return integerOrId;
+}
+IntegerOrId * IntegerOrIdIntegerSemanticAction(int the_integer){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		IntegerOrId * integerOrId = calloc(1,sizeof(IntegerOrId));
+		integerOrId->v_integer=the_integer;
+		integerOrId->type=INTEGER_OR_ID_TYPE_INTEGER;
+		return integerOrId;
+}
+
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Date * date = calloc(1, sizeof(Date));

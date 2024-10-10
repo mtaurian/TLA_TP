@@ -18,6 +18,8 @@ typedef enum ExpressionType ExpressionType;
 typedef enum FactorType FactorType;
 typedef enum ValueType ValueType;
 typedef enum ValueOrIdType ValueOrIdType;
+typedef enum DateOrIdType DateOrIdType;
+typedef enum IntegerOrIdType IntegerOrIdType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -27,6 +29,8 @@ typedef struct Question Question;
 typedef struct Value Value;
 typedef struct Date Date;
 typedef struct ValueOrId ValueOrId;
+typedef struct DateOrId DateOrId;
+typedef struct IntegerOrId IntegerOrId;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
@@ -51,6 +55,15 @@ enum ValueOrIdType {
 	VALUE_OR_ID_TYPE_ID
 };
 
+enum DateOrIdType {
+	DATE_OR_ID_TYPE_ID,
+	DATE_OR_ID_TYPE_DATE
+};
+
+enum IntegerOrIdType {
+	INTEGER_OR_ID_TYPE_ID,
+	INTEGER_OR_ID_TYPE_INTEGER
+};
 enum FactorType {
 	CONSTANT,
 	EXPRESSION
@@ -111,6 +124,22 @@ struct ValueOrId {
 		char * id;
 	};
 	ValueOrIdType type;
+};
+
+struct DateOrId {
+	union {
+		Date * date;
+		char * id;
+	};
+	DateOrIdType type;
+};
+
+struct IntegerOrId {
+	union {
+		int v_integer;
+		char * v_id;
+	};
+	IntegerOrIdType type;
 };
 
 /**

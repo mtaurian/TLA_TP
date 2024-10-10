@@ -26,6 +26,7 @@
 	Date * date;
 	ValueOrId * valueOrId;
 	DateOrId * dateOrId;
+	IntegerOrId * integerOrId;
 }
 
 /**
@@ -192,8 +193,8 @@
 %type <number> number
 %type <numberOrId> numberOrId
 %type <stringOrId> stringOrId
-%type <integerOrId> integerOrId
 */
+%type <integerOrId> integerOrId
 %type <date> date
 %type <dateOrId> dateOrId
 %type <value> value
@@ -411,8 +412,8 @@ stringOrId: STRING
 	| ID
 	;
 
-integerOrId: INTEGER
-	| ID
+integerOrId: INTEGER			{$$ = IntegerOrIdIntegerSemanticAction($1);}
+	| ID						{$$ = IntegerOrIdIdSemanticAction($1);}
 	;
 
 date : DATE OPEN_PARENTHESIS INTEGER[day] COMMA INTEGER[month] COMMA INTEGER[year] CLOSE_PARENTHESIS  		{$$ = CreateDateSemanticAction($day, $month, $year);}

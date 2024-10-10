@@ -33,4 +33,6 @@ ValueOrId * ValueOrIdValueSemanticAction(Value * the_value);
 ValueOrId * ValueOrIdIdSemanticAction(char * the_id);
 DateOrId * DateOrIdIdSemanticAction(char * the_id);
 DateOrId * DateOrIdDateSemanticAction(Date * the_date);
+IntegerOrId * IntegerOrIdIdSemanticAction(char * the_id);
+IntegerOrId * IntegerOrIdIntegerSemanticAction(int the_integer);
 #endif
