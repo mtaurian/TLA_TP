@@ -146,7 +146,8 @@
 %token <token> MATH_EQUALS
 %token <token> MATH_GRATHER
 %token <token> MATH_LOWER
-
+%token <token> TRUE
+%token <token> FALSE
 
 /** Non-terminals. */
 
@@ -309,7 +310,9 @@ showif_call : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
 showif_on_scope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
-condition: ID lib_function
+condition:TRUE
+	| FALSE 
+	| ID lib_function
 	| condition AND condition
 	| condition OR condition
 	| NOT condition 

@@ -124,6 +124,8 @@
 "and"|"AND"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), AND);}
 "or"|"OR"                           { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
 "not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
+"true"|"TRUE"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), TRUE);}
+"false"|"FALSE"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), FALSE);}
 
 [[:digit:]]+						        { return IntegerLexemeAction(createLexicalAnalyzerContext()); }
 [[:alpha:]][[:alnum:]]+                     { return IDLexemeAction(createLexicalAnalyzerContext());}
