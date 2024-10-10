@@ -31,6 +31,47 @@ static void _logSyntacticAnalyzerAction(const char * functionName) {
 
 /* PUBLIC FUNCTIONS */
 
+Value * ValueStringSemanticAction(char * the_string){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Value * value = calloc(1, sizeof(Value));
+	value->v_string = the_string;
+	value->type = VALUE_TYPE_STRING;
+	return value;
+}
+
+Value * ValueIntegerSemanticAction(int the_integer){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Value * value = calloc(1, sizeof(Value));
+	value->v_integer = the_integer;
+	value->type = VALUE_TYPE_INTEGER;
+	return value;
+}
+
+Value * ValueFloatSemanticAction(float the_float){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Value * value = calloc(1, sizeof(Value));
+	value->v_float = the_float;
+	value->type = VALUE_TYPE_FLOAT;
+	return value;
+}
+
+Value * ValueDateSemanticAction( Date * the_date){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Value * value = calloc(1, sizeof(Value));
+	value->v_date = the_date;
+	value->type = VALUE_TYPE_DATE;
+	return value;
+}
+
+Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Date * date = calloc(1, sizeof(Date));
+	date->day =  the_day;
+	date->month = the_month;
+	date->year = the_year;
+	return date;
+}
+
 Constant * IntegerConstantSemanticAction(const int value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Constant * constant = calloc(1, sizeof(Constant));

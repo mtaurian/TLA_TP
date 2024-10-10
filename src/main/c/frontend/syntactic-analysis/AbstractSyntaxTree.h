@@ -16,12 +16,15 @@ void shutdownAbstractSyntaxTreeModule();
 
 typedef enum ExpressionType ExpressionType;
 typedef enum FactorType FactorType;
+typedef enum ValueType ValueType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
 typedef struct Factor Factor;
 typedef struct Program Program;
 typedef struct Question Question;
+typedef struct Value Value;
+typedef struct Date Date;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
@@ -33,6 +36,13 @@ enum ExpressionType {
 	FACTOR,
 	MULTIPLICATION,
 	SUBTRACTION
+};
+
+enum ValueType {
+	VALUE_TYPE_STRING,
+	VALUE_TYPE_INTEGER,
+	VALUE_TYPE_FLOAT, 
+	VALUE_TYPE_DATE
 };
 
 enum FactorType {
@@ -69,6 +79,23 @@ struct Program {
 
 struct Question {
 	int * placeholder;
+};
+
+struct Date {
+	int day;
+	int month;
+	int year;
+};
+
+struct Value {
+	union {
+		char * v_string;
+		int v_integer;
+		float v_float;
+		Date  * v_date;
+	};
+	
+	ValueType type;
 };
 
 /**

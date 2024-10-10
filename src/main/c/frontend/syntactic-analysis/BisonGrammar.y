@@ -22,6 +22,8 @@
 	Factor * factor;
 	Program * program;
 	Question * question;
+	Value * value;
+	Date * date;
 }
 
 /**
@@ -150,7 +152,7 @@
 %token <token> FALSE
 
 /** Non-terminals. */
-
+/*
 %type <form> form
 %type <formFg> formFg
 %type <formSubFg> formSubFg
@@ -189,15 +191,20 @@
 %type <numberOrId> numberOrId
 %type <stringOrId> stringOrId
 %type <integerOrId> integerOrId
+*/
 %type <date> date
+/*
 %type <dateOrId> dateOrId
+*/
 %type <value> value
+%type <value> option
+/*
 %type <valueOrId> valueOrId
 %type <options> options
 %type <listOptions> listOptions
-%type <value> option
-%type <optshowIf> optshowIf
+%type <optShowIf> optShowIf
 %type <typeDefinition> typeDefinition
+*/
 /**
  * Precedence and associativity.
  *
@@ -407,17 +414,17 @@ integerOrId: INTEGER
 	| ID
 	;
 
-date : DATE OPEN_PARENTHESIS INTEGER COMMA INTEGER COMMA INTEGER CLOSE_PARENTHESIS
+date : DATE OPEN_PARENTHESIS INTEGER[day] COMMA INTEGER[month] COMMA INTEGER[year] CLOSE_PARENTHESIS  		{$$ = CreateDateSemanticAction($day, $month, $year);}
 	;
 
 dateOrId: date
 	| ID
 	;
 
-value: INTEGER 
-	| FLOAT
-	| STRING
-	| date
+value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
+	| FLOAT						{$$ = ValueFloatSemanticAction($1);}
+	| STRING					{$$ = ValueStringSemanticAction($1);}
+	| date						{$$ = ValueDateSemanticAction($1);}
 	;
 
 valueOrId: value
@@ -431,10 +438,7 @@ listOptions: option optShowIf
 	| option optShowIf COMMA listOptions
 	;
 
-option : STRING 
-	| INTEGER 
-	| FLOAT
-	| date
+option : value					//default action is OK
 	;
 
 optShowIf : showIfCall 

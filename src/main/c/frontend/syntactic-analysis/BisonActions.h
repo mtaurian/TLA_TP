@@ -24,5 +24,9 @@ Expression * FactorExpressionSemanticAction(Factor * factor);
 Factor * ConstantFactorSemanticAction(Constant * constant);
 Factor * ExpressionFactorSemanticAction(Expression * expression);
 Program * ExpressionProgramSemanticAction(CompilerState * compilerState, Expression * expression);
-
+Value * ValueStringSemanticAction(char * the_string);
+Value * ValueIntegerSemanticAction(int the_integer);
+Value * ValueFloatSemanticAction(float the_float);
+Date * CreateDateSemanticAction(int the_day, int the_month, int the_year);
+Value * ValueDateSemanticAction( Date * the_date);
 #endif
