@@ -357,14 +357,14 @@ integer_or_id: INTEGER
 	| ID
 	;
 
-date_or_id: DATE
+date_or_id: DATE //not the date we want
 	| ID
 	;
 
 value: INTEGER 
 	| FLOAT
 	| STRING
-	| DATE	
+	| DATE	// not the date we want
 	;
 
 value_or_id: value
@@ -378,14 +378,19 @@ logic_binary_conector : AND
 options : OPTIONS OPEN_BRACKETS list_options CLOSE_BRACKETS
 	;
 
-list_options: option
-	| option COMMA list_options
+list_options: option opt_showif
+	| option opt_showif COMMA list_options
 	;
 
 option : STRING 
 	| INTEGER 
 	| FLOAT
-	| DATE
+	| DATE //not the date we want
+	;
+
+opt_showif : showif_call 
+	| showif_on_scope
+	| %empty
 	;
 
 type_definition : TYPE CHECKBOX
