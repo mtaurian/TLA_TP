@@ -210,7 +210,6 @@ do : DO OPEN_BRACES do_fg CLOSE_BRACES
 task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 	;
 
-
 step_fg : step_sp
 	| getaway
 	| section
@@ -357,14 +356,17 @@ integer_or_id: INTEGER
 	| ID
 	;
 
-date_or_id: DATE //not the date we want
+date : DATE OPEN_PARENTHESIS INTEGER COMMA INTEGER COMMA INTEGER CLOSE_PARENTHESIS
+	;
+
+date_or_id: date
 	| ID
 	;
 
 value: INTEGER 
 	| FLOAT
 	| STRING
-	| DATE	// not the date we want
+	| date
 	;
 
 value_or_id: value
@@ -385,7 +387,7 @@ list_options: option opt_showif
 option : STRING 
 	| INTEGER 
 	| FLOAT
-	| DATE //not the date we want
+	| date
 	;
 
 opt_showif : showif_call 
