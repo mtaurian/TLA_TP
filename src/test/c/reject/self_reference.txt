@@ -22,7 +22,7 @@
 			#Type numeric
 			#Title "How old are you?"
 			#Required		
-			@Showif(isOlderThan18)
+			@ShowIf(isOlderThan18)
 		}	
 	}
 	

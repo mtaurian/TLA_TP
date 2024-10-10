@@ -7,18 +7,18 @@
 	#Description "Fill your personal Data"
 	@GetAwayCar {
 		when howOld isLowerThan 13 goto END
-		when howOld isGratherThan 18 or howOld isEmpty goto s3 
+		when howOld isGreaterThan 18 or howOld isEmpty goto s3 
 	}
 	@Section {
 		#Title "First Section of s1"
 		#Description "First Section Desc"
-		@SowIf isOlderThan18 { name isLongerThan 5 }
+		@ShowIf isOlderThan18 { name isLongerThan 5 }
 
 		@Question howOld {
 			#Type numeric
 			#Title "How old are you?"
 			#Required		
-			@Showif(isOlderThan 18)
+			@ShowIf(isOlderThan18)
 		}	
 	}
 	

@@ -177,6 +177,7 @@ form_fg : form_sub_fg
 
 form_sub_fg : config 
 	| step 
+	| section
 	| question //esto acepta preguntas sueltas aunque hayan pasos definidos. TODO: Podemos rebotarlo en back o complejizar mas esta grmática.
 	;
 
