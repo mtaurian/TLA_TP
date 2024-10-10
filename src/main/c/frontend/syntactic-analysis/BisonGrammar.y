@@ -149,10 +149,7 @@
 
 
 /** Non-terminals. */
-%type <constant> constant
-%type <expression> expression
-%type <factor> factor
-%type <question> question
+
 
 /**
  * Precedence and associativity.
@@ -211,22 +208,16 @@ task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 	;
 
 
-step_fg : step_sub_fg
-	| step_sp
-	| step_sub_fg step_fg
+step_fg : step_sp
+	| getaway
+	| section
+	| section step_fg
 	| step_sp step_fg
-	;
-
-step_sub_fg: sections getaway
-	| getaway sections
+	| getaway step_fg
 	;
 
 step_sp: TITLE STRING
 	| DESCRIPTION STRING
-	;
-
-sections : section 
-	| section sections
 	;
 
 form_config_fg : form_config_sp
