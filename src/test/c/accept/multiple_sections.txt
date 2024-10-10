@@ -1,0 +1,32 @@
+#Title "Multiple Sections"
+
+@Step s1 {
+	#Title "Step 1: Data"
+	@Section {
+		#Title "First Section of s1"
+
+		@Question name {
+			#Type text
+			#Title "Name"
+			#PlaceHolder "Enter your name"
+			#Default "."
+			#Required
+		}
+
+		@Question favoriteBeer {
+			#Type select text
+			#Title "Whats your favorite beer"
+			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
+		}		
+	}
+	@Section {
+		#Title "Second Section of s1"
+
+		@Question patagonia {
+			#Type text
+			#Title "Whats your favorite patagonia?"
+		}
+		
+	}
+	
+}
