@@ -1,0 +1,31 @@
+#Title "Option Boolean Presence Validation"
+#Description "Option is present depending on boolean condition"
+@Step s1 {
+	#Title "Step 1: Data"
+	#Description "Fill your personal Data"
+
+	@Section {
+		#Title "First Section of s1"
+		#Description "First Section Desc"
+
+		@Question name {
+			#Type text
+			#Title "Name"
+			#PlaceHolder "Enter your name"
+		}
+
+		@Question howOld {
+			#Type numeric
+			#Title "How old are you?"
+			#Required		
+		}
+
+		@Question favoriteBeer {
+			#Type select text
+			#Title "Whats your favorite beer"
+			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
+		}		
+	}
+	
+}	
+	
