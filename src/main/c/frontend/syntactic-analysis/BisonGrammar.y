@@ -28,6 +28,8 @@
 	DateOrId * dateOrId;
 	IntegerOrId * integerOrId;
 	StringOrId * stringOrId;
+	Number * number;
+	NumberOrId * numberOrId;
 }
 
 /**
@@ -191,9 +193,9 @@
 %type <showIfOnScope> showIfOnScope
 %type <condition> condition
 %type <libFunction> libFunction 
+*/
 %type <number> number
 %type <numberOrId> numberOrId
-*/
 %type <stringOrId> stringOrId
 %type <integerOrId> integerOrId
 %type <date> date
@@ -401,12 +403,12 @@ libFunction: IS_LOWER_THAN numberOrId
 	| IS_WEEKEND
 	;
 
-number: INTEGER
-	| FLOAT
+number: INTEGER					{$$ = NumberIntegerSemanticAction($1);}
+	| FLOAT						{$$ = NumberFloatSemanticAction($1);}
 	;
 
-numberOrId: number
-	| ID
+numberOrId: number				{$$ = NumberOrIdNumberSemanticAction($1);}
+	| ID						{$$ = NumberOrIdIdSemanticAction($1);}
 	;
 
 stringOrId: STRING				{$$ = StringOrIdStringSemanticAction($1);}

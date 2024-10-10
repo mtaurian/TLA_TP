@@ -37,4 +37,8 @@ IntegerOrId * IntegerOrIdIdSemanticAction(char * the_id);
 IntegerOrId * IntegerOrIdIntegerSemanticAction(int the_integer);
 StringOrId * StringOrIdStringSemanticAction(char * the_string);
 StringOrId * StringOrIdIdSemanticAction(char * the_id);
+Number * NumberIntegerSemanticAction(int the_integer);
+Number * NumberFloatSemanticAction(float the_float);
+NumberOrId * NumberOrIdNumberSemanticAction(Number * the_number);
+NumberOrId * NumberOrIdIdSemanticAction(char * the_id);
 #endif

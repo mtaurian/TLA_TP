@@ -21,6 +21,8 @@ typedef enum ValueOrIdType ValueOrIdType;
 typedef enum DateOrIdType DateOrIdType;
 typedef enum IntegerOrIdType IntegerOrIdType;
 typedef enum StringOrIdType StringOrIdType;
+typedef enum NumberType NumberType;
+typedef enum NumberOrIdType NumberOrIdType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -33,7 +35,8 @@ typedef struct ValueOrId ValueOrId;
 typedef struct DateOrId DateOrId;
 typedef struct IntegerOrId IntegerOrId;
 typedef struct StringOrId StringOrId;
-
+typedef struct Number Number;
+typedef struct NumberOrId NumberOrId;
 /**
  * Node types for the Abstract Syntax Tree (AST).
  */
@@ -70,6 +73,15 @@ enum IntegerOrIdType {
 enum StringOrIdType {
 	STRING_OR_ID_TYPE_ID,
 	STRING_OR_ID_TYPE_STRING
+};
+
+enum NumberType {
+	NUMBER_TYPE_INTEGER,
+	NUMBER_TYPE_FLOAT
+};
+enum NumberOrIdType {
+	NUMBER_OR_ID_TYPE_NUMBER,
+	NUMBER_OR_ID_TYPE_ID
 };
 enum FactorType {
 	CONSTANT,
@@ -154,6 +166,22 @@ struct StringOrId {
 		char * id;
 	};
 	StringOrIdType type;
+};
+struct Number {
+	union {
+		float v_float;
+		int v_integer;
+	};
+
+	NumberType type;
+};
+
+struct NumberOrId {
+	union {
+		Number * number;
+		char * id;
+	};
+	NumberOrIdType type;
 };
 
 /**

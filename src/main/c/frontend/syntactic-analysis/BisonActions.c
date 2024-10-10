@@ -124,6 +124,36 @@ StringOrId * StringOrIdIdSemanticAction(char * the_id){
 		return stringOrId;
 }
 
+Number * NumberIntegerSemanticAction(int the_integer){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		Number * number= calloc(1,sizeof(Number));
+		number->v_integer=the_integer;
+		number->type=NUMBER_TYPE_INTEGER;
+		return number;
+}
+Number * NumberFloatSemanticAction(float the_float){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		Number * number= calloc(1,sizeof(Number));
+		number->v_float=the_float;
+		number->type=NUMBER_TYPE_FLOAT;
+		return number;
+}
+NumberOrId * NumberOrIdNumberSemanticAction(Number * the_number){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		NumberOrId * numberOrId= calloc(1,sizeof(NumberOrId));
+		numberOrId->number=the_number;
+		numberOrId->type=NUMBER_OR_ID_TYPE_NUMBER;
+		return numberOrId;
+}
+NumberOrId * NumberOrIdIdSemanticAction(char * the_id){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		NumberOrId * numberOrId= calloc(1,sizeof(NumberOrId));
+		numberOrId->id=the_id;
+		numberOrId->type=NUMBER_OR_ID_TYPE_ID;
+		return numberOrId;
+}
+
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Date * date = calloc(1, sizeof(Date));
