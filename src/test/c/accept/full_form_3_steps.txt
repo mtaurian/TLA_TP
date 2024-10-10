@@ -27,11 +27,11 @@
 			@Glitch {
 				@Error {
 					#Message "Too long"
-					@Showif { name isLongerThan 20 }
+					@ShowIf { name isLongerThan 20 }
 				}
 				@Error {
 					#Message "Too short"
-					@Showif { name isShorterThan 1 or name isEmpty }
+					@ShowIf { name isShorterThan 1 or name isEmpty }
 				}
 			}
 		}
@@ -45,8 +45,8 @@
 		@Question favoriteBeer {
 			#Type select text
 			#Title "Whats your favorite beer"
-			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGratherThan 21 }]
-			@Showif(isOlderThan 18)
+			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
+			@ShowIf(isOlderThan 18)
 		}		
 	}
 	@Section {
@@ -56,17 +56,17 @@
 		@Question brhama {
 			#Type text
 			#Title "Whats your favorite brhama?"
-			@Showif { favoriteBeer equals "brhama" }
+			@ShowIf { favoriteBeer equals "brhama" }
 		}
 		
 		@Question patagonia {
 			#Type text
 			#Title "Whats your favorite patagonia?"
-			@Showif { favoriteBeer equals "patagonia" }
+			@ShowIf { favoriteBeer equals "patagonia" }
 		}
 		
-		@Showif {
-			(favoriteBeer equals "brhama" or favoriteBeer equals "Patagonia") and howOld isGratherThan 18
+		@ShowIf {
+			(favoriteBeer equals "brhama" or favoriteBeer equals "Patagonia") and howOld isGreaterThan 18
 		}
 	}
 	
@@ -90,7 +90,7 @@
 		@Glitch {
 			@Error {
 				#Message "You are too old"
-				@Showif { s3q1 isBefore Date(15, 12, 2000) }
+				@ShowIf { s3q1 isBefore Date(15, 12, 2000) }
 			}
 		}
 	}
