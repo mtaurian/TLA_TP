@@ -33,7 +33,7 @@ Token MainFragmentLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, 
 
 Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
-Token alphaNumericLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token IDLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token ParenthesisLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 

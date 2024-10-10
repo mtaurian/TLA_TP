@@ -108,7 +108,7 @@ Token FloatLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	return FLOAT;
 }
 
-Token alphaNumericLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+Token IDLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
 	return ID;
