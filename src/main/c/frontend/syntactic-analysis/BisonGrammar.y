@@ -27,6 +27,7 @@
 	ValueOrId * valueOrId;
 	DateOrId * dateOrId;
 	IntegerOrId * integerOrId;
+	StringOrId * stringOrId;
 }
 
 /**
@@ -192,8 +193,8 @@
 %type <libFunction> libFunction 
 %type <number> number
 %type <numberOrId> numberOrId
-%type <stringOrId> stringOrId
 */
+%type <stringOrId> stringOrId
 %type <integerOrId> integerOrId
 %type <date> date
 %type <dateOrId> dateOrId
@@ -408,8 +409,8 @@ numberOrId: number
 	| ID
 	;
 
-stringOrId: STRING
-	| ID
+stringOrId: STRING				{$$ = StringOrIdStringSemanticAction($1);}
+	| ID						{$$ = StringOrIdIdSemanticAction($1);}
 	;
 
 integerOrId: INTEGER			{$$ = IntegerOrIdIntegerSemanticAction($1);}
