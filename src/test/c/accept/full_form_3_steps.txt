@@ -10,18 +10,18 @@
 	#Description "Fill your personal Data"
 	@GetAwayCar {
 		when howOld isLowerThan 13 goto END
-		when howOld isGratherThan 18 or howOld isEmpty goto s3 
+		when howOld isGreaterThan 18 or howOld isEmpty goto s3 
 	}
 	@Section {
 		#Title "First Section of s1"
 		#Description "First Section Desc"
-		@ShowIf isOlderThan18 { howOld isGratherThan 18 }
+		@ShowIf isOlderThan18 { howOld isGreaterThan 18 }
 
 		@Question name {
 			#Type text
 			#Title "Name"
 			#PlaceHolder "Enter your name"
-			#Default ""
+			#Default "."
 			#Required
 			#Help "your name goes here"
 			@Glitch {
@@ -90,7 +90,7 @@
 		@Glitch {
 			@Error {
 				#Message "You are too old"
-				@Showif { s3q1 isBefore 15/12/2000 }
+				@Showif { s3q1 isBefore Date(15, 12, 2000) }
 			}
 		}
 	}
