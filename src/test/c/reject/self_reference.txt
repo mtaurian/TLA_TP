@@ -1,0 +1,31 @@
+#Title "Statement with Self Reference"
+#Description "In this case, the presence of the Question howOld depends on the answer of such question"
+#Closure "Thanks for submiting the form"
+@FormConfig {
+	#SubmitBtnText "Submit"
+	#SafeAndSound
+	#Theme Fearless
+}
+@Step s1 {
+	#Title "Step 1: Data"
+	#Description "Fill your personal Data"
+	@GetAwayCar {
+		when howOld isLowerThan 13 goto END
+		when howOld isGreaterThan 18 or howOld isEmpty goto s3 
+	}
+	@Section {
+		#Title "First Section of s1"
+		#Description "First Section Desc"
+		@ShowIf isOlderThan18 { howOld isGreaterThan 18 }
+
+		@Question howOld {
+			#Type numeric
+			#Title "How old are you?"
+			#Required		
+			@Showif(isOlderThan18)
+		}	
+	}
+	
+}
+	
+	
