@@ -213,9 +213,11 @@ task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 step_fg : step_sp
 	| getaway
 	| section
+	| question
 	| section step_fg
 	| step_sp step_fg
 	| getaway step_fg
+	| question step_fg
 	;
 
 step_sp: TITLE STRING
@@ -307,13 +309,11 @@ showif_on_scope : SHOWIF OPEN_BRACES condition CLOSE_BRACES
 	;
 
 condition: ID lib_function
-	| condition logic_binary_conector condition
+	| condition AND condition
+	| condition OR condition
 	| NOT condition 
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
-
-optional_not: NOT 
-	| %empty
 
 lib_function: IS_LOWER_THAN number_or_id
 	| IS_GREATER_THAN number_or_id
@@ -372,10 +372,6 @@ value: INTEGER
 
 value_or_id: value
 	| ID
-	;
-
-logic_binary_conector : AND 
-	| OR 
 	;
 
 options : OPTIONS OPEN_BRACKETS list_options CLOSE_BRACKETS
