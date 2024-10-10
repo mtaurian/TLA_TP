@@ -152,8 +152,8 @@
 /** Non-terminals. */
 
 %type <form> form
-%type <form_fg> form_fg
-%type <form_sub_fg> form_sub_fg
+%type <formFg> formFg
+%type <formSubFg> formSubFg
 %type <question> question
 %type <config> config
 %type <section> section 
@@ -162,42 +162,42 @@
 %type <transport> transport
 %type <transports> transports
 %type <glitch> glitch
-%type <gl_error> gl_error
+%type <glError> glError
 %type <do> do
 %type <task> task
-%type <step_fg> step_fg
-%type <step_sp> step_sp
-%type <form_config_fg> form_config_fg
-%type <form_config_sp> form_config_sp
-%type <theme_sp> theme_sp
-%type <section_fg> section_fg
-%type <section_sub_fg> section_sub_fg
-%type <section_sp> section_sp
-%type <question_fg> question_fg
-%type <question_sp> question_sp
-%type <question_sub_fg> question_sub_fg
-%type <glitch_fg> glitch_fg
-%type <gl_error_fg> gl_error_fg
-%type <do_fg> do_fg
-%type <showif> showif
-%type <showif_declaration> showif_declaration
-%type <showif_call> showif_call
-%type <showif_on_scope> showif_on_scope
+%type <stepFg> stepFg
+%type <stepSp> stepSp
+%type <formConfigFg> formConfigFg
+%type <formConfigSp> formConfigSp
+%type <themeSp> themeSp
+%type <sectionFg> sectionFg
+%type <sectionSubFg> sectionSubFg
+%type <sectionSp> sectionSp
+%type <questionFg> questionFg
+%type <questionSp> questionSp
+%type <questionSubFg> questionSubFg
+%type <glitchFg> glitchFg
+%type <glErrorFg> glErrorFg
+%type <doFg> doFg
+%type <showIf> showIf
+%type <showIfDeclaration> showIfDeclaration
+%type <showIfCall> showIfCall
+%type <showIfOnScope> showIfOnScope
 %type <condition> condition
-%type <lib_function> lib_function 
+%type <libFunction> libFunction 
 %type <number> number
-%type <number_or_id> number_or_id
-%type <string_or_id> string_or_id
-%type <integer_or_id> integer_or_id
+%type <numberOrId> numberOrId
+%type <stringOrId> stringOrId
+%type <integerOrId> integerOrId
 %type <date> date
-%type <date_or_id> date_or_id
+%type <dateOrId> dateOrId
 %type <value> value
-%type <value_or_id> value_or_id
+%type <valueOrId> valueOrId
 %type <options> options
-%type <list_options> list_options
+%type <listOptions> listOptions
 %type <value> option
-%type <opt_showif> opt_showif
-%type <type_definition> type_definition
+%type <optshowIf> optshowIf
+%type <typeDefinition> typeDefinition
 /**
  * Precedence and associativity.
  *
@@ -213,16 +213,16 @@
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
-form : form_fg 								{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
+form : formFg 								{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
 	;
 
-form_fg : form_sub_fg
+formFg : formSubFg
 	| form_sp
-	| form_sub_fg form_fg
-	| form_sp form_fg
+	| formSubFg formFg
+	| form_sp formFg
 	;
 
-form_sub_fg : config 
+formSubFg : config 
 	| step 
 	| section
 	| question //esto acepta preguntas sueltas aunque hayan pasos definidos. TODO: Podemos rebotarlo en back o complejizar mas esta grmática.
@@ -233,13 +233,13 @@ form_sp : TITLE STRING
 	| CLOSURE STRING
 	;
 
-question : 	QUESTION ID OPEN_BRACES question_fg CLOSE_BRACES		
+question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES		
 	;									
-config: CONFIG OPEN_BRACES form_config_fg CLOSE_BRACES
+config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
-section: SECTION OPEN_BRACES section_fg CLOSE_BRACES
+section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES
 	;
-step: STEP ID OPEN_BRACES step_fg CLOSE_BRACES
+step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES
 	;
 getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES
 	;
@@ -249,39 +249,39 @@ transport : WHEN condition GOTO ID
 transports : transport
 	| transport transports
 	;
-glitch : GLITCH OPEN_BRACES glitch_fg CLOSE_BRACES 
+glitch : GLITCH OPEN_BRACES glitchFg CLOSE_BRACES 
 	;
-gl_error : GL_ERROR OPEN_BRACES gl_error_fg CLOSE_BRACES 
+glError : GL_ERROR OPEN_BRACES glErrorFg CLOSE_BRACES 
 	;
-do : DO OPEN_BRACES do_fg CLOSE_BRACES 
+do : DO OPEN_BRACES doFg CLOSE_BRACES 
 	;
 task : TASK OPEN_BRACES CLOSE_BRACES  // todo
 	;
 
-step_fg : step_sp
+stepFg : stepSp
 	| getaway
 	| section
 	| question
-	| section step_fg
-	| step_sp step_fg
-	| getaway step_fg
-	| question step_fg
+	| section stepFg
+	| stepSp stepFg
+	| getaway stepFg
+	| question stepFg
 	;
 
-step_sp: TITLE STRING
+stepSp: TITLE STRING
 	| DESCRIPTION STRING
 	;
 
-form_config_fg : form_config_sp
-	| form_config_sp form_config_fg
+formConfigFg : formConfigSp
+	| formConfigSp formConfigFg
 	;
 
-form_config_sp: SUBMIT_TEXT STRING 
+formConfigSp: SUBMIT_TEXT STRING 
 	| SAFE_AND_SOUND 
-	| THEME theme_sp 
+	| THEME themeSp 
 	;
 
-theme_sp: DEBUT
+themeSp: DEBUT
 	| FEARLESS
 	| SPEAK_NOW
 	| RED
@@ -294,100 +294,100 @@ theme_sp: DEBUT
 	| TTPD
 	;
 
-section_fg: section_sub_fg
-	| section_sp
-	| section_sp section_fg 
-	| section_sub_fg section_fg
+sectionFg: sectionSubFg
+	| sectionSp
+	| sectionSp sectionFg 
+	| sectionSubFg sectionFg
 	;
 
-section_sub_fg: question
-	| showif
+sectionSubFg: question
+	| showIf
 	;
 
-section_sp: TITLE STRING
+sectionSp: TITLE STRING
 	| DESCRIPTION STRING
 	;
 
-question_fg : question_sub_fg
-	| question_sp 
-	| question_sp question_fg 
-	| question_sub_fg question_fg
+questionFg : questionSubFg
+	| questionSp 
+	| questionSp questionFg 
+	| questionSubFg questionFg
 	;
 
-question_sp: DEFAULT STRING
+questionSp: DEFAULT STRING
 	| DEFAULT FLOAT
 	| DEFAULT INTEGER
 	| TITLE STRING
-	| type_definition
+	| typeDefinition
 	| HELP STRING					
 	| options
 	| PLACE_HOLDER STRING
 	| REQUIRED
 	;
 
-question_sub_fg : showif 
+questionSubFg : showIf 
 	| glitch
 	| do
 	;
 
-glitch_fg : gl_error glitch_fg
-	| gl_error
+glitchFg : glError glitchFg
+	| glError
 	;
 
-gl_error_fg : MESSAGE STRING showif_call
-	| MESSAGE STRING showif_on_scope
+glErrorFg : MESSAGE STRING showIfCall
+	| MESSAGE STRING showIfOnScope
 	;
 
-do_fg : task do_fg
+doFg : task doFg
 	| task
 	;
 
-showif: showif_on_scope
-	| showif_call
-	| showif_declaration
+showIf: showIfOnScope
+	| showIfCall
+	| showIfDeclaration
 	;
 
-showif_declaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES
+showIfDeclaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES
 	;
 
-showif_call : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
+showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
 	;
 
-showif_on_scope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
+showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
 condition:TRUE
 	| FALSE 
-	| ID lib_function
+	| ID libFunction
 	| condition AND condition
 	| condition OR condition
 	| NOT condition 
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
 
-lib_function: IS_LOWER_THAN number_or_id
-	| IS_GREATER_THAN number_or_id
-	| IS_LOWER_OR_EQUAL_TO number_or_id
-	| IS_GREATER_OR_EQUAL_TO number_or_id
+libFunction: IS_LOWER_THAN numberOrId
+	| IS_GREATER_THAN numberOrId
+	| IS_LOWER_OR_EQUAL_TO numberOrId
+	| IS_GREATER_OR_EQUAL_TO numberOrId
 	| IS_LOWEST
 	| IS_GREATEST
-	| EQUALS value_or_id
-	| IS_DIFFERENT_FROM value_or_id
+	| EQUALS valueOrId
+	| IS_DIFFERENT_FROM valueOrId
 	| IS_MULTIPLE_OF number
 	| IS_DIVISOR_OF number
-	| IS_IN_OPTIONS list_options
+	| IS_IN_OPTIONS listOptions
 	| IS_TRUE
 	| IS_FALSE
 	| MATH_VALID
 	| SATISFIES
-	| LIKE string_or_id
-	| CONTAINS string_or_id
-	| DOES_LENGTH_EQUAL integer_or_id
-	| IS_LONGER_THAN integer_or_id
-	| IS_SHORTER_THAN integer_or_id
+	| LIKE stringOrId
+	| CONTAINS stringOrId
+	| DOES_LENGTH_EQUAL integerOrId
+	| IS_LONGER_THAN integerOrId
+	| IS_SHORTER_THAN integerOrId
 	| IS_EMPTY
-	| IS_BEFORE date_or_id
-	| IS_AFTER date_or_id
+	| IS_BEFORE dateOrId
+	| IS_AFTER dateOrId
 	| IS_WEEKEND
 	;
 
@@ -395,22 +395,22 @@ number: INTEGER
 	| FLOAT
 	;
 
-number_or_id: number
+numberOrId: number
 	| ID
 	;
 
-string_or_id: STRING
+stringOrId: STRING
 	| ID
 	;
 
-integer_or_id: INTEGER
+integerOrId: INTEGER
 	| ID
 	;
 
 date : DATE OPEN_PARENTHESIS INTEGER COMMA INTEGER COMMA INTEGER CLOSE_PARENTHESIS
 	;
 
-date_or_id: date
+dateOrId: date
 	| ID
 	;
 
@@ -420,15 +420,15 @@ value: INTEGER
 	| date
 	;
 
-value_or_id: value
+valueOrId: value
 	| ID
 	;
 
-options : OPTIONS OPEN_BRACKETS list_options CLOSE_BRACKETS
+options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS
 	;
 
-list_options: option opt_showif
-	| option opt_showif COMMA list_options
+listOptions: option optShowIf
+	| option optShowIf COMMA listOptions
 	;
 
 option : STRING 
@@ -437,12 +437,12 @@ option : STRING
 	| date
 	;
 
-opt_showif : showif_call 
-	| showif_on_scope
+optShowIf : showIfCall 
+	| showIfOnScope
 	| %empty
 	;
 
-type_definition : TYPE CHECKBOX
+typeDefinition : TYPE CHECKBOX
 	| TYPE RADIOS
 	| TYPE SELECT TEXT
 	| TYPE SELECT NUMERIC
