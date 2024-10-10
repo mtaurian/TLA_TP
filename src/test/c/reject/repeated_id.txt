@@ -1,0 +1,11 @@
+#Title "Repeated ID"
+@Question question1 {
+    #Type text
+    #Title "Name"
+    #PlaceHolder "Enter your name"
+}
+@Question question1 {
+    #Type numeric
+    #Title "How old are you?"
+    #Required	
+}
