@@ -31,4 +31,6 @@ Date * CreateDateSemanticAction(int the_day, int the_month, int the_year);
 Value * ValueDateSemanticAction( Date * the_date);
 ValueOrId * ValueOrIdValueSemanticAction(Value * the_value);
 ValueOrId * ValueOrIdIdSemanticAction(char * the_id);
+DateOrId * DateOrIdIdSemanticAction(char * the_id);
+DateOrId * DateOrIdDateSemanticAction(Date * the_date);
 #endif

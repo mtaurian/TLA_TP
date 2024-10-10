@@ -78,6 +78,20 @@ ValueOrId * ValueOrIdIdSemanticAction(char * the_id){
 		valueOrId->type=VALUE_OR_ID_TYPE_ID;
 		return valueOrId;
 }
+DateOrId * DateOrIdIdSemanticAction(char * the_id){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		DateOrId * dateOrId = calloc(1,sizeof(DateOrId));
+		dateOrId->id=the_id;
+		dateOrId->type=DATE_OR_ID_TYPE_ID;
+		return dateOrId;
+}
+DateOrId * DateOrIdDateSemanticAction(Date * the_date){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		DateOrId * dateOrId = calloc(1,sizeof(DateOrId));
+		dateOrId->date=the_date;
+		dateOrId->type=DATE_OR_ID_TYPE_DATE;
+		return dateOrId;
+}
 
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
