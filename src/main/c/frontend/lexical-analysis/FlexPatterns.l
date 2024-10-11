@@ -109,9 +109,6 @@
 ")"									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
 "."                                 { return PointLexemeAction(createLexicalAnalyzerContext());}
 ","                                 { return CommaLexemeAction(createLexicalAnalyzerContext());}
-"="                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_EQUALS);}
-">"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_GRATHER);}
-"<"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MATH_LOWER);}
 "+"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), ADD);}
 "-"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), SUB);}
 "*"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), MUL);}

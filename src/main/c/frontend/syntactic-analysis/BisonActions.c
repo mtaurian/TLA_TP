@@ -289,7 +289,7 @@ GlitchFg * GlitchFgExtendedSemanticAction(GlErrorFg * the_error, GlitchFg * the_
 QuestionSubFg * QuestionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	QuestionSubFg * questionSubFg=calloc(1,sizeof(QuestionSubFg));
-	questionSubFg->showIfCalll=the_showIfCall;
+	questionSubFg->showIfCall=the_showIfCall;
 	questionSubFg->type=QUESTION_SUB_FG_SHOW_IF_CALL;
 	return questionSubFg;
 }
@@ -430,7 +430,39 @@ SectionSubFg * SectionSubFgQuestionSemanticAction(QuestionFg * the_question){
 	return sectionSubFg;
 }
 
+SectionFg * SectionFgSubFgSemanticAction(SectionSubFg * the_sectionSubFg){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
+	sectionFg->sectionSubFg=the_sectionSubFg;
+	sectionFg->type=SECTION_FG_SUB_FG;
+	return questionFg;
+}
 
+SectionFg * SectionFgSpSemanticAction(SectionSp * the_sectionSp){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
+	sectionFg->sectionSp=the_sectionSp;
+	sectionFg->type=SECTION_FG_SP;
+	return questionFg;
+}
+
+SectionFg * SectionFgExtendedSubFgSemanticAction(SectionSubFg * the_sectionSubFg, SectionFg * the_nextSectionSubFgsOrSps){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
+	sectionFg->sectionSubFg=the_sectionSubFg;
+	sectionFg->nextSectionSubFgsOrSps=the_nextSectionSubFgsOrSps;
+	sectionFg->type=SECTION_FG_SUB_FG;
+	return questionFg;
+}
+
+SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, SectionFg * the_nextSectionSubFgsOrSps){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
+	sectionFg->sectionSp=the_sectionSp;
+	sectionFg->nextSectionSubFgsOrSps=the_nextSectionSubFgsOrSps;
+	sectionFg->type=SECTION_FG_SP;
+	return questionFg;
+}
 
 
 

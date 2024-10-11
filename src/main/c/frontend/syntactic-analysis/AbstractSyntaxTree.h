@@ -210,7 +210,7 @@ struct SectionFg {
 
 struct SectionSubFg {
 	union{
-		ShowIfCall * showIfCalll;
+		ShowIfCall * showIfCall;
 		ShowIfDeclaration * showIfDeclaration;
 		ShowIfOnScope * showIfOnScope;
 		QuestionFg * question;
@@ -225,7 +225,7 @@ struct SectionSp {
 
 struct QuestionSubFg{
 	union{
-		ShowIfCall * showIfCalll;
+		ShowIfCall * showIfCall;
 		ShowIfDeclaration * showIfDeclaration;
 		ShowIfOnScope * showIfOnScope;
 		GlitchFg * glitchFg;
