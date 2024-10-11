@@ -35,7 +35,7 @@ LibFunction * LibFunctionStringSemanticAction(LibFunctionType the_libFunctionTyp
 LibFunction * LibFunctionDateSemanticAction(LibFunctionType the_libFunctionType,Date* the_param);
 LibFunction * LibFunctionIdSemanticAction(LibFunctionType the_libFunctionType,char * the_param);
 LibFunction * LibFunctionNoneSemanticAction(LibFunctionType the_libFunctionType);
-Condition * ConditionBooleanSemanticAction(Types the_type);
+Condition * ConditionBooleanSemanticAction(Boolean the_truthValue);
 Condition * ConditionFunctionSemanticAction( char * the_id, LibFunction * the_function);
 Condition * ConditionAndSemanticAction(Condition * the_left, Condition * the_right);
 Condition * ConditionOrSemanticAction(Condition * the_left, Condition * the_right);
@@ -90,6 +90,9 @@ SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, Section
 
 StepSp * StepSpSemanticAction(StepSpType the_type, char * the_string);
 
+Transport * TransportSemanticAction(Condition * the_condition, char * the_stepId, Boolean is_GoesToEnd);
 
+Transports * TransportsSemanticAction(Transport * the_transport);
+Transports * TransportsExtendedSemanticAction(Transport * the_transport, Transports * the_nextTransports);
 
 #endif

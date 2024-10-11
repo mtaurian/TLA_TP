@@ -56,6 +56,9 @@ typedef struct SectionSp SectionSp;
 typedef struct SectionSubFg SectionSubFg;
 typedef struct SectionFg SectionFg;
 typedef struct StepSp StepSp;
+typedef struct Transport Transport;
+typedef struct Transports Transports;
+
 
 typedef char Boolean;
 
@@ -214,6 +217,17 @@ enum ThemeSp{
 enum StepSpType {
 	STEP_SP_TITLE,
 	STEP_SP_DESCRIPTION
+};
+
+struct Transports{
+	Transport * transport;
+	Transports * nextTransports;
+};
+
+struct Transport {
+	char * stepId; 
+	Boolean goesToEnd;
+	Condition when;
 };
 
 struct StepSp {

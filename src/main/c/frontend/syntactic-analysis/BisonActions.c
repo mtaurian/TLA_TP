@@ -124,12 +124,12 @@ Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 }
 
 
-Condition * ConditionBooleanSemanticAction(Types the_type){
+Condition * ConditionBooleanSemanticAction(Boolean the_truthValue){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_BASIC;
 	condition->basicProp = calloc(1, sizeof(BasicProp));
-	condition->basicProp->truthValue = the_type == TYPE_TRUE ? 1 : 0;
+	condition->basicProp->truthValue = the_truthValue ;
 	condition->basicProp->type = BASIC_PROP_TYPE_BOOLEAN;
 	return condition;
 }
@@ -470,6 +470,30 @@ StepSp * StepSpSemanticAction(StepSpType the_type, char * the_string){
 	stepSp->string = the_string;
 	stepSp->type = the_type;
 	return stepSp;
+}
+
+Transport * TransportSemanticAction(Condition * the_condition, char * the_stepId, Boolean is_GoesToEnd){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Transport * transport = calloc(1, sizeof(Transport));
+	transport->when = the_condition;
+	transport->stepId = the_stepId;
+	transport->goesToEnd = is_GoesToEnd;
+	return transport;
+}
+
+Transports * TransportsSemanticAction(Transport * the_transport){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Transports * transports = calloc(1, sizeof(Transports));
+	transports->transport = the_transport;
+	return transports;
+}
+
+Transports * TransportsExtendedSemanticAction(Transport * the_transport, Transports * the_nextTransports){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Transports * transports = calloc(1, sizeof(Transports));
+	transports->transport = the_transport;
+	transports->nextTransports = the_nextTransports;
+	return transports;
 }
 
 

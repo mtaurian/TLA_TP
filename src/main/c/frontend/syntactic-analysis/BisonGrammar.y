@@ -41,6 +41,8 @@
 	SectionFg * sectionFg;
 	StepSp * stepSp;
 	ThemeSp themeSp;
+	Transport * transport;
+	Transports * transports;
 }
 
 /**
@@ -165,14 +167,14 @@
 %type <formSubFg> formSubFg
 %type <config> config
 %type <setp> step
-%type <getaway> getaway
-%type <transport> transport
-%type <transports> transports
 %type <stepFg> stepFg
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
 */
 
+%type <transports> getaway
+%type <transports> transports
+%type <transport> transport
 %type <themeSp> themeSp
 %type <stepSp> stepSp
 %type <sectionFg> section 
@@ -218,7 +220,7 @@
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
-form : formFg 								{ currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
+form : formFg				{currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
 	;
 
 formFg : formSubFg
@@ -230,7 +232,7 @@ formFg : formSubFg
 formSubFg : config 
 	| step 
 	| section
-	| question //esto acepta preguntas sueltas aunque hayan pasos definidos. TODO: Podemos rebotarlo en back o complejizar mas esta grmática.
+	| question 
 	;
 
 form_sp : TITLE STRING
@@ -246,13 +248,13 @@ section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES								{$$ = $3;}
 	;
 step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES
 	;
-getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES
+getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES						{$$ = $3;}
 	;
-transport : WHEN condition GOTO ID
-	| WHEN condition GOTO END
+transport : WHEN condition GOTO ID												{$$ = TransportSemanticAction($2, $4, 0);}
+	| WHEN condition GOTO END													{$$ = TransportSemanticAction($2, 0x0, 1);}
 	;
-transports : transport
-	| transport transports
+transports : transport															{$$ = TransportsSemanticAction($1);}	
+	| transport transports														{$$ = TransportsSemanticAction($1, $2);}
 	;
 
 formConfigFg : formConfigSp
@@ -352,8 +354,8 @@ showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS				{ $$ = ShowIfCallSe
 showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 				{ $$ = ShowIfOnScopeSemanticAction($3);}
 	;
 
-condition: TRUE												{$$ = ConditionBooleanSemanticAction(TYPE_TRUE);}
-	| FALSE 												{$$ = ConditionBooleanSemanticAction(TYPE_FALSE);}
+condition: TRUE												{$$ = ConditionBooleanSemanticAction(1);}
+	| FALSE 												{$$ = ConditionBooleanSemanticAction(0);}
 	| ID libFunction										{$$ = ConditionFunctionSemanticAction($1, $2);}
 	| condition AND condition								{$$ = ConditionAndSemanticAction($1, $3);}
 	| condition OR condition								{$$ = ConditionOrSemanticAction($1, $3);}
