@@ -57,4 +57,16 @@ GlErrorFg * GlErrorFgShowIfOnScopeSemanticAction(char * the_message, ShowIfOnSco
 GlitchFg * GlitchFgSemanticAction(GlErrorFg * the_error);
 GlitchFg * GlitchFgExtendedSemanticAction(GlErrorFg * the_error, GlitchFg * the_nextErrors );
 
+QuestionSubFg * QuestionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall);
+QuestionSubFg * QuestionSubFgShowIfOnScopeSemanticAction(ShowIfOnScope * the_showIfOnScope);
+QuestionSubFg * QuestionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * the_showIfDeclaration);
+QuestionSubFg * QuestionSubFgGlitchSemanticAction(GlitchFg * the_glitchFg);
+
+QuestionSp * QuestionSpStringSemanticAction(QuestionSpType the_questionSpType, char * the_string);
+QuestionSp * QuestionSpDefaultIntegerSemanticAction(int the_integer);
+QuestionSp * QuestionSDefaultFloatSemanticAction(float the_float);
+QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType);
+QuestionSp * QuestionSpOptionSemanticAction(ListOptions *the_options);
+QuestionSp * QuestionSpRequiredSemanticAction();
+
 #endif

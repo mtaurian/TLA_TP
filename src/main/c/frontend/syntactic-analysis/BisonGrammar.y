@@ -33,6 +33,9 @@
 	ListOptions * listOptions;
 	GlErrorFg * glErrorFg;
 	GlitchFg * glitchFg;
+	QuestionSubFg *questionSubFg;
+	QuestionSp * questionSp;
+	
 }
 
 /**
@@ -178,10 +181,10 @@
 %type <sectionSubFg> sectionSubFg
 %type <sectionSp> sectionSp
 %type <questionFg> questionFg
+
+*/
 %type <questionSp> questionSp
 %type <questionSubFg> questionSubFg
-*/
-
 %type <glitchFg> glitch
 %type <glitchFg> glitchFg
 %type <glErrorFg> glError
@@ -312,21 +315,21 @@ questionFg : questionSubFg
 	| questionSubFg questionFg
 	;
 
-questionSp: DEFAULT STRING
-	| DEFAULT FLOAT
-	| DEFAULT INTEGER
-	| TITLE STRING
-	| questionType
-	| HELP STRING					
-	| options
-	| PLACE_HOLDER STRING
-	| REQUIRED
+questionSp: DEFAULT STRING								{$$ = QuestionSpStringSemanticAction(QUESTION_SP_DEFAULT_STRING,$2);}
+	| DEFAULT FLOAT										{$$ = QuestionSpDefaultFloatSemanticAction($2);}
+	| DEFAULT INTEGER									{$$ = QuestionSpDefaultIntegerSemanticAction($2);}
+	| questionType										{$$ = QuestionSpQuestionTypeSemanticAction($1);}
+	| options											{$$ = QuestionSpOptionSemanticAction($1);}
+	| TITLE STRING										{$$ = QuestionSpStringSemanticAction(QUESTION_SP_TITLE,$2);}
+	| HELP STRING										{$$ = QuestionSpStringSemanticAction(QUESTION_SP_HELP,$2);}
+	| PLACE_HOLDER STRING								{$$ = QuestionSpStringSemanticAction(QUESTION_SP_PLACE_HOLDER,$2);}
+	| REQUIRED											{$$ = QuestionSpRequiredSemanticAction();}
 	;
 
-questionSubFg : showIfOnScope
-	| showIfCall
-	| showIfDeclaration
-	| glitch
+questionSubFg : showIfOnScope							{$$ = QuestionSubFgShowIfOnScopeSemanticAction($1);}
+	| showIfCall										{$$ = QuestionSubFgShowIfCallSemanticAction($1);}
+	| showIfDeclaration									{$$ = QuestionSubFgShowIfDeclarationSemanticAction($1);}
+	| glitch											{$$ = QuestionSubFgGlitchSemanticAction($1);}
 	;
 
 glitch : GLITCH OPEN_BRACES glitchFg CLOSE_BRACES 		{$$ = $3;}

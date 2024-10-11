@@ -23,6 +23,8 @@ typedef enum ConditionType ConditionType;
 typedef enum QuestionType QuestionType;
 typedef enum ListOptionsHasShowIf ListOptionsHasShowIf;
 typedef enum ShowIfType ShowIfType;
+typedef enum QuestionSubFgType QuestionSubFgType;
+typedef enum QuestionSpType QuestionSpType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -40,6 +42,9 @@ typedef struct ShowIfOnScope ShowIfOnScope;
 typedef struct ListOptions ListOptions;
 typedef struct GlErrorFg GlErrorFg;
 typedef struct GlitchFg GlitchFg;
+typedef struct QuestionSubFg QuestionSubFg;
+typedef struct  QuestionSp  QuestionSp;
+
 
 
 typedef char Boolean;
@@ -140,7 +145,45 @@ enum ShowIfType{
 	SHOW_IF_ON_SCOPE,
 	SHOW_IF_DECLARATION
 };
+enum QuestionSubFgType {
+	QUESTION_SUB_FG_SHOW_IF_CALL,
+	QUESTION_SUB_FG_SHOW_IF_ON_SCOPE,
+	QUESTION_SUB_FG_SHOW_IF_DECLARATION,
+	QUESTION_SUB_FG_GLITCH
+};
 
+enum QuestionSpType{
+	QUESTION_SP_DEFAULT_STRING,
+	QUESTION_SP_DEFAULT_FLOAT,
+	QUESTION_SP_DEFAULT_INTEGER,
+	QUESTION_SP_QUESTION_TYPE,
+	QUESTION_SP_OPTIONS,
+	QUESTION_SP_TITLE,
+	QUESTION_SP_HELP,					
+	QUESTION_SP_PLACE_HOLDER,
+	QUESTION_SP_REQUIRED
+};
+
+struct QuestionSubFg{
+	union{
+		ShowIfCall * showIfCalll;
+		ShowIfDeclaration * showIfDeclaration;
+		ShowIfOnScope * showIfOnScope;
+		GlitchFg * glitchFg;
+		ListOptions * options;
+	};
+	QuestionSubFgType type;
+};
+struct  QuestionSp{
+	union{
+		char * v_string;
+		int v_integer;
+		float v_float;
+		ListOptions * options;
+		QuestionType questionType;
+	};
+	QuestionSpType type;
+};
 struct ShowIfOnScope {
 	Condition * condition;
 };

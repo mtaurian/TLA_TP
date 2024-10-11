@@ -281,11 +281,83 @@ GlitchFg * GlitchFgExtendedSemanticAction(GlErrorFg * the_error, GlitchFg * the_
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	GlitchFg * glitchFg = calloc(1, sizeof(GlitchFg));
 	glitchFg->error = the_error;
-	glitchFg->nextErrorr = the_nextErrors;
+	glitchFg->nextErrors = the_nextErrors;
 	return glitchFg;
 }
 
 
+QuestionSubFg * QuestionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSubFg * questionSubFg=calloc(1,sizeof(QuestionSubFg));
+	questionSubFg->showIfCalll=the_showIfCall;
+	questionSubFg->type=QUESTION_SUB_FG_SHOW_IF_CALL;
+	return questionSubFg;
+}
+QuestionSubFg * QuestionSubFgShowIfOnScopeSemanticAction(ShowIfOnScope * the_showIfOnScope){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSubFg * questionSubFg=calloc(1,sizeof(QuestionSubFg));
+	questionSubFg->showIfOnScope=the_showIfOnScope;
+	questionSubFg->type=QUESTION_SUB_FG_SHOW_IF_ON_SCOPE;
+	return questionSubFg;
+}
+QuestionSubFg * QuestionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * the_showIfDeclaration){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSubFg * questionSubFg=calloc(1,sizeof(QuestionSubFg));
+	questionSubFg->showIfDeclaration=the_showIfDeclaration;
+	questionSubFg->type=QUESTION_SUB_FG_SHOW_IF_DECLARATION;
+	return questionSubFg;
+}
+QuestionSubFg * QuestionSubFgGlitchSemanticAction(GlitchFg * the_glitchFg){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSubFg * questionSubFg=calloc(1,sizeof(QuestionSubFg));
+	questionSubFg->glitchFg=the_glitchFg;
+	questionSubFg->type=QUESTION_SUB_FG_GLITCH;
+	return questionSubFg;
+}
+
+
+QuestionSp * QuestionSpStringSemanticAction(QuestionSpType the_questionSpType, char * the_string){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=the_questionSpType;
+	questionSp->v_string=the_string;
+	return questionSp;
+
+}
+QuestionSp * QuestionSpDefaultIntegerSemanticAction(int the_integer){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=QUESTION_SP_DEFAULT_INTEGER;
+	questionSp->v_integer=the_integer;
+	return questionSp;
+}
+QuestionSp * QuestionSDefaultFloatSemanticAction(float the_float){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=QUESTION_SP_DEFAULT_FLOAT;
+	questionSp->v_float=the_float;
+	return questionSp;
+}
+QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=QUESTION_SP_QUESTION_TYPE;
+	questionSp->questionType=the_questionType;
+	return questionSp;
+}
+QuestionSp * QuestionSpOptionSemanticAction(ListOptions *the_options){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=QUESTION_SP_OPTIONS;
+	questionSp->options=the_options;
+	return questionSp;
+}
+QuestionSp * QuestionSpRequiredSemanticAction(){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
+	questionSp->type=QUESTION_SP_REQUIRED;
+	return questionSp;
+}
 
 
 
