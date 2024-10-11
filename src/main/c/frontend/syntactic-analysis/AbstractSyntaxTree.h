@@ -60,6 +60,7 @@ typedef struct StepSp StepSp;
 typedef struct Transport Transport;
 typedef struct Transports Transports;
 typedef struct StepFg StepFg;
+typedef struct Step Step;
 
 
 typedef char Boolean;
@@ -228,6 +229,11 @@ enum StepFgType {
 	STEP_FG_TYPE_QUESTION,
 };
 
+
+struct Step {
+	char * id;
+	StepFg * stepFg;
+};
 
 struct StepFg{
 	union{
