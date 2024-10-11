@@ -331,7 +331,7 @@ QuestionSp * QuestionSpDefaultIntegerSemanticAction(int the_integer){
 	questionSp->v_integer=the_integer;
 	return questionSp;
 }
-QuestionSp * QuestionSDefaultFloatSemanticAction(float the_float){
+QuestionSp * QuestionSpDefaultFloatSemanticAction(float the_float){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
 	questionSp->type=QUESTION_SP_DEFAULT_FLOAT;

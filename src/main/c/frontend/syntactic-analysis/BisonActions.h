@@ -64,7 +64,7 @@ QuestionSubFg * QuestionSubFgGlitchSemanticAction(GlitchFg * the_glitchFg);
 
 QuestionSp * QuestionSpStringSemanticAction(QuestionSpType the_questionSpType, char * the_string);
 QuestionSp * QuestionSpDefaultIntegerSemanticAction(int the_integer);
-QuestionSp * QuestionSDefaultFloatSemanticAction(float the_float);
+QuestionSp * QuestionSpDefaultFloatSemanticAction(float the_float);
 QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType);
 QuestionSp * QuestionSpOptionSemanticAction(ListOptions *the_options);
 QuestionSp * QuestionSpRequiredSemanticAction();
