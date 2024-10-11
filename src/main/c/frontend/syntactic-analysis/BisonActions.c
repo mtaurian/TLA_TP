@@ -435,7 +435,7 @@ SectionFg * SectionFgSubFgSemanticAction(SectionSubFg * the_sectionSubFg){
 	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
 	sectionFg->sectionSubFg=the_sectionSubFg;
 	sectionFg->type=SECTION_FG_SUB_FG;
-	return questionFg;
+	return sectionFg;
 }
 
 SectionFg * SectionFgSpSemanticAction(SectionSp * the_sectionSp){
@@ -443,7 +443,7 @@ SectionFg * SectionFgSpSemanticAction(SectionSp * the_sectionSp){
 	SectionFg * sectionFg=calloc(1,sizeof(SectionFg));
 	sectionFg->sectionSp=the_sectionSp;
 	sectionFg->type=SECTION_FG_SP;
-	return questionFg;
+	return sectionFg;
 }
 
 SectionFg * SectionFgExtendedSubFgSemanticAction(SectionSubFg * the_sectionSubFg, SectionFg * the_nextSectionSubFgsOrSps){
@@ -452,7 +452,7 @@ SectionFg * SectionFgExtendedSubFgSemanticAction(SectionSubFg * the_sectionSubFg
 	sectionFg->sectionSubFg=the_sectionSubFg;
 	sectionFg->nextSectionSubFgsOrSps=the_nextSectionSubFgsOrSps;
 	sectionFg->type=SECTION_FG_SUB_FG;
-	return questionFg;
+	return sectionFg;
 }
 
 SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, SectionFg * the_nextSectionSubFgsOrSps){
@@ -461,7 +461,7 @@ SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, Section
 	sectionFg->sectionSp=the_sectionSp;
 	sectionFg->nextSectionSubFgsOrSps=the_nextSectionSubFgsOrSps;
 	sectionFg->type=SECTION_FG_SP;
-	return questionFg;
+	return sectionFg;
 }
 
 
