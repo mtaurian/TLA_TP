@@ -40,7 +40,7 @@
 	SectionSubFg * sectionSubFg;
 	SectionFg * sectionFg;
 	StepSp * stepSp;
-	ThemeSp * themeSp;
+	ThemeSp themeSp;
 }
 
 /**
