@@ -248,7 +248,7 @@ config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
 section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES								{$$ = $3;}
 	;
-step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES									{$$ = StepSemanticAction($1,$2);}
+step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES									{$$ = StepSemanticAction($2,$4);}
 	;
 getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES						{$$ = $3;}
 	;
