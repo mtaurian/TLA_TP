@@ -480,9 +480,33 @@ struct LibFunction {
 /**
  * Node recursive destructors.
  */
-void releaseConstant(Constant * constant);
-void releaseExpression(Expression * expression);
-void releaseFactor(Factor * factor);
-void releaseProgram(Program * program);
+
+void releaseFormFg(FormFg * formFg);
+void releaseFormSubFg(FormSubFg * formSubFg);
+void releaseFormSp(FormSp * formSp);
+void releaseConfig(FormConfigFg * config);
+void releaseConfigSp(FormConfigSp * configSp);
+void releaseStep(Step * step);
+void releaseStepFg(StepFg * stepFg);
+void releaseStepSp(StepSp * stepSp);
+void releaseTransports(Transports * transports);
+void releaseTransport(Transport * transport);
+void releaseCondition(Condition * condition);
+void releaseBasicProp(BasicProp * basicProp);
+void releaseLibFunction(LibFunction * libFunction);
+void releaseDate(Date * date);
+void releaseSection(SectionFg * section);
+void releaseSectionSubFg(SectionSubFg * sectionSubFg);
+void releaseShowIfCall(ShowIfCall * showIfCall);
+void releaseShowIfDeclaration(ShowIfDeclaration * showIfDeclaration);
+void releaseShowIfOnScope(ShowIfOnScope * showIfOnScope);
+void releaseQuestion(Question * question);
+void releaseQuestionFg(QuestionFg * questionFg);
+void releaseQuestionSubFg(QuestionSubFg * questionSubFg);
+void releaseListOptions(ListOptions * options);
+void releaseValue(Value * value);
+void releaseGlitchFg(GlitchFg * glitchFg);
+void releaseGlitchErrorFg(GlErrorFg * glErrorFg);
+void releaseQuestionSp(QuestionSp * questionSp);
 
 #endif

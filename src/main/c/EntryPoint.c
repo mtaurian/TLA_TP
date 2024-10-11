@@ -40,7 +40,7 @@ const int main(const int count, const char ** arguments) {
 		// ----------------------------------------------------------------------------------------
 		// Beginning of the Backend... ------------------------------------------------------------
 		logDebugging(logger, "Computing expression value...");
-		Program * program = compilerState.abstractSyntaxtTree;
+		FormFg * program = compilerState.abstractSyntaxtTree;
 		/*ComputationResult computationResult = computeExpression(program->expression);
 		if (computationResult.succeed) {
 			compilerState.value = computationResult.value;
@@ -53,7 +53,7 @@ const int main(const int count, const char ** arguments) {
 		// ...end of the Backend. -----------------------------------------------------------------
 		// ----------------------------------------------------------------------------------------
 		logDebugging(logger, "Releasing AST resources...");
-		releaseProgram(program);
+		releaseFormFg(program);
 	}
 	else {
 		logError(logger, "The syntactic-analysis phase rejects the input program.");
