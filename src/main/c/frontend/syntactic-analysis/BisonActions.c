@@ -431,7 +431,7 @@ SectionSubFg * SectionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * t
 	return sectionSubFg;
 }
 
-SectionSubFg * SectionSubFgQuestionSemanticAction(QuestionFg * the_question){
+SectionSubFg * SectionSubFgQuestionSemanticAction(Question * the_question){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	SectionSubFg * sectionSubFg=calloc(1,sizeof(SectionSubFg));
 	sectionSubFg->question=the_question;

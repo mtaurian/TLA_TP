@@ -83,7 +83,7 @@ SectionSp * SectionSpSemanticAction(SectionSpType the_type, char * the_string);
 SectionSubFg * SectionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall);
 SectionSubFg * SectionSubFgShowIfOnScopeSemanticAction(ShowIfOnScope * the_showIfOnScope);
 SectionSubFg * SectionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * the_showIfDeclaration);
-SectionSubFg * SectionSubFgQuestionSemanticAction(QuestionFg * the_question);
+SectionSubFg * SectionSubFgQuestionSemanticAction(Question * the_question);
 
 SectionFg * SectionFgSubFgSemanticAction(SectionSubFg * the_sectionSubFg);
 SectionFg * SectionFgSpSemanticAction(SectionSp * the_sectionSp);

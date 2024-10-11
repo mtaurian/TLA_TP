@@ -270,7 +270,7 @@ struct SectionSubFg {
 		ShowIfCall * showIfCall;
 		ShowIfDeclaration * showIfDeclaration;
 		ShowIfOnScope * showIfOnScope;
-		QuestionFg * question;
+		Question * question;
 	};
 	SectionSubFgType type;
 };
