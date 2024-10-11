@@ -39,6 +39,8 @@
 	SectionSp * sectionSp;
 	SectionSubFg * sectionSubFg;
 	SectionFg * sectionFg;
+	StepSp * stepSp;
+	ThemeSp * themeSp;
 }
 
 /**
@@ -167,12 +169,12 @@
 %type <transport> transport
 %type <transports> transports
 %type <stepFg> stepFg
-%type <stepSp> stepSp
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
-%type <themeSp> themeSp
 */
 
+%type <themeSp> themeSp
+%type <stepSp> stepSp
 %type <sectionFg> section 
 %type <sectionFg> sectionFg
 %type <sectionSubFg> sectionSubFg
@@ -262,17 +264,17 @@ formConfigSp: SUBMIT_TEXT STRING
 	| THEME themeSp 
 	;
 
-themeSp: DEBUT
-	| FEARLESS
-	| SPEAK_NOW
-	| RED
-	| NINETEEN_EIGHTY_NINE
-	| REPUTATION
-	| LOVER
-	| FOLKLORE
-	| EVERMORE
-	| MIDNIGHTS
-	| TTPD
+themeSp: DEBUT						{$$= THEME_DEBUT;}
+	| FEARLESS						{$$= THEME_FEARLESS;}
+	| SPEAK_NOW						{$$= THEME_SPEAK_NOW;}
+	| RED							{$$= THEME_RED;}
+	| NINETEEN_EIGHTY_NINE			{$$= THEME_NINETEEN_EIGHTY_NINE;}
+	| REPUTATION					{$$= THEME_REPUTATION;}
+	| LOVER							{$$= THEME_LOVER;}
+	| FOLKLORE						{$$= THEME_FOLKLORE;}
+	| EVERMORE						{$$= THEME_EVERMORE;}
+	| MIDNIGHTS						{$$= THEME_MIDNIGHTS;}
+	| TTPD							{$$= THEME_TTPD;}
 	;
 
 stepFg : stepSp
@@ -285,8 +287,8 @@ stepFg : stepSp
 	| question stepFg
 	;
 
-stepSp: TITLE STRING
-	| DESCRIPTION STRING
+stepSp: TITLE STRING									{$$ = StepSpSemanticAction(STEP_SP_TITLE, $2);}
+	| DESCRIPTION STRING								{$$ = StepSpSemanticAction(STEP_SP_TITLE, $2);}
 	;
 
 sectionFg: sectionSubFg									{$$ = SectionFgSubFgSemanticAction($1);}

@@ -464,6 +464,16 @@ SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, Section
 	return sectionFg;
 }
 
+StepSp * StepSpSemanticAction(StepSpType the_type, char * the_string){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	StepSp * stepSp = calloc(1, sizeof(StepSp));
+	stepSp->string = the_string;
+	stepSp->type = the_type;
+	return stepSp;
+}
+
+
+
 
 
 

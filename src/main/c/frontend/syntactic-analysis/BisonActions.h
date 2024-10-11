@@ -88,4 +88,8 @@ SectionFg * SectionFgExtendedSubFgSemanticAction(SectionSubFg * the_sectionSubFg
 SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, SectionFg * the_nextSectionSubFgsOrSps);
 
 
+StepSp * StepSpSemanticAction(StepSpType the_type, char * the_string);
+
+
+
 #endif

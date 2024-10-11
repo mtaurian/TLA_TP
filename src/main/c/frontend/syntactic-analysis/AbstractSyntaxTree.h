@@ -29,6 +29,8 @@ typedef enum QuestionFgType QuestionFgType;
 typedef enum SectionSpType SectionSpType;
 typedef enum SectionSubFgType SectionSubFgType;
 typedef enum SectionFgType SectionFgType;
+typedef enum ThemeSp ThemeSp;
+typedef enum StepSpType StepSpType;
 
 
 typedef struct Constant Constant;
@@ -53,6 +55,7 @@ typedef struct QuestionFg QuestionFg;
 typedef struct SectionSp SectionSp;
 typedef struct SectionSubFg SectionSubFg;
 typedef struct SectionFg SectionFg;
+typedef struct StepSp StepSp;
 
 typedef char Boolean;
 
@@ -194,10 +197,29 @@ enum SectionFgType {
 	SECTION_FG_SP
 };
 
+enum ThemeSp{
+	THEME_DEBUT,
+	THEME_FEARLESS,
+	THEME_SPEAK_NOW,
+	THEME_RED,
+	THEME_NINETEEN_EIGHTY_NINE,
+	THEME_REPUTATION,
+	THEME_LOVER,
+	THEME_FOLKLORE,
+	THEME_EVERMORE,
+	THEME_MIDNIGHTS,
+	THEME_TTPD
+};
 
+enum StepSpType {
+	STEP_SP_TITLE,
+	STEP_SP_DESCRIPTION
+};
 
-
-
+struct StepSp {
+	char * string;
+	StepSpType type;
+};
 
 struct SectionFg {
 	union{
