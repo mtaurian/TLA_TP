@@ -109,4 +109,12 @@ StepFg * StepFgSectionExtendedSemanticAction(SectionFg * the_section,StepFg * th
 StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * the_nextStepFG);
 
 Step * StepSemanticAction(char * the_id,StepFg * the_stepFg);
+
+FormConfigSp * FormConfigSpSubmitSemanticAction(char * the_submitText);
+FormConfigSp * FormConfigSpThemeSemanticAction(ThemeSp the_theme);
+FormConfigSp * FormConfigSpSafeAndSoundSemanticAction();
+
+FormConfigFg * FormConfigFgSemanticAction(FormConfigSp * the_sp);
+FormConfigFg * FormConfigFgExtendedSemanticAction(FormConfigSp * the_sp, FormConfigFg * the_nextFgs);
+
 #endif

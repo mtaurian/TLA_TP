@@ -45,6 +45,8 @@
 	ThemeSp themeSp;
 	Transport * transport;
 	Transports * transports;
+	FormConfigSp * formConfigSp;
+	FormConfigFg * formConfigFg;
 }
 
 /**
@@ -167,11 +169,11 @@
 %type <form> form
 %type <formFg> formFg
 %type <formSubFg> formSubFg
-%type <config> config
-%type <formConfigFg> formConfigFg
-%type <formConfigSp> formConfigSp
 */
 
+%type <formConfigFg> config
+%type <formConfigFg> formConfigFg
+%type <formConfigSp> formConfigSp
 %type <step> step
 %type <stepFg> stepFg
 %type <transports> getaway
@@ -222,8 +224,6 @@
 %%
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
-form : formFg				{currentCompilerState()->succeed = (0 < flexCurrentContext()) ? false : true; }
-	;
 
 formFg : formSubFg
 	| form_sp
@@ -244,7 +244,7 @@ form_sp : TITLE STRING
 
 question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = QuestionSemanticAction($2,$4);}
 	;									
-config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
+config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES							{$$ = $3;}
 	;
 section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES								{$$ = $3;}
 	;
@@ -259,13 +259,13 @@ transports : transport															{$$ = TransportsSemanticAction($1);}
 	| transport transports														{$$ = TransportsExtendedSemanticAction($1, $2);}
 	;
 
-formConfigFg : formConfigSp
-	| formConfigSp formConfigFg
+formConfigFg : formConfigSp														{$$ = FormConfigFgSemanticAction($1);}
+	| formConfigSp formConfigFg													{$$ = FormConfigFgExtendedSemanticAction($1, $2);}
 	;
 
-formConfigSp: SUBMIT_TEXT STRING 
-	| SAFE_AND_SOUND 
-	| THEME themeSp 
+formConfigSp: SUBMIT_TEXT STRING 												{$$ = FormConfigSpSubmitSemanticAction($2);}
+	| SAFE_AND_SOUND 															{$$ = FormConfigSpSafeAndSoundSemanticAction();}
+	| THEME themeSp 															{$$ = FormConfigSpThemeSemanticAction($2);}
 	;
 
 themeSp: DEBUT						{$$= THEME_DEBUT;}
@@ -281,7 +281,7 @@ themeSp: DEBUT						{$$= THEME_DEBUT;}
 	| TTPD							{$$= THEME_TTPD;}
 	;
 
-stepFg : stepSp						{$$=StepFgStepSpSemanticAction($1);}
+stepFg : stepSp											{$$=StepFgStepSpSemanticAction($1);}
 	| getaway						{$$=StepFgGetawaySemanticAction($1);}
 	| section						{$$=StepFgSectionSemanticAction($1);}
 	| question						{$$=StepFgQuestionSemanticAction($1);}

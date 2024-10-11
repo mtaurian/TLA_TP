@@ -32,6 +32,7 @@ typedef enum SectionFgType SectionFgType;
 typedef enum ThemeSp ThemeSp;
 typedef enum StepSpType StepSpType;
 typedef enum StepFgType StepFgType;
+typedef enum FormConfigSpType FormConfigSpType;
 
 
 typedef struct Constant Constant;
@@ -61,7 +62,8 @@ typedef struct Transport Transport;
 typedef struct Transports Transports;
 typedef struct StepFg StepFg;
 typedef struct Step Step;
-
+typedef struct FormConfigSp FormConfigSp;
+typedef struct FormConfigFg FormConfigFg;
 
 typedef char Boolean;
 
@@ -223,12 +225,30 @@ enum StepSpType {
 };
 
 enum StepFgType {
-	STEP_FG_TYPE_STEP_SP,
-	STEP_FG_TYPE_GETAWAY,
-	STEP_FG_TYPE_SECTION,
-	STEP_FG_TYPE_QUESTION,
+	STEP_FG_STEP_SP,
+	STEP_FG_GETAWAY,
+	STEP_FG_SECTION,
+	STEP_FG_QUESTION,
 };
 
+enum FormConfigSpType {
+	FORM_CONFIG_SP_SUBMIT,
+	FORM_CONFIG_SP_THEME,
+	FORM_CONFIG_SP_SAFE_AND_SOUND
+};
+
+struct FormConfigFg {
+	FormConfigSp * sp;
+	FormConfigFg * nextFgs;
+};
+
+struct FormConfigSp{
+	union {
+		char * submitText;
+		ThemeSp theme;
+	};
+	FormConfigSpType type;
+};
 
 struct Step {
 	char * id;
