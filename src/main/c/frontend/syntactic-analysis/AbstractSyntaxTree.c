@@ -213,10 +213,12 @@ void releaseStepSp(StepSp * stepSp){
 void releaseStepFg(StepFg * stepFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (stepFg != NULL){
-		releaseTransports(stepFg->getaway);
-		releaseQuestion(stepFg->question);
-		releaseSection(stepFg->section);
-		releaseStepSp(stepFg->stepSp);
+		switch(stepFg->type){
+			case STEP_FG_GETAWAY	: releaseTransports(stepFg->getaway); break;
+			case STEP_FG_QUESTION	: releaseQuestion(stepFg->question); break;
+			case STEP_FG_SECTION	: releaseSection(stepFg->section); break;
+			case STEP_FG_STEP_SP	: releaseStepSp(stepFg->stepSp); break;
+		}
 		releaseStepFg(stepFg->nextStepFg);
 		free(stepFg);
 	}
@@ -234,8 +236,10 @@ void releaseStep(Step * step){
 void releaseConfigSp(FormConfigSp * configSp){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (configSp != NULL){
-		free(configSp->submitText);
-		free(configSp);
+		if( configSp->type==FORM_CONFIG_SP_SUBMIT){
+            free(configSp->submitText);
+        }
+        free(configSp);
 	}
 }
 
@@ -259,10 +263,12 @@ void releaseFormSp(FormSp * formSp){
 void releaseFormSubFg(FormSubFg * formSubFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (formSubFg != NULL){
-		releaseConfig(formSubFg->config);
-		releaseQuestion(formSubFg->question);
-		releaseSection(formSubFg->section);
-		releaseStep(formSubFg->step);
+		switch(formSubFg->type){
+			case FORM_SUB_FG_CONFIG   	: releaseConfig(formSubFg->config); break;
+			case FORM_SUB_FG_QUESTION 	: releaseQuestion(formSubFg->question); break;
+			case FORM_SUB_FG_SECTION  	: releaseSection(formSubFg->section); break;
+			case FORM_SUB_FG_STEP 		: releaseStep(formSubFg->step); break;
+		}
 		free(formSubFg);
 	}	
 }
@@ -270,55 +276,11 @@ void releaseFormSubFg(FormSubFg * formSubFg){
 void releaseFormFg(FormFg * formFg) {
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (formFg != NULL) {
-		releaseFormSp(formFg->formSp);
-		releaseFormSubFg(formFg->formSubFg);
+		switch(formFg->type){
+			case FORM_FG_SP : releaseFormSp(formFg->formSp); break;
+			case FORM_FG_SUB_FG : releaseFormSubFg(formFg->formSubFg); break;
+		}
 		releaseFormFg(formFg->nextFormFgs);
 		free(formFg);
 	}
 }
-
-
-/*
-
-void releaseConstant(Constant * constant) {
-	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (constant != NULL) {
-		free(constant);
-	}
-}
-
-void releaseExpression(Expression * expression) {
-	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (expression != NULL) {
-		switch (expression->type) {
-			case ADDITION:
-			case DIVISION:
-			case MULTIPLICATION:
-			case SUBTRACTION:
-				releaseExpression(expression->leftExpression);
-				releaseExpression(expression->rightExpression);
-				break;
-			case FACTOR:
-				releaseFactor(expression->factor);
-				break;
-		}
-		free(expression);
-	}
-}
-
-void releaseFactor(Factor * factor) {
-	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
-	if (factor != NULL) {
-		switch (factor->type) {
-			case CONSTANT:
-				releaseConstant(factor->constant);
-				break;
-			case EXPRESSION:
-				releaseExpression(factor->expression);
-				break;
-		}
-		free(factor);
-	}
-}
-
-*/
