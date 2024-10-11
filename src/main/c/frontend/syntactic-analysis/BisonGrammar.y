@@ -26,7 +26,7 @@
 	Date * date;
 	LibFunction * libFunction;
 	Condition * condition;
-	QuestionType* questionType;
+	QuestionType questionType;
 	ShowIfDeclaration * showIfDeclaration;
 	ShowIfCall * showIfCall;
 	ShowIfOnScope * showIfOnScope;
@@ -446,18 +446,18 @@ listOptions: option showIfCall
 option : value					//default action is OK
 	;
 
-questionType : TYPE CHECKBOX   		{return QUESTION_TYPE_CHECKBOX;}
-	| TYPE RADIOS					{return QUESTION_TYPE_RADIOS;}
-	| TYPE SELECT TEXT				{return QUESTION_TYPE_SELECT_TEXT;}
-	| TYPE SELECT NUMERIC			{return QUESTION_TYPE_SELECT_NUMERIC;}
-	| TYPE SELECT DATE				{return QUESTION_TYPE_SELECT_DATE;}
-	| TYPE TEXT						{return QUESTION_TYPE_TEXT;}
-	| TYPE IMAGE					{return QUESTION_TYPE_IMAGE;}
-	| TYPE DOCUMENT					{return QUESTION_TYPE_DOCUMENT;}
-	| TYPE LONGTEXT					{return QUESTION_TYPE_LONGTEXT;}
-	| TYPE NUMERIC					{return QUESTION_TYPE_NUMERIC;}
-	| TYPE PASSWORD					{return QUESTION_TYPE_PASSWORD;}
-	| TYPE DATE						{return QUESTION_TYPE_DATE;}
+questionType : TYPE CHECKBOX   		{$$ = QUESTION_TYPE_CHECKBOX;}
+	| TYPE RADIOS					{$$ = QUESTION_TYPE_RADIOS;}
+	| TYPE SELECT TEXT				{$$ = QUESTION_TYPE_SELECT_TEXT;}
+	| TYPE SELECT NUMERIC			{$$ = QUESTION_TYPE_SELECT_NUMERIC;}
+	| TYPE SELECT DATE				{$$ = QUESTION_TYPE_SELECT_DATE;}
+	| TYPE TEXT						{$$ = QUESTION_TYPE_TEXT;}
+	| TYPE IMAGE					{$$ = QUESTION_TYPE_IMAGE;}
+	| TYPE DOCUMENT					{$$ = QUESTION_TYPE_DOCUMENT;}
+	| TYPE LONGTEXT					{$$ = QUESTION_TYPE_LONGTEXT;}
+	| TYPE NUMERIC					{$$ = QUESTION_TYPE_NUMERIC;}
+	| TYPE PASSWORD					{$$ = QUESTION_TYPE_PASSWORD;}
+	| TYPE DATE						{$$ = QUESTION_TYPE_DATE;}
 
 /*
 program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
