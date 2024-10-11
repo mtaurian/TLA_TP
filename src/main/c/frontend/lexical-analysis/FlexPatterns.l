@@ -107,7 +107,6 @@
 "}"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACES);}
 "("									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), OPEN_PARENTHESIS); }
 ")"									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
-"."                                 { return PointLexemeAction(createLexicalAnalyzerContext());}
 ","                                 { return CommaLexemeAction(createLexicalAnalyzerContext());}
 "+"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), ADD);}
 "-"                                 { return ArithmeticOperatorLexemeAction(createLexicalAnalyzerContext(), SUB);}

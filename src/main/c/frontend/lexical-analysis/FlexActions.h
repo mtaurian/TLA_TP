@@ -45,8 +45,6 @@ Token SpecifiersLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, To
 
 Token LibraryLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-Token PointLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
-
 Token CommaLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token TypesLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);

@@ -83,12 +83,6 @@ Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	return STRING;
 }
 
-Token PointLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
-	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->token = POINT;
-	return POINT;
-}
-
 Token CommaLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->token = COMMA;
