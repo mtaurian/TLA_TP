@@ -26,6 +26,10 @@ typedef enum ShowIfType ShowIfType;
 typedef enum QuestionSubFgType QuestionSubFgType;
 typedef enum QuestionSpType QuestionSpType;
 typedef enum QuestionFgType QuestionFgType;
+typedef enum SectionSpType SectionSpType;
+typedef enum SectionSubFgType SectionSubFgType;
+typedef enum SectionFgType SectionFgType;
+
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -46,7 +50,9 @@ typedef struct GlitchFg GlitchFg;
 typedef struct QuestionSubFg QuestionSubFg;
 typedef struct QuestionSp QuestionSp;
 typedef struct QuestionFg QuestionFg;
-
+typedef struct SectionSp SectionSp;
+typedef struct SectionSubFg SectionSubFg;
+typedef struct SectionFg SectionFg;
 
 typedef char Boolean;
 
@@ -146,6 +152,7 @@ enum ShowIfType{
 	SHOW_IF_ON_SCOPE,
 	SHOW_IF_DECLARATION
 };
+
 enum QuestionSubFgType {
 	QUESTION_SUB_FG_SHOW_IF_CALL,
 	QUESTION_SUB_FG_SHOW_IF_ON_SCOPE,
@@ -168,6 +175,52 @@ enum QuestionSpType{
 enum QuestionFgType{
 	QUESTION_FG_SUB_FG,
 	QUESTION_FG_SP,
+};
+
+enum SectionSpType {
+	SECTION_SP_TITLE,
+	SECTION_SP_DESCRIPTION
+};
+
+enum SectionSubFgType {
+	SECTION_SUB_FG_SHOW_IF_CALL,
+	SECTION_SUB_FG_SHOW_IF_ON_SCOPE,
+	SECTION_SUB_FG_SHOW_IF_DECLARATION,
+	SECTION_SUB_FG_QUESTION
+};
+
+enum SectionFgType {
+	SECTION_FG_SUB_FG,
+	SECTION_FG_SP
+};
+
+
+
+
+
+
+struct SectionFg {
+	union{
+		SectionSubFg * sectionSubFg;
+		SectionSp * sectionSp;
+	};
+	SectionFgType type;
+	SectionFg * nextSectionSubFgsOrSps;
+};
+
+struct SectionSubFg {
+	union{
+		ShowIfCall * showIfCalll;
+		ShowIfDeclaration * showIfDeclaration;
+		ShowIfOnScope * showIfOnScope;
+		QuestionFg * question;
+	};
+	SectionSubFgType type;
+};
+
+struct SectionSp {
+	char * string;
+	SectionSpType type;
 };
 
 struct QuestionSubFg{

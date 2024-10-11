@@ -390,6 +390,48 @@ QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,Ques
 	return questionFg;
 }
 
+SectionSp * SectionSpSemanticAction(SectionSpType the_type, char * the_string){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionSp * sectionSp = calloc(1, sizeof(SectionSp));
+	sectionSp->string = the_string;
+	sectionSp->type = the_type;
+	return sectionSp;
+}
+
+SectionSubFg * SectionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionSubFg * sectionSubFg=calloc(1,sizeof(SectionSubFg));
+	sectionSubFg->showIfCall=the_showIfCall;
+	sectionSubFg->type=SECTION_SUB_FG_SHOW_IF_CALL;
+	return sectionSubFg;
+}
+
+SectionSubFg * SectionSubFgShowIfOnScopeSemanticAction(ShowIfOnScope * the_showIfOnScope){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionSubFg * sectionSubFg=calloc(1,sizeof(SectionSubFg));
+	sectionSubFg->showIfOnScope=the_showIfOnScope;
+	sectionSubFg->type=SECTION_SUB_FG_SHOW_IF_ON_SCOPE;
+	return sectionSubFg;
+}
+
+SectionSubFg * SectionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * the_showIfDeclaration){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionSubFg * sectionSubFg=calloc(1,sizeof(SectionSubFg));
+	sectionSubFg->showIfDeclaration=the_showIfDeclaration;
+	sectionSubFg->type=SECTION_SUB_FG_SHOW_IF_DECLARATION;
+	return sectionSubFg;
+}
+
+SectionSubFg * SectionSubFgQuestionSemanticAction(QuestionFg * the_question){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	SectionSubFg * sectionSubFg=calloc(1,sizeof(SectionSubFg));
+	sectionSubFg->question=the_question;
+	sectionSubFg->type=SECTION_SUB_FG_QUESTION;
+	return sectionSubFg;
+}
+
+
+
 
 
 

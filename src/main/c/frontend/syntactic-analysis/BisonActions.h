@@ -75,4 +75,17 @@ QuestionFg * QuestionFgSpSemanticAction(QuestionSp * the_questionSp);
 QuestionFg * QuestionFgExtendedSubFgSemanticAction(QuestionSubFg * the_questionSubFg,QuestionFg * the_nextQuestionSubFgsOrSps);
 QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,QuestionFg * the_nextQuestionSubFgsOrSps);
 
+SectionSp * SectionSpSemanticAction(SectionSpType the_type, char * the_string);
+
+SectionSubFg * SectionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall);
+SectionSubFg * SectionSubFgShowIfOnScopeSemanticAction(ShowIfOnScope * the_showIfOnScope);
+SectionSubFg * SectionSubFgShowIfDeclarationSemanticAction(ShowIfDeclaration * the_showIfDeclaration);
+SectionSubFg * SectionSubFgQuestionSemanticAction(QuestionFg * the_question);
+
+SectionFg * SectionFgSubFgSemanticAction(SectionSubFg * the_sectionSubFg);
+SectionFg * SectionFgSpSemanticAction(SectionSp * the_sectionSp);
+SectionFg * SectionFgExtendedSubFgSemanticAction(SectionSubFg * the_sectionSubFg, SectionFg * the_nextSectionSubFgsOrSps);
+SectionFg * SectionFgExtendedSpSemanticAction(SectionSp * the_sectionSp, SectionFg * the_nextSectionSubFgsOrSps);
+
+
 #endif

@@ -36,7 +36,9 @@
 	QuestionSubFg *questionSubFg;
 	QuestionSp * questionSp;
 	QuestionFg * questionFg;
-	
+	SectionSp * sectionSp;
+	SectionSubFg * sectionSubFg;
+	SectionFg * sectionFg;
 }
 
 /**
@@ -151,13 +153,6 @@
 %token <token> AND
 %token <token> OR
 %token <token> NOT
-%token <token> ADD
-%token <token> DIV
-%token <token> MUL
-%token <token> SUB
-%token <token> MATH_EQUALS
-%token <token> MATH_GRATHER
-%token <token> MATH_LOWER
 %token <token> TRUE
 %token <token> FALSE
 
@@ -167,7 +162,6 @@
 %type <formFg> formFg
 %type <formSubFg> formSubFg
 %type <config> config
-%type <section> section 
 %type <setp> step
 %type <getaway> getaway
 %type <transport> transport
@@ -177,11 +171,12 @@
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
 %type <themeSp> themeSp
+*/
+
+%type <sectionFg> section 
 %type <sectionFg> sectionFg
 %type <sectionSubFg> sectionSubFg
 %type <sectionSp> sectionSp
-
-*/
 %type <questionFg> question
 %type <questionFg> questionFg
 %type <questionSp> questionSp
@@ -245,7 +240,7 @@ question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = $4;}
 	;									
 config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
-section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES
+section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES								{$$ = $3;}
 	;
 step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES
 	;
@@ -256,20 +251,6 @@ transport : WHEN condition GOTO ID
 	;
 transports : transport
 	| transport transports
-	;
-
-stepFg : stepSp
-	| getaway
-	| section
-	| question
-	| section stepFg
-	| stepSp stepFg
-	| getaway stepFg
-	| question stepFg
-	;
-
-stepSp: TITLE STRING
-	| DESCRIPTION STRING
 	;
 
 formConfigFg : formConfigSp
@@ -294,20 +275,34 @@ themeSp: DEBUT
 	| TTPD
 	;
 
-sectionFg: sectionSubFg
-	| sectionSp
-	| sectionSp sectionFg 
-	| sectionSubFg sectionFg
+stepFg : stepSp
+	| getaway
+	| section
+	| question
+	| section stepFg
+	| stepSp stepFg
+	| getaway stepFg
+	| question stepFg
 	;
 
-sectionSubFg: question
-	| showIfOnScope
-	| showIfDeclaration
-	| showIfCall
-	;
-
-sectionSp: TITLE STRING
+stepSp: TITLE STRING
 	| DESCRIPTION STRING
+	;
+
+sectionFg: sectionSubFg									{$$ = SectionFgSubFgSemanticAction($1);}
+	| sectionSp											{$$ = SectionFgSpSemanticAction($1);}
+	| sectionSubFg sectionFg							{$$ = SectionFgExtendedSubFgSemanticAction($1, $2);}
+	| sectionSp sectionFg 								{$$ = SectionFgExtendedSpSemanticAction($1, $2);}
+	;
+
+sectionSubFg: question									{$$ = SectionSubFgQuestionSemanticAction($1);}
+	| showIfOnScope										{$$ = SectionSubFgShowIfOnScopeSemanticAction($1);}
+	| showIfDeclaration									{$$ = SectionSubFgShowIfDeclarationSemanticAction($1);}
+	| showIfCall										{$$ = SectionSubFgShowIfCallSemanticAction($1);}									
+	;
+
+sectionSp: TITLE STRING 								{$$ = SectionSpSemanticAction(SECTION_SP_TITLE, $2);}
+	| DESCRIPTION STRING								{$$ = SectionSpSemanticAction(SECTION_SP_DESCRIPTION, $2);}
 	;
 
 questionFg : questionSubFg								{$$ = QuestionFgSubFgSemanticAction($1);}
