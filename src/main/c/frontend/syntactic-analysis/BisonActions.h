@@ -69,4 +69,10 @@ QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType)
 QuestionSp * QuestionSpOptionSemanticAction(ListOptions *the_options);
 QuestionSp * QuestionSpRequiredSemanticAction();
 
+
+QuestionFg * QuestionFgSubFgSemanticAction(QuestionSubFg * the_questionSubFg);
+QuestionFg * QuestionFgSpSemanticAction(QuestionSp * the_questionSp);
+QuestionFg * QuestionFgExtendedSubFgSemanticAction(QuestionSubFg * the_questionSubFg,QuestionFg * the_nextQuestionSubFgsOrSps);
+QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,QuestionFg * the_nextQuestionSubFgsOrSps);
+
 #endif

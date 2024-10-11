@@ -35,6 +35,7 @@
 	GlitchFg * glitchFg;
 	QuestionSubFg *questionSubFg;
 	QuestionSp * questionSp;
+	QuestionFg * questionFg;
 	
 }
 
@@ -165,7 +166,6 @@
 %type <form> form
 %type <formFg> formFg
 %type <formSubFg> formSubFg
-%type <question> question
 %type <config> config
 %type <section> section 
 %type <setp> step
@@ -180,9 +180,10 @@
 %type <sectionFg> sectionFg
 %type <sectionSubFg> sectionSubFg
 %type <sectionSp> sectionSp
-%type <questionFg> questionFg
 
 */
+%type <questionFg> question
+%type <questionFg> questionFg
 %type <questionSp> questionSp
 %type <questionSubFg> questionSubFg
 %type <glitchFg> glitch
@@ -240,7 +241,7 @@ form_sp : TITLE STRING
 	| CLOSURE STRING
 	;
 
-question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES		
+question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = $4;}
 	;									
 config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
@@ -309,10 +310,10 @@ sectionSp: TITLE STRING
 	| DESCRIPTION STRING
 	;
 
-questionFg : questionSubFg
-	| questionSp 
-	| questionSp questionFg 
-	| questionSubFg questionFg
+questionFg : questionSubFg								{$$ = QuestionFgSubFgSemanticAction($1);}
+	| questionSp 										{$$ = QuestionFgSpSemanticAction($1);}
+	| questionSubFg questionFg							{$$ = QuestionFgExtendedSubFgSemanticAction($1,$2);}
+	| questionSp questionFg 							{$$ = QuestionFgExtendedSpSemanticAction($1,$2);}
 	;
 
 questionSp: DEFAULT STRING								{$$ = QuestionSpStringSemanticAction(QUESTION_SP_DEFAULT_STRING,$2);}

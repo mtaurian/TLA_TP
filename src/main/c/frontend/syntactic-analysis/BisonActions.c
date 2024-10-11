@@ -359,6 +359,37 @@ QuestionSp * QuestionSpRequiredSemanticAction(){
 	return questionSp;
 }
 
+QuestionFg * QuestionFgSubFgSemanticAction(QuestionSubFg * the_questionSubFg){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionFg * questionFg=calloc(1,sizeof(QuestionFg));
+	questionFg->questionSubFg=the_questionSubFg;
+	questionFg->type=QUESTION_FG_SUB_FG;
+	return questionFg;
+}
+QuestionFg * QuestionFgSpSemanticAction(QuestionSp * the_questionSp){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionFg * questionFg=calloc(1,sizeof(QuestionFg));
+	questionFg->questionSp=the_questionSp;
+	questionFg->type=QUESTION_FG_SP;
+	return questionFg;
+}
+QuestionFg * QuestionFgExtendedSubFgSemanticAction(QuestionSubFg * the_questionSubFg,QuestionFg * the_nextQuestionSubFgsOrSps){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionFg * questionFg=calloc(1,sizeof(QuestionFg));
+	questionFg->questionSubFg=the_questionSubFg;
+	questionFg->nextQuestionSubFgsOrSps=the_nextQuestionSubFgsOrSps;
+	questionFg->type=QUESTION_FG_SUB_FG;
+	return questionFg;
+}
+QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,QuestionFg * the_nextQuestionSubFgsOrSps){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	QuestionFg * questionFg=calloc(1,sizeof(QuestionFg));
+	questionFg->questionSp=the_questionSp;
+	questionFg->nextQuestionSubFgsOrSps=the_nextQuestionSubFgsOrSps;
+	questionFg->type=QUESTION_FG_SP;
+	return questionFg;
+}
+
 
 
 

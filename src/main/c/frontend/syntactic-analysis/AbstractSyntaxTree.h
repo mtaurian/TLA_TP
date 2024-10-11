@@ -25,6 +25,7 @@ typedef enum ListOptionsHasShowIf ListOptionsHasShowIf;
 typedef enum ShowIfType ShowIfType;
 typedef enum QuestionSubFgType QuestionSubFgType;
 typedef enum QuestionSpType QuestionSpType;
+typedef enum QuestionFgType QuestionFgType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -43,8 +44,8 @@ typedef struct ListOptions ListOptions;
 typedef struct GlErrorFg GlErrorFg;
 typedef struct GlitchFg GlitchFg;
 typedef struct QuestionSubFg QuestionSubFg;
-typedef struct  QuestionSp  QuestionSp;
-
+typedef struct QuestionSp QuestionSp;
+typedef struct QuestionFg QuestionFg;
 
 
 typedef char Boolean;
@@ -164,6 +165,11 @@ enum QuestionSpType{
 	QUESTION_SP_REQUIRED
 };
 
+enum QuestionFgType{
+	QUESTION_FG_SUB_FG,
+	QUESTION_FG_SP,
+};
+
 struct QuestionSubFg{
 	union{
 		ShowIfCall * showIfCalll;
@@ -183,6 +189,15 @@ struct  QuestionSp{
 		QuestionType questionType;
 	};
 	QuestionSpType type;
+};
+
+struct QuestionFg{
+	union{
+		QuestionSubFg * questionSubFg;
+		QuestionSp * questionSp;
+	};
+	QuestionFgType type;
+	QuestionFg * nextQuestionSubFgsOrSps;
 };
 struct ShowIfOnScope {
 	Condition * condition;
