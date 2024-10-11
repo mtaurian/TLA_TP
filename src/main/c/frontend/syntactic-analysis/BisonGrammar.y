@@ -24,12 +24,7 @@
 	Question * question;
 	Value * value;
 	Date * date;
-	ValueOrId * valueOrId;
-	DateOrId * dateOrId;
-	IntegerOrId * integerOrId;
-	StringOrId * stringOrId;
-	Number * number;
-	NumberOrId * numberOrId;
+	LibFunction * libFunction;
 }
 
 /**
@@ -192,18 +187,13 @@
 %type <showIfCall> showIfCall
 %type <showIfOnScope> showIfOnScope
 %type <condition> condition
-%type <libFunction> libFunction 
 */
-%type <number> number
-%type <numberOrId> numberOrId
-%type <stringOrId> stringOrId
-%type <integerOrId> integerOrId
+%type <libFunction> libFunction 
 %type <date> date
-%type <dateOrId> dateOrId
 %type <value> value
 %type <value> option
 
-%type <valueOrId> valueOrId
+
 /*
 %type <options> options
 %type <listOptions> listOptions
@@ -377,63 +367,65 @@ condition:TRUE
 	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
 	;
 
-libFunction: IS_LOWER_THAN numberOrId
-	| IS_GREATER_THAN numberOrId
-	| IS_LOWER_OR_EQUAL_TO numberOrId
-	| IS_GREATER_OR_EQUAL_TO numberOrId
-	| IS_LOWEST
-	| IS_GREATEST
-	| EQUALS valueOrId
-	| IS_DIFFERENT_FROM valueOrId
-	| IS_MULTIPLE_OF number
-	| IS_DIVISOR_OF number
-	| IS_IN_OPTIONS listOptions
-	| IS_TRUE
-	| IS_FALSE
-	| MATH_VALID
-	| SATISFIES
-	| LIKE stringOrId
-	| CONTAINS stringOrId
-	| DOES_LENGTH_EQUAL integerOrId
-	| IS_LONGER_THAN integerOrId
-	| IS_SHORTER_THAN integerOrId
-	| IS_EMPTY
-	| IS_BEFORE dateOrId
-	| IS_AFTER dateOrId
-	| IS_WEEKEND
-	;
-
-number: INTEGER					{$$ = NumberIntegerSemanticAction($1);}
-	| FLOAT						{$$ = NumberFloatSemanticAction($1);}
-	;
-
-numberOrId: number				{$$ = NumberOrIdNumberSemanticAction($1);}
-	| ID						{$$ = NumberOrIdIdSemanticAction($1);}
-	;
-
-stringOrId: STRING				{$$ = StringOrIdStringSemanticAction($1);}
-	| ID						{$$ = StringOrIdIdSemanticAction($1);}
-	;
-
-integerOrId: INTEGER			{$$ = IntegerOrIdIntegerSemanticAction($1);}
-	| ID						{$$ = IntegerOrIdIdSemanticAction($1);}
+libFunction:IS_LOWER_THAN INTEGER 			 	{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
+	| IS_LOWER_THAN FLOAT      					{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
+	| IS_LOWER_THAN ID							{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
+	| IS_GREATER_THAN INTEGER  					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_GREATER_THAN,$2);}
+	| IS_GREATER_THAN FLOAT 					{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_GREATER_THAN,$2);}
+	| IS_GREATER_THAN ID						{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_GREATER_THAN,$2);}
+	| IS_LOWER_OR_EQUAL_TO INTEGER 				{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_LOWER_OR_EQUAL_TO,$2);}
+	| IS_LOWER_OR_EQUAL_TO FLOAT 				{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_LOWER_OR_EQUAL_TO,$2);}
+	| IS_LOWER_OR_EQUAL_TO ID 					{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_LOWER_OR_EQUAL_TO,$2);}
+	| IS_GREATER_OR_EQUAL_TO INTEGER 			{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_GREATER_OR_EQUAL_TO,$2);}
+	| IS_GREATER_OR_EQUAL_TO FLOAT				{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_GREATER_OR_EQUAL_TO,$2);}
+	| IS_GREATER_OR_EQUAL_TO ID 				{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_GREATER_OR_EQUAL_TO,$2);}
+	| IS_LOWEST 								{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_LOWEST);}
+	| IS_GREATEST 								{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_GREATEST);}
+	| EQUALS INTEGER 							{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_EQUALS,$2);}
+	| EQUALS FLOAT 								{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_EQUALS,$2);}
+	| EQUALS STRING 							{$$ = LibFunctionStringSemanticAction(LIB_FUNCTION_EQUALS,$2);}
+	| EQUALS date								{$$ = LibFunctionDateSemanticAction(LIB_FUNCTION_EQUALS,$2);}
+	| EQUALS ID 								{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_EQUALS,$2);}
+	| IS_DIFFERENT_FROM INTEGER 				{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_DIFFERENT_FROM,$2);}
+	| IS_DIFFERENT_FROM FLOAT					{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_DIFFERENT_FROM,$2);}
+	| IS_DIFFERENT_FROM STRING					{$$ = LibFunctionStringSemanticAction(LIB_FUNCTION_IS_DIFFERENT_FROM,$2);}
+	| IS_DIFFERENT_FROM date 					{$$ = LibFunctionDateSemanticAction(LIB_FUNCTION_IS_DIFFERENT_FROM,$2);}
+	| IS_DIFFERENT_FROM ID  					{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_DIFFERENT_FROM,$2);}
+	| IS_MULTIPLE_OF INTEGER					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_MULTIPLE_OF,$2);}
+	| IS_MULTIPLE_OF FLOAT						{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_MULTIPLE_OF,$2);}
+	| IS_MULTIPLE_OF ID							{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_MULTIPLE_OF,$2);}
+	| IS_DIVISOR_OF INTEGER 					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_DIVISOR_OF,$2);}
+	| IS_DIVISOR_OF FLOAT						{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_DIVISOR_OF,$2);}
+	| IS_DIVISOR_OF ID 							{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_DIVISOR_OF,$2);}
+	| IS_TRUE 									{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_TRUE);}
+	| IS_FALSE 									{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_FALSE);}
+	| MATH_VALID 								{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_MATH_VALID);}
+	| SATISFIES 								{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_SATISFIES);}
+	| LIKE STRING								{$$ = LibFunctionStringSemanticAction(LIB_FUNCTION_LIKE,$2);}
+	| LIKE ID									{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_LIKE,$2);}
+	| CONTAINS STRING							{$$ = LibFunctionStringSemanticAction(LIB_FUNCTION_CONTAINS,$2);}
+	| CONTAINS ID								{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_CONTAINS,$2);}
+	| DOES_LENGTH_EQUAL INTEGER 				{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_DOES_LENGTH_EQUAL,$2);}
+	| DOES_LENGTH_EQUAL ID 						{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_DOES_LENGTH_EQUAL,$2);}
+	| IS_LONGER_THAN INTEGER 					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_LONGER_THAN,$2);}
+	| IS_LONGER_THAN ID							{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_LONGER_THAN,$2);}
+	| IS_SHORTER_THAN INTEGER 					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_SHORTER_THAN,$2);}
+	| IS_SHORTER_THAN ID 						{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_SHORTER_THAN,$2);}
+	| IS_EMPTY 									{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_EMPTY);}
+	| IS_BEFORE date							{$$ = LibFunctionDateSemanticAction(LIB_FUNCTION_IS_BEFORE,$2);}
+	| IS_BEFORE ID								{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_BEFORE,$2);}
+	| IS_AFTER date								{$$ = LibFunctionDateSemanticAction(LIB_FUNCTION_IS_AFTER,$2);}
+	| IS_AFTER ID								{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_AFTER,$2);}
+	| IS_WEEKEND								{$$ = LibFunctionNoneSemanticAction(LIB_FUNCTION_IS_WEEKEND);}
 	;
 
 date : DATE OPEN_PARENTHESIS INTEGER[day] COMMA INTEGER[month] COMMA INTEGER[year] CLOSE_PARENTHESIS  		{$$ = CreateDateSemanticAction($day, $month, $year);}
-	;
-
-dateOrId: date					{$$ = DateOrIdDateSemanticAction($1);}
-	| ID						{$$ = DateOrIdIdSemanticAction($1);}
 	;
 
 value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
 	| FLOAT						{$$ = ValueFloatSemanticAction($1);}
 	| STRING					{$$ = ValueStringSemanticAction($1);}
 	| date						{$$ = ValueDateSemanticAction($1);}
-	;
-
-valueOrId: value				{$$ = ValueOrIdValueSemanticAction($1);}
-	| ID						{$$ = ValueOrIdIdSemanticAction($1);}
 	;
 
 options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS

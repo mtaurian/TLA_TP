@@ -16,13 +16,9 @@ void shutdownAbstractSyntaxTreeModule();
 
 typedef enum ExpressionType ExpressionType;
 typedef enum FactorType FactorType;
-typedef enum ValueType ValueType;
-typedef enum ValueOrIdType ValueOrIdType;
-typedef enum DateOrIdType DateOrIdType;
-typedef enum IntegerOrIdType IntegerOrIdType;
-typedef enum StringOrIdType StringOrIdType;
-typedef enum NumberType NumberType;
-typedef enum NumberOrIdType NumberOrIdType;
+typedef enum Types Types;
+typedef enum LibFunctionType LibFunctionType;  
+
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -31,16 +27,23 @@ typedef struct Program Program;
 typedef struct Question Question;
 typedef struct Value Value;
 typedef struct Date Date;
-typedef struct ValueOrId ValueOrId;
-typedef struct DateOrId DateOrId;
-typedef struct IntegerOrId IntegerOrId;
-typedef struct StringOrId StringOrId;
-typedef struct Number Number;
-typedef struct NumberOrId NumberOrId;
+typedef struct LibFunction LibFunction;
+
+
 /**
  * Node types for the Abstract Syntax Tree (AST).
  */
 
+enum Types {
+	TYPE_STRING,
+	TYPE_FLOAT,
+	TYPE_INTEGER,
+	TYPE_DATE,
+	TYPE_ID,
+	TYPE_NONE,
+	TYPE_VALUE,
+	TYPE_NUMBER
+};
 enum ExpressionType {
 	ADDITION,
 	DIVISION,
@@ -49,44 +52,38 @@ enum ExpressionType {
 	SUBTRACTION
 };
 
-enum ValueType {
-	VALUE_TYPE_STRING,
-	VALUE_TYPE_INTEGER,
-	VALUE_TYPE_FLOAT, 
-	VALUE_TYPE_DATE
-};
-enum ValueOrIdType {
-	VALUE_OR_ID_TYPE_VALUE,
-	VALUE_OR_ID_TYPE_ID
-};
-
-enum DateOrIdType {
-	DATE_OR_ID_TYPE_ID,
-	DATE_OR_ID_TYPE_DATE
-};
-
-enum IntegerOrIdType {
-	INTEGER_OR_ID_TYPE_ID,
-	INTEGER_OR_ID_TYPE_INTEGER
-};
-
-enum StringOrIdType {
-	STRING_OR_ID_TYPE_ID,
-	STRING_OR_ID_TYPE_STRING
-};
-
-enum NumberType {
-	NUMBER_TYPE_INTEGER,
-	NUMBER_TYPE_FLOAT
-};
-enum NumberOrIdType {
-	NUMBER_OR_ID_TYPE_NUMBER,
-	NUMBER_OR_ID_TYPE_ID
-};
 enum FactorType {
 	CONSTANT,
 	EXPRESSION
 };
+
+enum LibFunctionType {
+	LIB_FUNCTION_IS_LOWER_THAN,			
+	LIB_FUNCTION_IS_GREATER_THAN,
+	LIB_FUNCTION_IS_LOWER_OR_EQUAL_TO,
+	LIB_FUNCTION_IS_GREATER_OR_EQUAL_TO,
+	LIB_FUNCTION_IS_LOWEST,
+	LIB_FUNCTION_IS_GREATEST,
+	LIB_FUNCTION_EQUALS,
+	LIB_FUNCTION_IS_DIFFERENT_FROM,
+	LIB_FUNCTION_IS_MULTIPLE_OF,
+	LIB_FUNCTION_IS_DIVISOR_OF,
+	LIB_FUNCTION_IS_IN_OPTIONS,
+	LIB_FUNCTION_IS_TRUE,
+	LIB_FUNCTION_IS_FALSE,
+	LIB_FUNCTION_MATH_VALID,
+	LIB_FUNCTION_SATISFIES,
+	LIB_FUNCTION_LIKE,
+	LIB_FUNCTION_CONTAINS,
+	LIB_FUNCTION_DOES_LENGTH_EQUAL,
+	LIB_FUNCTION_IS_LONGER_THAN,
+	LIB_FUNCTION_IS_SHORTER_THAN,
+	LIB_FUNCTION_IS_EMPTY,
+	LIB_FUNCTION_IS_BEFORE,
+	LIB_FUNCTION_IS_AFTER,
+	LIB_FUNCTION_IS_WEEKEND
+};
+
 
 struct Constant {
 	int value;
@@ -133,55 +130,20 @@ struct Value {
 		Date  * v_date;
 	};
 	
-	ValueType type;
+	Types type;
 };
 
-struct ValueOrId {
+struct LibFunction {
 
-	union {
-		Value * value;
-		char * id;
-	};
-	ValueOrIdType type;
-};
-
-struct DateOrId {
-	union {
-		Date * date;
-		char * id;
-	};
-	DateOrIdType type;
-};
-
-struct IntegerOrId {
-	union {
-		int v_integer;
-		char * v_id;
-	};
-	IntegerOrIdType type;
-};
-struct StringOrId {
-	union {
-		char * string;
-		char * id;
-	};
-	StringOrIdType type;
-};
-struct Number {
-	union {
+	union{
 		float v_float;
 		int v_integer;
+		char * v_string;
+		char * v_id;
+		Date * v_date;
 	};
-
-	NumberType type;
-};
-
-struct NumberOrId {
-	union {
-		Number * number;
-		char * id;
-	};
-	NumberOrIdType type;
+	Types parameterType;
+	LibFunctionType type;
 };
 
 /**

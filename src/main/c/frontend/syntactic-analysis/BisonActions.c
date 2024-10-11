@@ -35,7 +35,7 @@ Value * ValueStringSemanticAction(char * the_string){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Value * value = calloc(1, sizeof(Value));
 	value->v_string = the_string;
-	value->type = VALUE_TYPE_STRING;
+	value->type = TYPE_STRING;
 	return value;
 }
 
@@ -43,7 +43,7 @@ Value * ValueIntegerSemanticAction(int the_integer){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Value * value = calloc(1, sizeof(Value));
 	value->v_integer = the_integer;
-	value->type = VALUE_TYPE_INTEGER;
+	value->type = TYPE_INTEGER;
 	return value;
 }
 
@@ -51,7 +51,7 @@ Value * ValueFloatSemanticAction(float the_float){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Value * value = calloc(1, sizeof(Value));
 	value->v_float = the_float;
-	value->type = VALUE_TYPE_FLOAT;
+	value->type = TYPE_FLOAT;
 	return value;
 }
 
@@ -59,99 +59,59 @@ Value * ValueDateSemanticAction( Date * the_date){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Value * value = calloc(1, sizeof(Value));
 	value->v_date = the_date;
-	value->type = VALUE_TYPE_DATE;
+	value->type = TYPE_DATE;
 	return value;
 }
 
-ValueOrId * ValueOrIdValueSemanticAction(Value * the_value){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ValueOrId * valueOrId = calloc(1,sizeof(ValueOrId));
-		valueOrId->value=the_value;
-		valueOrId->type=VALUE_OR_ID_TYPE_VALUE;
-		return valueOrId;
-}
 
-ValueOrId * ValueOrIdIdSemanticAction(char * the_id){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ValueOrId * valueOrId = calloc(1,sizeof(ValueOrId));
-		valueOrId->id=the_id;
-		valueOrId->type=VALUE_OR_ID_TYPE_ID;
-		return valueOrId;
-}
-DateOrId * DateOrIdIdSemanticAction(char * the_id){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		DateOrId * dateOrId = calloc(1,sizeof(DateOrId));
-		dateOrId->id=the_id;
-		dateOrId->type=DATE_OR_ID_TYPE_ID;
-		return dateOrId;
-}
-DateOrId * DateOrIdDateSemanticAction(Date * the_date){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		DateOrId * dateOrId = calloc(1,sizeof(DateOrId));
-		dateOrId->date=the_date;
-		dateOrId->type=DATE_OR_ID_TYPE_DATE;
-		return dateOrId;
-}
+LibFunction * LibFunctionIntegerSemanticAction(LibFunctionType the_libFunctionType,int the_param){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_INTEGER;
+		libFunction->type=the_libFunctionType;
+		libFunction->v_integer=the_param;
+		return libFunction;
 
-IntegerOrId * IntegerOrIdIdSemanticAction(char * the_id){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		IntegerOrId * integerOrId = calloc(1,sizeof(IntegerOrId));
-		integerOrId->v_id=the_id;
-		integerOrId->type=INTEGER_OR_ID_TYPE_ID;
-		return integerOrId;
 }
-IntegerOrId * IntegerOrIdIntegerSemanticAction(int the_integer){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		IntegerOrId * integerOrId = calloc(1,sizeof(IntegerOrId));
-		integerOrId->v_integer=the_integer;
-		integerOrId->type=INTEGER_OR_ID_TYPE_INTEGER;
-		return integerOrId;
-}
+LibFunction * LibFunctionFloatSemanticAction(LibFunctionType the_libFunctionType,float the_param){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_FLOAT;
+		libFunction->type=the_libFunctionType;
+		libFunction->v_float=the_param;
+		return libFunction;
 
-
-StringOrId * StringOrIdStringSemanticAction(char * the_string){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		StringOrId * stringOrId = calloc(1,sizeof(StringOrId));
-		stringOrId->string=the_string;
-		stringOrId->type=STRING_OR_ID_TYPE_STRING;
-		return stringOrId;
 }
-StringOrId * StringOrIdIdSemanticAction(char * the_id){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		StringOrId * stringOrId = calloc(1,sizeof(StringOrId));
-		stringOrId->id=the_id;
-		stringOrId->type=STRING_OR_ID_TYPE_ID;
-		return stringOrId;
+LibFunction * LibFunctionStringSemanticAction(LibFunctionType the_libFunctionType,char* the_param){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_STRING;
+		libFunction->type=the_libFunctionType;
+		libFunction->v_string=the_param;
+		return libFunction;
 }
-
-Number * NumberIntegerSemanticAction(int the_integer){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		Number * number= calloc(1,sizeof(Number));
-		number->v_integer=the_integer;
-		number->type=NUMBER_TYPE_INTEGER;
-		return number;
+LibFunction * LibFunctionDateSemanticAction(LibFunctionType the_libFunctionType, Date * the_param){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_DATE;
+		libFunction->type=the_libFunctionType;
+		libFunction->v_date=the_param;
+		return libFunction;
 }
-Number * NumberFloatSemanticAction(float the_float){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		Number * number= calloc(1,sizeof(Number));
-		number->v_float=the_float;
-		number->type=NUMBER_TYPE_FLOAT;
-		return number;
+LibFunction * LibFunctionIdSemanticAction(LibFunctionType the_libFunctionType,char * the_param){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_ID;
+		libFunction->type=the_libFunctionType;
+		libFunction->v_id=the_param;
+		return libFunction;
 }
-NumberOrId * NumberOrIdNumberSemanticAction(Number * the_number){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		NumberOrId * numberOrId= calloc(1,sizeof(NumberOrId));
-		numberOrId->number=the_number;
-		numberOrId->type=NUMBER_OR_ID_TYPE_NUMBER;
-		return numberOrId;
-}
-NumberOrId * NumberOrIdIdSemanticAction(char * the_id){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		NumberOrId * numberOrId= calloc(1,sizeof(NumberOrId));
-		numberOrId->id=the_id;
-		numberOrId->type=NUMBER_OR_ID_TYPE_ID;
-		return numberOrId;
+LibFunction * LibFunctionNoneSemanticAction(LibFunctionType the_libFunctionType){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+		libFunction->parameterType=TYPE_NONE;
+		libFunction->type=the_libFunctionType;
+		return libFunction;
 }
 
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){

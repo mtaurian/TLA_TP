@@ -27,18 +27,14 @@ Program * ExpressionProgramSemanticAction(CompilerState * compilerState, Express
 Value * ValueStringSemanticAction(char * the_string);
 Value * ValueIntegerSemanticAction(int the_integer);
 Value * ValueFloatSemanticAction(float the_float);
-Date * CreateDateSemanticAction(int the_day, int the_month, int the_year);
 Value * ValueDateSemanticAction( Date * the_date);
-ValueOrId * ValueOrIdValueSemanticAction(Value * the_value);
-ValueOrId * ValueOrIdIdSemanticAction(char * the_id);
-DateOrId * DateOrIdIdSemanticAction(char * the_id);
-DateOrId * DateOrIdDateSemanticAction(Date * the_date);
-IntegerOrId * IntegerOrIdIdSemanticAction(char * the_id);
-IntegerOrId * IntegerOrIdIntegerSemanticAction(int the_integer);
-StringOrId * StringOrIdStringSemanticAction(char * the_string);
-StringOrId * StringOrIdIdSemanticAction(char * the_id);
-Number * NumberIntegerSemanticAction(int the_integer);
-Number * NumberFloatSemanticAction(float the_float);
-NumberOrId * NumberOrIdNumberSemanticAction(Number * the_number);
-NumberOrId * NumberOrIdIdSemanticAction(char * the_id);
+Date * CreateDateSemanticAction(int the_day, int the_month, int the_year);
+LibFunction * LibFunctionIntegerSemanticAction(LibFunctionType the_libFunctionType,int the_param);
+LibFunction * LibFunctionFloatSemanticAction(LibFunctionType the_libFunctionType,float the_param);
+LibFunction * LibFunctionStringSemanticAction(LibFunctionType the_libFunctionType,char* the_param);
+LibFunction * LibFunctionDateSemanticAction(LibFunctionType the_libFunctionType,Date* the_param);
+LibFunction * LibFunctionIdSemanticAction(LibFunctionType the_libFunctionType,char * the_param);
+LibFunction * LibFunctionNoneSemanticAction(LibFunctionType the_libFunctionType);
+
+
 #endif
