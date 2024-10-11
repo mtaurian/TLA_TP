@@ -119,4 +119,15 @@ FormConfigFg * FormConfigFgExtendedSemanticAction(FormConfigSp * the_sp, FormCon
 
 FormSp * FormSpSemanticAction(char * the_string, FormSpType the_type);
 
+FormSubFg * FormSubFgConfigSemanticAction(FormConfigFg * the_config);
+FormSubFg * FormSubFgStepSemanticAction(Step * the_step);
+FormSubFg * FormSubFgQuestionSemanticAction(Question * the_question);
+FormSubFg * FormSubFgSectionSemanticAction(SectionFg * the_section);
+
+
+FormFg * FormFgSubFgSemanticAction(FormSubFg * the_formSubFg,CompilerState * compilerState);
+FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerState);
+FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * the_nextFormFgs,CompilerState * compilerState);
+FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFormFgs,CompilerState * compilerState);
+
 #endif

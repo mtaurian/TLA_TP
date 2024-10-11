@@ -622,6 +622,103 @@ FormSp * FormSpSemanticAction(char * the_string, FormSpType the_type){
 	return formSp;
 }
 
+FormSubFg * FormSubFgConfigSemanticAction(FormConfigFg * the_config){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormSubFg * formSubFg=calloc(1,sizeof(FormSubFg));
+	formSubFg->config=the_config;
+	formSubFg->type=FORM_SUB_FG_CONFIG;
+	return formSubFg;
+}
+FormSubFg * FormSubFgStepSemanticAction(Step * the_step){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormSubFg * formSubFg=calloc(1,sizeof(FormSubFg));
+	formSubFg->step=the_step;
+	formSubFg->type=FORM_SUB_FG_STEP;
+	return formSubFg;
+}
+FormSubFg * FormSubFgQuestionSemanticAction(Question * the_question){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormSubFg * formSubFg=calloc(1,sizeof(FormSubFg));
+	formSubFg->question=the_question;
+	formSubFg->type=FORM_SUB_FG_QUESTION;
+	return formSubFg;
+}
+FormSubFg * FormSubFgSectionSemanticAction(SectionFg * the_section){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormSubFg * formSubFg=calloc(1,sizeof(FormSubFg));
+	formSubFg->section=the_section;
+	formSubFg->type=FORM_SUB_FG_SECTION;
+	return formSubFg;
+}
+
+
+FormFg * FormFgSubFgSemanticAction(FormSubFg * the_formSubFg,CompilerState * compilerState){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormFg * formFg=calloc(1,sizeof(FormFg));
+	formFg->formSubFg=the_formSubFg;
+	formFg->type=FORM_FG_SUB_FG;
+	compilerState->abstractSyntaxtTree = formFg;
+    if (0 < flexCurrentContext()) {
+        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
+        compilerState->succeed = false;
+    }
+    else {
+        compilerState->succeed = true;
+    }
+	return formFg;
+}
+FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerState){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormFg * formFg=calloc(1,sizeof(FormFg));
+	formFg->formSp=the_formSp;
+	formFg->type=FORM_FG_SP;
+	compilerState->abstractSyntaxtTree = formFg;
+    if (0 < flexCurrentContext()) {
+        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
+        compilerState->succeed = false;
+    }
+    else {
+        compilerState->succeed = true;
+    }
+	return formFg;
+}
+FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * the_nextFormFgs,CompilerState * compilerState){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormFg * formFg=calloc(1,sizeof(FormFg));
+	formFg->formSubFg=the_formSubFg;
+	formFg->type=FORM_FG_SUB_FG;
+	formFg->nextFormFgs=the_nextFormFgs;
+	compilerState->abstractSyntaxtTree = formFg;
+    if (0 < flexCurrentContext()) {
+        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
+        compilerState->succeed = false;
+    }
+    else {
+        compilerState->succeed = true;
+    }
+	return formFg;
+}
+FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFormFgs,CompilerState * compilerState){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormFg * formFg=calloc(1,sizeof(FormFg));
+	formFg->formSp=the_formSp;
+	formFg->type=FORM_FG_SP;
+	formFg->nextFormFgs=the_nextFormFgs;
+	compilerState->abstractSyntaxtTree = formFg;
+    if (0 < flexCurrentContext()) {
+        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
+        compilerState->succeed = false;
+    }
+    else {
+        compilerState->succeed = true;
+    }
+	return formFg;
+}
+
+
+
+
+
 
 
 

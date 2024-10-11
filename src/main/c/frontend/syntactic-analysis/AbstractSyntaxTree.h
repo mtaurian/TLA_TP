@@ -34,6 +34,8 @@ typedef enum StepSpType StepSpType;
 typedef enum StepFgType StepFgType;
 typedef enum FormConfigSpType FormConfigSpType;
 typedef enum FormSpType FormSpType;
+typedef enum FormSubFgType FormSubFgType;
+typedef enum FormFgType FormFgType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -65,6 +67,8 @@ typedef struct Step Step;
 typedef struct FormConfigSp FormConfigSp;
 typedef struct FormConfigFg FormConfigFg;
 typedef struct FormSp FormSp;
+typedef struct FormSubFg FormSubFg;
+typedef struct FormFg FormFg;
 
 
 typedef char Boolean;
@@ -245,6 +249,35 @@ enum FormSpType{
 	FORM_SP_CLOSURE
 };
 
+enum FormSubFgType {
+	FORM_SUB_FG_CONFIG,
+	FORM_SUB_FG_STEP,
+	FORM_SUB_FG_QUESTION,
+	FORM_SUB_FG_SECTION
+};
+
+enum FormFgType{
+	FORM_FG_SUB_FG,
+	FORM_FG_SP
+};
+struct FormFg{
+	union{
+		FormSp * formSp;
+		FormSubFg * formSubFg; 
+	};
+	FormFgType type;
+	FormFg * nextFormFgs;
+
+};
+struct FormSubFg{
+	union{
+		FormConfigFg * config;
+		Step * step;
+		Question * question;
+		SectionFg * section;
+	};
+	FormSubFgType type;
+};
 struct FormSp {
 	char * v_string;
 	FormSpType type;

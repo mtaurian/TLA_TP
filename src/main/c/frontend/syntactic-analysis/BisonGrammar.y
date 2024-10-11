@@ -48,6 +48,8 @@
 	FormConfigSp * formConfigSp;
 	FormConfigFg * formConfigFg;
 	FormSp * formSp;
+	FormSubFg * formSubFg;
+	FormFg * formFg;
 }
 
 /**
@@ -165,10 +167,9 @@
 %token <token> FALSE
 
 /** Non-terminals. */
-/*
+
 %type <formFg> formFg
 %type <formSubFg> formSubFg
-*/
 %type <formSp> formSp
 %type <formConfigFg> config
 %type <formConfigFg> formConfigFg
@@ -222,17 +223,17 @@
 
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
-formFg : formSubFg
-	| formSp
-	| formSubFg formFg
-	| formSp formFg
+formFg : formSubFg			{$$ = FormFgSubFgSemanticAction($1,currentCompilerState());}
+	| formSp				{$$ = FormFgSpSemanticAction($1,currentCompilerState());}
+	| formSubFg formFg		{$$ = FormFgExtendedSubFgSemanticAction($1,$2,currentCompilerState());}
+	| formSp formFg			{$$ = FormFgExtendedSpSemanticAction($1,$2,currentCompilerState());}
 	;
 
-formSubFg : config 
-	| step 
-	| section
-	| question 
-	;
+formSubFg : config			{$$ = FormSubFgConfigSemanticAction($1);}
+	| step 					{$$ = FormSubFgStepSemanticAction($1);}	
+	| question 				{$$ = FormSubFgQuestionSemanticAction($1);}
+	| section				{$$ = FormSubFgSectionSemanticAction($1);}
+	;				
 
 formSp : TITLE STRING															{$$ = FormSpSemanticAction($2, FORM_SP_TITLE);}
 	| DESCRIPTION STRING														{$$ = FormSpSemanticAction($2, FORM_SP_DESCRIPTION);}
