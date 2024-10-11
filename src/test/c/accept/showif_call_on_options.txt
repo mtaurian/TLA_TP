@@ -1,0 +1,7 @@
+#Title "showIfCall on option"
+@Question q1 {
+	#Title "question 1"
+	@ShowIf hidden { FALSE }
+	#Type radios
+	#Options ["opt1", "opt2" showif(hidden), "opt3"] 
+}

@@ -1,0 +1,29 @@
+#Title "This is a for with multiple sections but only one step"
+#Description "also we have turned on the safe and sound config"
+#Closure "Thanks for submiting the form"
+@Section {
+	@Question q1 {
+		#Type text
+		#Title "Name"
+		#PlaceHolder "Enter your name"
+	}
+}
+@FormConfig {
+	#SafeAndSound
+}
+@Section {
+	@Question q2 {
+		#Type numeric
+		#Title "How old are you?"
+		#Required
+	}		
+	
+}
+
+@Section {
+	@Question q3 {
+		#Type text
+		#Title "Step 2 question"
+	}	
+	
+}

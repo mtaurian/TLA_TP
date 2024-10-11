@@ -1,0 +1,16 @@
+#Title "question inside step on section and other question on other step without section"
+@Step s1 {
+	@Section {
+		@Question q1 {
+			#Title "q1"
+			#Type LongText
+		}
+	}
+}
+
+@Step s2 {
+	@Question q2 {
+		#Title "q2"
+		#Type Text	
+	}
+}
