@@ -20,6 +20,7 @@ typedef enum Types Types;
 typedef enum LibFunctionType LibFunctionType;  
 typedef enum BasicPropType BasicPropType;
 typedef enum ConditionType ConditionType;
+typedef enum QuestionType QuestionType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -49,6 +50,22 @@ enum Types {
 	TYPE_NUMBER,
 	TYPE_TRUE,
 	TYPE_FALSE
+};
+
+
+enum QuestionType {
+	QUESTION_TYPE_CHECKBOX,
+	QUESTION_TYPE_RADIOS,
+	QUESTION_TYPE_SELECT_TEXT,
+	QUESTION_TYPE_SELECT_NUMERIC,
+	QUESTION_TYPE_SELECT_DATE,
+	QUESTION_TYPE_TEXT,
+	QUESTION_TYPE_IMAGE,
+	QUESTION_TYPE_DOCUMENT,
+	QUESTION_TYPE_LONGTEXT,
+	QUESTION_TYPE_NUMERIC,
+	QUESTION_TYPE_PASSWORD,
+	QUESTION_TYPE_DATE,
 };
 enum ExpressionType {
 	ADDITION,

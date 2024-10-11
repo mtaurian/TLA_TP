@@ -26,6 +26,7 @@
 	Date * date;
 	LibFunction * libFunction;
 	Condition * condition;
+	QuestionType* questionType;
 }
 
 /**
@@ -198,8 +199,9 @@
 %type <options> options
 %type <listOptions> listOptions
 %type <optShowIf> optShowIf
-%type <typeDefinition> typeDefinition
 */
+%type <questionType> questionType
+
 /**
  * Precedence and associativity.
  *
@@ -320,7 +322,7 @@ questionSp: DEFAULT STRING
 	| DEFAULT FLOAT
 	| DEFAULT INTEGER
 	| TITLE STRING
-	| typeDefinition
+	| questionType
 	| HELP STRING					
 	| options
 	| PLACE_HOLDER STRING
@@ -443,20 +445,18 @@ optShowIf : showIfCall
 	| showIfOnScope
 	| %empty
 	;
-
-typeDefinition : TYPE CHECKBOX
-	| TYPE RADIOS
-	| TYPE SELECT TEXT
-	| TYPE SELECT NUMERIC
-	| TYPE SELECT DATE
-	| TYPE TEXT
-	| TYPE IMAGE
-	| TYPE DOCUMENT
-	| TYPE LONGTEXT
-	| TYPE NUMERIC
-	| TYPE PASSWORD
-	| TYPE DATE
-	;
+questionType : TYPE CHECKBOX   	{return QUESTION_TYPE_CHECBOX;}
+	| TYPE RADIOS					{return QUESTION_TYPE_RADIOS;}
+	| TYPE SELECT TEXT				{return QUESTION_TYPE_SELECT_TEXT;}
+	| TYPE SELECT NUMERIC			{return QUESTION_TYPE_SELECT_NUMERIC;}
+	| TYPE SELECT DATE				{return QUESTION_TYPE_SELECT_DATE;}
+	| TYPE TEXT						{return QUESTION_TYPE_TEXT;}
+	| TYPE IMAGE					{return QUESTION_TYPE_IMAGE;}
+	| TYPE DOCUMENT					{return QUESTION_TYPE_DOCUMENT;}
+	| TYPE LONGTEXT					{return QUESTION_TYPE_LONGTEXT;}
+	| TYPE NUMERIC					{return QUESTION_TYPE_NUMERIC;}
+	| TYPE PASSWORD					{return QUESTION_TYPE_PASSWORD;}
+	| TYPE DATE						{return QUESTION_TYPE_DATE;}
 
 /*
 program: expression													{ $$ = ExpressionProgramSemanticAction(currentCompilerState(), $1); }
