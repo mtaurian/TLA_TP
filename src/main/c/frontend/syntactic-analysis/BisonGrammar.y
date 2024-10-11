@@ -260,10 +260,6 @@ glitch : GLITCH OPEN_BRACES glitchFg CLOSE_BRACES
 	;
 glError : GL_ERROR OPEN_BRACES glErrorFg CLOSE_BRACES 
 	;
-do : DO OPEN_BRACES doFg CLOSE_BRACES 
-	;
-task : TASK OPEN_BRACES CLOSE_BRACES  // todo
-	;
 
 stepFg : stepSp
 	| getaway
@@ -338,7 +334,6 @@ questionSubFg : showIfOnScope
 	| showIfCall
 	| showIfDeclaration
 	| glitch
-	| do
 	;
 
 glitchFg : glError glitchFg
@@ -347,10 +342,6 @@ glitchFg : glError glitchFg
 
 glErrorFg : MESSAGE STRING showIfCall
 	| MESSAGE STRING showIfOnScope
-	;
-
-doFg : task doFg
-	| task
 	;
 
 showIfDeclaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES 		{$$ = ShowIfDeclarationSemanticAction($2, $4);}

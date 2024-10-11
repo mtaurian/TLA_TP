@@ -35,8 +35,6 @@
 "@Error"                            {return MainFragmentLexemeAction(createLexicalAnalyzerContext(), GL_ERROR);}
 "@GetAwayCar"                       {return MainFragmentLexemeAction(createLexicalAnalyzerContext(), GETAWAYCAR);}
 "@ShowIf"                           {return MainFragmentLexemeAction(createLexicalAnalyzerContext(), SHOWIF);}
-"@Do"                               {return MainFragmentLexemeAction(createLexicalAnalyzerContext(), DO);}
-"@Task"                             {return MainFragmentLexemeAction(createLexicalAnalyzerContext(), TASK);}
 
 "#Closure"                          {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), CLOSURE);}
 "#SubmitBtnText"                    {return SpecifiersLexemeAction(createLexicalAnalyzerContext(), SUBMIT_TEXT);}
