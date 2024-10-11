@@ -496,6 +496,7 @@ void releaseBasicProp(BasicProp * basicProp);
 void releaseLibFunction(LibFunction * libFunction);
 void releaseDate(Date * date);
 void releaseSection(SectionFg * section);
+void releaseSectionSp(SectionSp * sectionSp);
 void releaseSectionSubFg(SectionSubFg * sectionSubFg);
 void releaseShowIfCall(ShowIfCall * showIfCall);
 void releaseShowIfDeclaration(ShowIfDeclaration * showIfDeclaration);

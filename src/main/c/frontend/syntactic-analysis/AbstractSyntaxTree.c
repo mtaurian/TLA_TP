@@ -129,6 +129,14 @@ void releaseSectionSubFg(SectionSubFg * sectionSubFg){
 	}
 }
 
+void releaseSectionSp(SectionSp * sectionSp){
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
+	if (sectionSp != NULL){
+		free(sectionSp->string);
+		free(sectionSp);
+	}
+}
+
 void releaseSection(SectionFg * section){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (section != NULL){
