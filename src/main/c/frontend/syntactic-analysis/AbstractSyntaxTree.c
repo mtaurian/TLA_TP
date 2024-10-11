@@ -17,8 +17,14 @@ void shutdownAbstractSyntaxTreeModule() {
 /** PUBLIC FUNCTIONS */
 void releaseQuestionSp(QuestionSp * questionSp){
 	if (questionSp != NULL){
-		free(questionSp->v_string);
-		releaseListOptions(questionSp->options);
+		switch (questionSp->type){
+			case QUESTION_SP_DEFAULT_STRING:
+			case QUESTION_SP_TITLE:
+			case QUESTION_SP_HELP:
+			case QUESTION_SP_PLACE_HOLDER: free(questionSp->v_string);	break;
+			case QUESTION_SP_OPTIONS: releaseListOptions(questionSp->options); break;
+			default:break;
+		}
 		free(questionSp);
 	}
 }
@@ -26,8 +32,11 @@ void releaseQuestionSp(QuestionSp * questionSp){
 void releaseGlitchErrorFg(GlErrorFg * glErrorFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (glErrorFg != NULL){
-		releaseShowIfCall(glErrorFg->showIfCall);
-		releaseShowIfOnScope(glErrorFg->showIfOnScope);
+		switch (glErrorFg->showIfType){
+			case SHOW_IF_CALL : releaseShowIfCall(glErrorFg->showIfCall);break;
+			case SHOW_IF_ON_SCOPE :releaseShowIfOnScope(glErrorFg->showIfOnScope);break;
+			default:break;
+		}
 		free(glErrorFg->message);
 		free(glErrorFg);
 	}	
@@ -45,8 +54,11 @@ void releaseGlitchFg(GlitchFg * glitchFg){
 void releaseValue(Value * value){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (value != NULL){
-		releaseDate(value->v_date);
-		free(value->v_string);
+		switch (value->type){
+			case TYPE_STRING : free(value->v_string);break;
+			case TYPE_DATE : releaseDate(value->v_date); break;		
+			default:break;
+		}
 		free(value);
 	}
 }
@@ -54,9 +66,12 @@ void releaseValue(Value * value){
 void releaseListOptions(ListOptions * options){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (options != NULL){
+		switch (options->hasShowIf){
+			case CALL : releaseShowIfCall(options->showIfCall); break;
+			case SCOPE : releaseShowIfOnScope(options->showIfOnScope);break;		
+			default:break;
+		}
 		releaseValue(options->value);
-		releaseShowIfCall(options->showIfCall);
-		releaseShowIfOnScope(options->showIfOnScope);
 		releaseListOptions(options->nextOptions);
 		free(options);
 	}
@@ -65,11 +80,13 @@ void releaseListOptions(ListOptions * options){
 void releaseQuestionSubFg(QuestionSubFg * questionSubFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if(questionSubFg != NULL){
-		releaseShowIfCall(questionSubFg->showIfCall);
-		releaseShowIfDeclaration(questionSubFg->showIfDeclaration);
-		releaseShowIfOnScope(questionSubFg->showIfOnScope);
-		releaseGlitchFg(questionSubFg->glitchFg);
-		releaseListOptions(questionSubFg->options);
+		switch (questionSubFg->type){
+			case QUESTION_SUB_FG_SHOW_IF_CALL : releaseShowIfCall(questionSubFg->showIfCall);break;
+			case QUESTION_SUB_FG_SHOW_IF_ON_SCOPE : releaseShowIfOnScope(questionSubFg->showIfOnScope);break;
+			case QUESTION_SUB_FG_SHOW_IF_DECLARATION : releaseShowIfDeclaration(questionSubFg->showIfDeclaration);break;
+			case QUESTION_SUB_FG_GLITCH : releaseGlitchFg(questionSubFg->glitchFg);break;
+			default:break;
+		}
 		free(questionSubFg);
 	}
 }
@@ -77,8 +94,11 @@ void releaseQuestionSubFg(QuestionSubFg * questionSubFg){
 void releaseQuestionFg(QuestionFg * questionFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (questionFg != NULL){
-		releaseQuestionSubFg(questionFg->questionSubFg);
-		releaseQuestionSp(questionFg->questionSp);
+		switch(questionFg->type){
+			case QUESTION_FG_SUB_FG : releaseQuestionSubFg(questionFg->questionSubFg);break;
+			case QUESTION_FG_SP : releaseQuestionSp(questionFg->questionSp);break;
+			default:break;
+		}
 		releaseQuestionFg(questionFg->nextQuestionSubFgsOrSps);
 		free(questionFg);
 	}
@@ -121,10 +141,13 @@ void releaseShowIfCall(ShowIfCall * showIfCall){
 void releaseSectionSubFg(SectionSubFg * sectionSubFg){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (sectionSubFg != NULL){
-		releaseShowIfCall(sectionSubFg->showIfCall);
-		releaseShowIfDeclaration(sectionSubFg->showIfDeclaration);
-		releaseShowIfOnScope(sectionSubFg->showIfOnScope);
-		releaseQuestion(sectionSubFg->question);
+		switch (sectionSubFg->type){
+			case SECTION_SUB_FG_SHOW_IF_CALL: releaseShowIfCall(sectionSubFg->showIfCall);break;
+			case SECTION_SUB_FG_SHOW_IF_ON_SCOPE : releaseShowIfOnScope(sectionSubFg->showIfOnScope);break;
+			case SECTION_SUB_FG_SHOW_IF_DECLARATION : releaseShowIfDeclaration(sectionSubFg->showIfDeclaration);break;
+			case SECTION_SUB_FG_QUESTION : releaseQuestion(sectionSubFg->question);break;
+			default: break;
+		}
 		free(sectionSubFg);
 	}
 }
@@ -140,8 +163,11 @@ void releaseSectionSp(SectionSp * sectionSp){
 void releaseSection(SectionFg * section){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (section != NULL){
-		releaseSectionSubFg(section->sectionSubFg);
-		releaseSectionSp(section->sectionSp);
+		switch (section->type){
+			case SECTION_FG_SUB_FG : releaseSectionSubFg(section->sectionSubFg);break;
+			case SECTION_FG_SP : releaseSectionSp(section->sectionSp); break;
+			default:break;
+		}
 		releaseSection(section->nextSectionSubFgsOrSps);
 		free(section);
 	}
@@ -157,9 +183,12 @@ void releaseDate(Date * date){
 void releaseLibFunction(LibFunction * libFunction){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (libFunction != NULL){
-		releaseDate(libFunction->v_date);
-		free(libFunction->v_string);
-		free(libFunction->v_id);
+		switch (libFunction->parameterType){
+			case TYPE_STRING: free(libFunction->v_string);break;
+			case TYPE_ID: free(libFunction->v_id);break;
+			case TYPE_DATE: releaseDate(libFunction->v_date);break;
+			default:break;
+		}
 		free(libFunction);
 	}
 }
@@ -167,8 +196,11 @@ void releaseLibFunction(LibFunction * libFunction){
 void releaseBasicProp(BasicProp * basicProp){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (basicProp != NULL){
-		releaseLibFunction(basicProp->function);
-		free(basicProp->id);
+		switch (basicProp->type){
+			case BASIC_PROP_TYPE_BOOLEAN:break;
+			case BASIC_PROP_TYPE_FUNCTION:releaseLibFunction(basicProp->function); free(basicProp->id);break;
+			default:break;
+		}
 		free(basicProp);
 	}
 }
@@ -176,10 +208,12 @@ void releaseBasicProp(BasicProp * basicProp){
 void releaseCondition(Condition * condition){
 	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (condition != NULL){
-		releaseBasicProp(condition->basicProp);
-		releaseCondition(condition->leftCondition);
-		releaseCondition(condition->rightCondition);
-		releaseCondition(condition->condition);
+		switch (condition->type){
+		case CONDITION_TYPE_BASIC: releaseBasicProp(condition->basicProp); break;
+		case CONDITION_TYPE_NOT : case CONDITION_TYPE_SINGLE : releaseCondition(condition->condition);break;
+		case CONDITION_TYPE_AND : case CONDITION_TYPE_OR : releaseCondition(condition->leftCondition); releaseCondition(condition->rightCondition);break;
+		default:break;
+		}
 		free(condition);
 	}
 }

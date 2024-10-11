@@ -358,7 +358,6 @@ struct QuestionSubFg{
 		ShowIfDeclaration * showIfDeclaration;
 		ShowIfOnScope * showIfOnScope;
 		GlitchFg * glitchFg;
-		ListOptions * options;
 	};
 	QuestionSubFgType type;
 };
