@@ -234,7 +234,7 @@ struct StepFg{
 		StepSp * stepSp;
 		Transports * getaway;
 		SectionFg * section;
-		QuestionFg * question;
+		Question * question;
 	};
 	StepFgType type;
 	StepFg * nextStepFg;
