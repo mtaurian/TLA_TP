@@ -442,34 +442,6 @@ struct GlitchFg  {
 	GlitchFg * nextErrors; 
 };
 
-struct Factor {
-	union {
-		Constant * constant;
-		Expression * expression;
-	};
-	FactorType type;
-};
-
-struct Constant {
-	int value;
-};
-
-struct Expression {
-	union {
-		Factor * factor;
-		struct {
-			Expression * leftExpression;
-			Expression * rightExpression;
-		};
-	};
-	ExpressionType type;
-};
-
-
-struct Program {
-	Expression * expression;
-};
-
 struct Question {
 	char * id;
 	QuestionFg * questionFg;
