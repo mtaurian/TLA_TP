@@ -445,7 +445,7 @@ optShowIf : showIfCall
 	| showIfOnScope
 	| %empty
 	;
-questionType : TYPE CHECKBOX   	{return QUESTION_TYPE_CHECBOX;}
+questionType : TYPE CHECKBOX   	{return QUESTION_TYPE_CHECKBOX;}
 	| TYPE RADIOS					{return QUESTION_TYPE_RADIOS;}
 	| TYPE SELECT TEXT				{return QUESTION_TYPE_SELECT_TEXT;}
 	| TYPE SELECT NUMERIC			{return QUESTION_TYPE_SELECT_NUMERIC;}
