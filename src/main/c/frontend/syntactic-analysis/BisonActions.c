@@ -202,6 +202,59 @@ ShowIfOnScope * ShowIfOnScopeSemanticAction(Condition * the_condition){
 }
 
 
+ListOptions * ListOptionsShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->showIfCall=the_showIfCall;
+		listOptions->hasShowIf=CALL;
+		return listOptions;
+
+}
+ListOptions * ListOptionsShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->showIfOnScope=the_showIfOnScope;
+		listOptions->hasShowIf=SCOPE;
+		return listOptions;
+}
+ListOptions * ListOptionsSemanticAction(Value * the_value){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->hasShowIf=NONE;
+		return listOptions;
+}
+
+ListOptions * ListOptionsExtendedShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall,ListOptions* the_nextOptions){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->showIfCall=the_showIfCall;
+		listOptions->nextOptions=the_nextOptions;
+		listOptions->hasShowIf=CALL;
+		return listOptions;
+}
+ListOptions * ListOptionsExtendedShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope, ListOptions * the_nextOptions){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->showIfOnScope=the_showIfOnScope;
+		listOptions->nextOptions=the_nextOptions;
+		listOptions->hasShowIf=SCOPE;
+		return listOptions;
+}
+ListOptions * ListOptionsExtendedSemanticAction(Value * the_value,ListOptions * the_nextOptions){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+		listOptions->value=the_value;
+		listOptions->nextOptions=the_nextOptions;
+		listOptions->hasShowIf=NONE;
+		return listOptions;
+}
+
+
 
 
 

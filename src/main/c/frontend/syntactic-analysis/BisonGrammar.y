@@ -30,6 +30,7 @@
 	ShowIfDeclaration * showIfDeclaration;
 	ShowIfCall * showIfCall;
 	ShowIfOnScope * showIfOnScope;
+	ListOptions * listOptions;
 }
 
 /**
@@ -195,13 +196,13 @@
 %type <libFunction> libFunction 
 %type <date> date
 %type <value> value
-%type <value> option
 
 
-/*
-%type <options> options
+
+%type <listOptions> options
+
 %type <listOptions> listOptions
-*/
+
 %type <questionType> questionType
 
 /**
@@ -432,18 +433,18 @@ value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
 	;
 
 
-options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS
+options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS			{$$ = $3;}
 	;
 
-listOptions: option showIfCall
-	| option showIfOnScope
-	| option
-	| option showIfCall COMMA listOptions
-	| option showIfOnScope COMMA listOptions
-	| option COMMA listOptions
+listOptions: value showIfCall						{$$ = ListOptionsShowIfCallSemanticAction($1,$2);}
+	| value showIfOnScope							{$$ = ListOptionsShowIfOnScopeSemanticAction($1,$2);}
+	| value											{$$ = ListOptionsSemanticAction($1);}
+	| value showIfCall COMMA listOptions      		{$$ = ListOptionsExtendedShowIfCallSemanticAction($1,$2,$4);}
+	| value showIfOnScope COMMA listOptions			{$$ = ListOptionsExtendedShowIfOnScopeSemanticAction($1,$2,$4);}
+	| value COMMA listOptions						{$$ = ListOptionsExtendedSemanticAction($1,$3);}
 	;
 
-option : value					//default action is OK
+
 	;
 
 questionType : TYPE CHECKBOX   		{$$ = QUESTION_TYPE_CHECKBOX;}

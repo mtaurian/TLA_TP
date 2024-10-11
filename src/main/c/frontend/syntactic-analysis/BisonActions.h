@@ -44,4 +44,11 @@ Condition * ConditionParenthesisSemanticAction(Condition * the_condition);
 ShowIfDeclaration * ShowIfDeclarationSemanticAction(char * the_id, Condition * the_condition);
 ShowIfCall * ShowIfCallSemanticAction(char * the_conditionId);
 ShowIfOnScope * ShowIfOnScopeSemanticAction(Condition * the_condition);
+
+ListOptions * ListOptionsShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall);
+ListOptions * ListOptionsShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope);
+ListOptions * ListOptionsSemanticAction(Value * the_value);
+ListOptions * ListOptionsExtendedShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall,ListOptions* the_nextOptions);
+ListOptions * ListOptionsExtendedShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope, ListOptions * the_nextOptions);
+ListOptions * ListOptionsExtendedSemanticAction(Value * the_value,ListOptions * the_nextOptions);
 #endif

@@ -21,6 +21,7 @@ typedef enum LibFunctionType LibFunctionType;
 typedef enum BasicPropType BasicPropType;
 typedef enum ConditionType ConditionType;
 typedef enum QuestionType QuestionType;
+typedef enum ListOptionsHasShowIf ListOptionsHasShowIf;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -35,6 +36,7 @@ typedef struct BasicProp BasicProp;
 typedef struct ShowIfDeclaration ShowIfDeclaration;
 typedef struct ShowIfCall ShowIfCall;
 typedef struct ShowIfOnScope ShowIfOnScope;
+typedef struct ListOptions ListOptions;
 
 typedef char Boolean;
 
@@ -123,6 +125,12 @@ enum LibFunctionType {
 	LIB_FUNCTION_IS_WEEKEND
 };
 
+enum ListOptionsHasShowIf{
+	CALL,
+	SCOPE,
+	NONE
+};
+
 struct ShowIfOnScope {
 	Condition * condition;
 };
@@ -134,6 +142,17 @@ struct ShowIfCall {
 struct ShowIfDeclaration {
 	Condition * condtion;
 	char * id;
+};
+
+struct ListOptions {
+	
+	Value * value;
+	union{
+		ShowIfCall * showIfCall;
+		ShowIfOnScope * showIfOnScope;
+	};
+	ListOptions * nextOptions;
+	ListOptionsHasShowIf hasShowIf;
 };
 
 struct BasicProp {
