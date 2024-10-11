@@ -31,6 +31,7 @@ typedef enum SectionSubFgType SectionSubFgType;
 typedef enum SectionFgType SectionFgType;
 typedef enum ThemeSp ThemeSp;
 typedef enum StepSpType StepSpType;
+typedef enum StepFgType StepFgType;
 
 
 typedef struct Constant Constant;
@@ -58,6 +59,7 @@ typedef struct SectionFg SectionFg;
 typedef struct StepSp StepSp;
 typedef struct Transport Transport;
 typedef struct Transports Transports;
+typedef struct StepFg StepFg;
 
 
 typedef char Boolean;
@@ -219,6 +221,25 @@ enum StepSpType {
 	STEP_SP_DESCRIPTION
 };
 
+enum StepFgType {
+	STEP_FG_TYPE_STEP_SP,
+	STEP_FG_TYPE_GETAWAY,
+	STEP_FG_TYPE_SECTION,
+	STEP_FG_TYPE_QUESTION,
+};
+
+
+struct StepFg{
+	union{
+		StepSp * stepSp;
+		Transports * getaway;
+		SectionFg * section;
+		QuestionFg * question;
+	};
+	StepFgType type;
+	StepFg * nextStepFg;
+};
+
 struct Transports{
 	Transport * transport;
 	Transports * nextTransports;
@@ -378,7 +399,8 @@ struct Program {
 };
 
 struct Question {
-	int * placeholder;
+	char * id;
+	QuestionFg * questionFg;
 };
 
 struct Date {

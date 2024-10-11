@@ -75,6 +75,9 @@ QuestionFg * QuestionFgSpSemanticAction(QuestionSp * the_questionSp);
 QuestionFg * QuestionFgExtendedSubFgSemanticAction(QuestionSubFg * the_questionSubFg,QuestionFg * the_nextQuestionSubFgsOrSps);
 QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,QuestionFg * the_nextQuestionSubFgsOrSps);
 
+
+Question * QuestionSemanticAction(char * the_id, QuestionFg * the_questionFg);
+
 SectionSp * SectionSpSemanticAction(SectionSpType the_type, char * the_string);
 
 SectionSubFg * SectionSubFgShowIfCallSemanticAction(ShowIfCall * the_showIfCall);
@@ -95,4 +98,13 @@ Transport * TransportSemanticAction(Condition * the_condition, char * the_stepId
 Transports * TransportsSemanticAction(Transport * the_transport);
 Transports * TransportsExtendedSemanticAction(Transport * the_transport, Transports * the_nextTransports);
 
+StepFg * StepFgStepSpSemanticAction(StepSp * the_stepSp);
+StepFg * StepFgGetawaySemanticAction(Transports * the_getaway);
+StepFg * StepFgSectionSemanticAction(SectionFg * the_section);
+StepFg * StepFgQuestionSemanticAction(Question * the_question);
+
+StepFg * StepFgStepSpExtendedSemanticAction(StepSp * the_stepSp,StepFg * the_nextStepFG);
+StepFg * StepFgGetawayExtendedSemanticAction(Transports * the_getaway,StepFg * the_nextStepFG);
+StepFg * StepFgSectionExtendedSemanticAction(SectionFg * the_section,StepFg * the_nextStepFG);
+StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * the_nextStepFG);
 #endif

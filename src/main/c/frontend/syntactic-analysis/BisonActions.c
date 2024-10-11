@@ -390,6 +390,15 @@ QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,Ques
 	return questionFg;
 }
 
+
+Question * QuestionSemanticAction(char * the_id, QuestionFg * the_questionFg){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Question * question=calloc(1,sizeof(Question));
+	question->id-the_id;
+	question->questionFg=the_questionFg;
+	return question;
+}
+
 SectionSp * SectionSpSemanticAction(SectionSpType the_type, char * the_string){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	SectionSp * sectionSp = calloc(1, sizeof(SectionSp));
@@ -495,6 +504,68 @@ Transports * TransportsExtendedSemanticAction(Transport * the_transport, Transpo
 	transports->nextTransports = the_nextTransports;
 	return transports;
 }
+
+StepFg * StepFgStepSpSemanticAction(StepSp * the_stepSp){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->stepSp=the_stepSp;
+		stepFg->type=STEP_FG_TYPE_STEP_SP;
+		return stepFg;
+}
+StepFg * StepFgGetawaySemanticAction(Transports * the_getaway){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->getaway=the_getaway;
+		stepFg->type=STEP_FG_TYPE_GETAWAY;
+		return stepFg;
+}
+StepFg * StepFgSectionSemanticAction(SectionFg * the_section){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->section=the_section;
+		stepFg->type=STEP_FG_TYPE_SECTION;
+		return stepFg;
+}
+StepFg * StepFgQuestionSemanticAction(Question * the_question){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->question=the_question;
+		stepFg->type=STEP_FG_TYPE_QUESTION;
+		return stepFg;
+}
+
+StepFg * StepFgStepSpExtendedSemanticAction(StepSp * the_stepSp,StepFg * the_nextStepFG){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->stepSp=the_stepSp;
+		stepFg->type=STEP_FG_TYPE_STEP_SP;
+		stepFg->nextStepFg=the_nextStepFG;
+		return stepFg;
+}
+StepFg * StepFgGetawayExtendedSemanticAction(Transports * the_getaway,StepFg * the_nextStepFG){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->getaway=the_getaway;
+		stepFg->type=STEP_FG_TYPE_GETAWAY;
+		return stepFg;
+}
+StepFg * StepFgSectionExtendedSemanticAction(SectionFg * the_section,StepFg * the_nextStepFG){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->section=the_section;
+		stepFg->type=STEP_FG_TYPE_SECTION;
+		stepFg->nextStepFg=the_nextStepFG;
+		return stepFg;
+}
+StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * the_nextStepFG){
+		_logSyntacticAnalyzerAction(__FUNCTION__);
+		StepFg * stepFg=calloc(1,sizeof(StepFg));
+		stepFg->question=the_question;
+		stepFg->type=STEP_FG_TYPE_QUESTION;
+		stepFg->nextStepFg=the_nextStepFG;
+		return stepFg;
+}
+
 
 
 

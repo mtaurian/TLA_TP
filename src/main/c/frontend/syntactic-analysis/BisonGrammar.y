@@ -40,6 +40,7 @@
 	SectionSubFg * sectionSubFg;
 	SectionFg * sectionFg;
 	StepSp * stepSp;
+	StepFg * stepFg;
 	ThemeSp themeSp;
 	Transport * transport;
 	Transports * transports;
@@ -167,11 +168,11 @@
 %type <formSubFg> formSubFg
 %type <config> config
 %type <setp> step
-%type <stepFg> stepFg
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
 */
 
+%type <stepFg> stepFg
 %type <transports> getaway
 %type <transports> transports
 %type <transport> transport
@@ -181,7 +182,7 @@
 %type <sectionFg> sectionFg
 %type <sectionSubFg> sectionSubFg
 %type <sectionSp> sectionSp
-%type <questionFg> question
+%type <question> question
 %type <questionFg> questionFg
 %type <questionSp> questionSp
 %type <questionSubFg> questionSubFg
@@ -240,7 +241,7 @@ form_sp : TITLE STRING
 	| CLOSURE STRING
 	;
 
-question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = $4;}
+question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = QuestionSemanticAction($2,$4);}
 	;									
 config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
@@ -279,14 +280,14 @@ themeSp: DEBUT						{$$= THEME_DEBUT;}
 	| TTPD							{$$= THEME_TTPD;}
 	;
 
-stepFg : stepSp
-	| getaway
-	| section
-	| question
-	| section stepFg
-	| stepSp stepFg
-	| getaway stepFg
-	| question stepFg
+stepFg : stepSp						{$$=StepFgStepSpSemanticAction($1);}
+	| getaway						{$$=StepFgGetawaySemanticAction($1);}
+	| section						{$$=StepFgSectionSemanticAction($1);}
+	| question						{$$=StepFgQuestionSemanticAction($1);}
+	| stepSp stepFg					{$$=StepFgStepSpExtendedSemanticAction($1,$2);}
+	| getaway stepFg				{$$=StepFgGetawayExtendedSemanticAction($1,$2);}
+	| section stepFg				{$$=StepFgSectionExtendedSemanticAction($1,$2);}
+	| question stepFg				{$$=StepFgQuestionExtendedSemanticAction($1,$2);}
 	;
 
 stepSp: TITLE STRING									{$$ = StepSpSemanticAction(STEP_SP_TITLE, $2);}
