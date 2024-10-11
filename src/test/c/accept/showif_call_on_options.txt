@@ -3,5 +3,5 @@
 	#Title "question 1"
 	@ShowIf hidden { FALSE }
 	#Type radios
-	#Options ["opt1", "opt2" showif(hidden), "opt3"] 
+	#Options ["opt1", "opt2" @ShowIf(hidden), "opt3"] 
 }

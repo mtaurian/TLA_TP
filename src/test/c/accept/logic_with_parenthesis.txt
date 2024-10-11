@@ -1,5 +1,5 @@
 #Title "logic with parenthesis"
-@question q1 {
+@Question q1 {
 	#Title "question 1"
 	#Type text
 }
