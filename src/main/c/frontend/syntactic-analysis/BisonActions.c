@@ -128,6 +128,7 @@ Condition * ConditionBooleanSemanticAction(Types the_type){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_BASIC;
+	condition->basicProp = calloc(1, sizeof(BasicProp));
 	condition->basicProp->truthValue = the_type == TYPE_TRUE ? 1 : 0;
 	condition->basicProp->type = BASIC_PROP_TYPE_BOOLEAN;
 	return condition;
@@ -137,6 +138,7 @@ Condition * ConditionFunctionSemanticAction( char * the_id, LibFunction * the_fu
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_BASIC;
+	condition->basicProp = calloc(1, sizeof(BasicProp));
 	condition->basicProp->function = the_function;
 	condition->basicProp->id = the_id;
 	condition->basicProp->type = BASIC_PROP_TYPE_FUNCTION;
