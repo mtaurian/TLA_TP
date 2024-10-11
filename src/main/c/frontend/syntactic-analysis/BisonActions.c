@@ -123,6 +123,60 @@ Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 	return date;
 }
 
+
+Condition * ConditionBooleanSemanticAction(Types the_type){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_BASIC;
+	condition->basicProp->truthValue = the_type == TYPE_TRUE ? 1 : 0;
+	condition->basicProp->type = BASIC_PROP_TYPE_BOOLEAN;
+	return condition;
+}
+
+Condition * ConditionFunctionSemanticAction( char * the_id, LibFunction * the_function){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_BASIC;
+	condition->basicProp->function = the_function;
+	condition->basicProp->id = the_id;
+	condition->basicProp->type = BASIC_PROP_TYPE_FUNCTION;
+	return condition;
+}
+
+Condition * ConditionAndSemanticAction(Condition * the_left, Condition * the_right){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_AND;
+	condition->leftCondition = the_left;
+	condition->leftCondition = the_right;
+	return condition;
+}
+
+Condition * ConditionOrSemanticAction(Condition * the_left, Condition * the_right){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_OR;
+	condition->leftCondition = the_left;
+	condition->leftCondition = the_right;
+	return condition;
+}
+
+Condition * ConditionNotSemanticAction(Condition * the_condition){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_NOT;
+	condition->condition = the_condition;
+	return condition;
+}
+
+Condition * ConditionParenthesisSemanticAction(Condition * the_condition){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Condition * condition = calloc(1, sizeof(Condition));
+	condition->type = CONDITION_TYPE_SINGLE;
+	condition->condition = the_condition;
+	return condition;
+}
+
 Constant * IntegerConstantSemanticAction(const int value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Constant * constant = calloc(1, sizeof(Constant));

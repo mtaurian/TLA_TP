@@ -35,6 +35,10 @@ LibFunction * LibFunctionStringSemanticAction(LibFunctionType the_libFunctionTyp
 LibFunction * LibFunctionDateSemanticAction(LibFunctionType the_libFunctionType,Date* the_param);
 LibFunction * LibFunctionIdSemanticAction(LibFunctionType the_libFunctionType,char * the_param);
 LibFunction * LibFunctionNoneSemanticAction(LibFunctionType the_libFunctionType);
-
-
+Condition * ConditionBooleanSemanticAction(Types the_type);
+Condition * ConditionFunctionSemanticAction( char * the_id, LibFunction * the_function);
+Condition * ConditionAndSemanticAction(Condition * the_left, Condition * the_right);
+Condition * ConditionOrSemanticAction(Condition * the_left, Condition * the_right);
+Condition * ConditionNotSemanticAction(Condition * the_condition);
+Condition * ConditionParenthesisSemanticAction(Condition * the_condition);
 #endif

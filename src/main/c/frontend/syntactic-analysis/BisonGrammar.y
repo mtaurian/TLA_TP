@@ -25,6 +25,7 @@
 	Value * value;
 	Date * date;
 	LibFunction * libFunction;
+	Condition * condition;
 }
 
 /**
@@ -87,7 +88,6 @@
 %token <token> IS_DIFFERENT_FROM
 %token <token> IS_MULTIPLE_OF
 %token <token> IS_DIVISOR_OF
-%token <token> IS_IN_OPTIONS
 %token <token> IS_TRUE
 %token <token> IS_FALSE
 %token <token> MATH_VALID
@@ -186,8 +186,8 @@
 %type <showIfDeclaration> showIfDeclaration
 %type <showIfCall> showIfCall
 %type <showIfOnScope> showIfOnScope
-%type <condition> condition
 */
+%type <condition> condition
 %type <libFunction> libFunction 
 %type <date> date
 %type <value> value
@@ -358,16 +358,16 @@ showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
 showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
 	;
 
-condition:TRUE
-	| FALSE 
-	| ID libFunction
-	| condition AND condition
-	| condition OR condition
-	| NOT condition 
-	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS
+condition: TRUE												{$$ = ConditionBooleanSemanticAction(TYPE_TRUE);}
+	| FALSE 												{$$ = ConditionBooleanSemanticAction(TYPE_FALSE);}
+	| ID libFunction										{$$ = ConditionFunctionSemanticAction($1, $2);}
+	| condition AND condition								{$$ = ConditionAndSemanticAction($1, $3);}
+	| condition OR condition								{$$ = ConditionOrSemanticAction($1, $3);}
+	| NOT condition 										{$$ = ConditionNotSemanticAction($2);}
+	| OPEN_PARENTHESIS condition CLOSE_PARENTHESIS			{$$ = ConditionParenthesisSemanticAction($2);}
 	;
 
-libFunction:IS_LOWER_THAN INTEGER 			 	{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
+libFunction: IS_LOWER_THAN INTEGER 			 	{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
 	| IS_LOWER_THAN FLOAT      					{$$ = LibFunctionFloatSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
 	| IS_LOWER_THAN ID							{$$ = LibFunctionIdSemanticAction(LIB_FUNCTION_IS_LOWER_THAN,$2);}
 	| IS_GREATER_THAN INTEGER  					{$$ = LibFunctionIntegerSemanticAction(LIB_FUNCTION_IS_GREATER_THAN,$2);}
@@ -427,6 +427,7 @@ value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
 	| STRING					{$$ = ValueStringSemanticAction($1);}
 	| date						{$$ = ValueDateSemanticAction($1);}
 	;
+
 
 options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS
 	;

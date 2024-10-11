@@ -18,7 +18,8 @@ typedef enum ExpressionType ExpressionType;
 typedef enum FactorType FactorType;
 typedef enum Types Types;
 typedef enum LibFunctionType LibFunctionType;  
-
+typedef enum BasicPropType BasicPropType;
+typedef enum ConditionType ConditionType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -28,7 +29,10 @@ typedef struct Question Question;
 typedef struct Value Value;
 typedef struct Date Date;
 typedef struct LibFunction LibFunction;
+typedef struct Condition Condition;
+typedef struct BasicProp BasicProp;
 
+typedef char Boolean;
 
 /**
  * Node types for the Abstract Syntax Tree (AST).
@@ -42,7 +46,9 @@ enum Types {
 	TYPE_ID,
 	TYPE_NONE,
 	TYPE_VALUE,
-	TYPE_NUMBER
+	TYPE_NUMBER,
+	TYPE_TRUE,
+	TYPE_FALSE
 };
 enum ExpressionType {
 	ADDITION,
@@ -55,6 +61,19 @@ enum ExpressionType {
 enum FactorType {
 	CONSTANT,
 	EXPRESSION
+};
+
+enum BasicPropType {
+	BASIC_PROP_TYPE_BOOLEAN,
+	BASIC_PROP_TYPE_FUNCTION
+};
+
+enum ConditionType {
+	CONDITION_TYPE_AND,
+	CONDITION_TYPE_OR,
+	CONDITION_TYPE_NOT,
+	CONDITION_TYPE_SINGLE,
+	CONDITION_TYPE_BASIC
 };
 
 enum LibFunctionType {
@@ -89,6 +108,30 @@ struct Constant {
 	int value;
 };
 
+struct BasicProp {
+	union {
+		Boolean truthValue;
+		struct {
+			char * id;
+			LibFunction * function;
+		};
+	};
+	BasicPropType type;
+};
+
+struct Condition {
+	union {
+		BasicProp * basicProp;
+		struct {
+			Condition * leftCondition;
+			Condition * rightCondition;
+		};
+		Condition * condition;
+	};
+	ConditionType type;
+};
+
+
 struct Factor {
 	union {
 		Constant * constant;
@@ -107,6 +150,7 @@ struct Expression {
 	};
 	ExpressionType type;
 };
+
 
 struct Program {
 	Expression * expression;
