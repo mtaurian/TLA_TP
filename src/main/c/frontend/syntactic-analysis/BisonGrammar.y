@@ -41,6 +41,7 @@
 	SectionFg * sectionFg;
 	StepSp * stepSp;
 	StepFg * stepFg;
+	Step * step;
 	ThemeSp themeSp;
 	Transport * transport;
 	Transports * transports;
@@ -167,11 +168,11 @@
 %type <formFg> formFg
 %type <formSubFg> formSubFg
 %type <config> config
-%type <setp> step
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
 */
 
+%type <step> step
 %type <stepFg> stepFg
 %type <transports> getaway
 %type <transports> transports
@@ -247,7 +248,7 @@ config: CONFIG OPEN_BRACES formConfigFg CLOSE_BRACES
 	;
 section: SECTION OPEN_BRACES sectionFg CLOSE_BRACES								{$$ = $3;}
 	;
-step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES
+step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES									{$$ = StepSemanticAction($1,$2);}
 	;
 getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES						{$$ = $3;}
 	;

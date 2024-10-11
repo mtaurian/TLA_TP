@@ -107,4 +107,6 @@ StepFg * StepFgStepSpExtendedSemanticAction(StepSp * the_stepSp,StepFg * the_nex
 StepFg * StepFgGetawayExtendedSemanticAction(Transports * the_getaway,StepFg * the_nextStepFG);
 StepFg * StepFgSectionExtendedSemanticAction(SectionFg * the_section,StepFg * the_nextStepFG);
 StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * the_nextStepFG);
+
+Step * StepSemanticAction(char * the_id,StepFg * the_stepFg);
 #endif

@@ -568,6 +568,16 @@ StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * t
 
 
 
+Step * StepSemanticAction(char * the_id, StepFg * the_stepFg){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	Step * step=calloc(1,sizeof(Step));
+	step->id-the_id;
+	step->stepFg=the_stepFg;
+	return step;
+}
+
+
+
 
 
 
