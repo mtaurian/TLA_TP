@@ -31,6 +31,8 @@
 	ShowIfCall * showIfCall;
 	ShowIfOnScope * showIfOnScope;
 	ListOptions * listOptions;
+	GlErrorFg * glErrorFg;
+	GlitchFg * glitchFg;
 }
 
 /**
@@ -62,8 +64,6 @@
 %token <token> GL_ERROR
 %token <token> GETAWAYCAR
 %token <token> SHOWIF
-%token <token> DO
-%token <token> TASK
 %token <token> CLOSURE
 %token <token> SUBMIT_TEXT
 %token <token> SAFE_AND_SOUND
@@ -169,10 +169,6 @@
 %type <getaway> getaway
 %type <transport> transport
 %type <transports> transports
-%type <glitch> glitch
-%type <glError> glError
-%type <do> do
-%type <task> task
 %type <stepFg> stepFg
 %type <stepSp> stepSp
 %type <formConfigFg> formConfigFg
@@ -184,11 +180,12 @@
 %type <questionFg> questionFg
 %type <questionSp> questionSp
 %type <questionSubFg> questionSubFg
-%type <glitchFg> glitchFg
-%type <glErrorFg> glErrorFg
-%type <doFg> doFg
 */
 
+%type <glitchFg> glitch
+%type <glitchFg> glitchFg
+%type <glErrorFg> glError
+%type <glErrorFg> glErrorFg
 %type <showIfOnScope> showIfOnScope
 %type <showIfCall> showIfCall
 %type <showIfDeclaration> showIfDeclaration
@@ -255,10 +252,6 @@ transport : WHEN condition GOTO ID
 	;
 transports : transport
 	| transport transports
-	;
-glitch : GLITCH OPEN_BRACES glitchFg CLOSE_BRACES 
-	;
-glError : GL_ERROR OPEN_BRACES glErrorFg CLOSE_BRACES 
 	;
 
 stepFg : stepSp
@@ -336,12 +329,17 @@ questionSubFg : showIfOnScope
 	| glitch
 	;
 
-glitchFg : glError glitchFg
-	| glError
+glitch : GLITCH OPEN_BRACES glitchFg CLOSE_BRACES 		{$$ = $3;}
+	;
+glError : GL_ERROR OPEN_BRACES glErrorFg CLOSE_BRACES 	{$$ = $3;}
 	;
 
-glErrorFg : MESSAGE STRING showIfCall
-	| MESSAGE STRING showIfOnScope
+glitchFg : glError glitchFg								{$$ = GlitchFgExtendedSemanticAction($1, $2);}
+	| glError											{$$ = GlitchFgSemanticAction($1);}
+	;
+
+glErrorFg : MESSAGE STRING showIfCall									{$$ = GlErrorFgShowIfCallSemanticAction($2, $3);}
+	| MESSAGE STRING showIfOnScope  									{$$ = GlErrorFgShowIfOnScopeSemanticAction($2, $3);}
 	;
 
 showIfDeclaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES 		{$$ = ShowIfDeclarationSemanticAction($2, $4);}

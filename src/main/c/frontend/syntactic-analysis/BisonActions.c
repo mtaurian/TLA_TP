@@ -66,52 +66,52 @@ Value * ValueDateSemanticAction( Date * the_date){
 
 LibFunction * LibFunctionIntegerSemanticAction(LibFunctionType the_libFunctionType,int the_param){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_INTEGER;
-		libFunction->type=the_libFunctionType;
-		libFunction->v_integer=the_param;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_INTEGER;
+	libFunction->type=the_libFunctionType;
+	libFunction->v_integer=the_param;
+	return libFunction;
 
 }
 LibFunction * LibFunctionFloatSemanticAction(LibFunctionType the_libFunctionType,float the_param){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_FLOAT;
-		libFunction->type=the_libFunctionType;
-		libFunction->v_float=the_param;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_FLOAT;
+	libFunction->type=the_libFunctionType;
+	libFunction->v_float=the_param;
+	return libFunction;
 
 }
 LibFunction * LibFunctionStringSemanticAction(LibFunctionType the_libFunctionType,char* the_param){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_STRING;
-		libFunction->type=the_libFunctionType;
-		libFunction->v_string=the_param;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_STRING;
+	libFunction->type=the_libFunctionType;
+	libFunction->v_string=the_param;
+	return libFunction;
 }
 LibFunction * LibFunctionDateSemanticAction(LibFunctionType the_libFunctionType, Date * the_param){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_DATE;
-		libFunction->type=the_libFunctionType;
-		libFunction->v_date=the_param;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_DATE;
+	libFunction->type=the_libFunctionType;
+	libFunction->v_date=the_param;
+	return libFunction;
 }
 LibFunction * LibFunctionIdSemanticAction(LibFunctionType the_libFunctionType,char * the_param){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_ID;
-		libFunction->type=the_libFunctionType;
-		libFunction->v_id=the_param;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_ID;
+	libFunction->type=the_libFunctionType;
+	libFunction->v_id=the_param;
+	return libFunction;
 }
 LibFunction * LibFunctionNoneSemanticAction(LibFunctionType the_libFunctionType){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-		LibFunction *libFunction =calloc(1,sizeof(LibFunction));
-		libFunction->parameterType=TYPE_NONE;
-		libFunction->type=the_libFunctionType;
-		return libFunction;
+	LibFunction *libFunction =calloc(1,sizeof(LibFunction));
+	libFunction->parameterType=TYPE_NONE;
+	libFunction->type=the_libFunctionType;
+	return libFunction;
 }
 
 Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
@@ -203,57 +203,87 @@ ShowIfOnScope * ShowIfOnScopeSemanticAction(Condition * the_condition){
 
 
 ListOptions * ListOptionsShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->showIfCall=the_showIfCall;
-		listOptions->hasShowIf=CALL;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->showIfCall=the_showIfCall;
+	listOptions->hasShowIf=CALL;
+	return listOptions;
 
 }
 ListOptions * ListOptionsShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->showIfOnScope=the_showIfOnScope;
-		listOptions->hasShowIf=SCOPE;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->showIfOnScope=the_showIfOnScope;
+	listOptions->hasShowIf=SCOPE;
+	return listOptions;
 }
 ListOptions * ListOptionsSemanticAction(Value * the_value){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->hasShowIf=NONE;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->hasShowIf=NONE;
+	return listOptions;
 }
 
 ListOptions * ListOptionsExtendedShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall,ListOptions* the_nextOptions){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->showIfCall=the_showIfCall;
-		listOptions->nextOptions=the_nextOptions;
-		listOptions->hasShowIf=CALL;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->showIfCall=the_showIfCall;
+	listOptions->nextOptions=the_nextOptions;
+	listOptions->hasShowIf=CALL;
+	return listOptions;
 }
 ListOptions * ListOptionsExtendedShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope, ListOptions * the_nextOptions){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->showIfOnScope=the_showIfOnScope;
-		listOptions->nextOptions=the_nextOptions;
-		listOptions->hasShowIf=SCOPE;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->showIfOnScope=the_showIfOnScope;
+	listOptions->nextOptions=the_nextOptions;
+	listOptions->hasShowIf=SCOPE;
+	return listOptions;
 }
 ListOptions * ListOptionsExtendedSemanticAction(Value * the_value,ListOptions * the_nextOptions){
-		_logSyntacticAnalyzerAction(__FUNCTION__);
-		ListOptions * listOptions = calloc(1,sizeof(ListOptions));
-		listOptions->value=the_value;
-		listOptions->nextOptions=the_nextOptions;
-		listOptions->hasShowIf=NONE;
-		return listOptions;
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ListOptions * listOptions = calloc(1,sizeof(ListOptions));
+	listOptions->value=the_value;
+	listOptions->nextOptions=the_nextOptions;
+	listOptions->hasShowIf=NONE;
+	return listOptions;
 }
 
+GlErrorFg * GlErrorFgShowIfCallSemanticAction(char * the_message, ShowIfCall * the_showIfCall){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	GlErrorFg * glErrorFg = calloc(1, sizeof(GlErrorFg));
+	glErrorFg->message = the_message;
+	glErrorFg->showIfCall = the_showIfCall;
+	return glErrorFg;
+}
+
+GlErrorFg * GlErrorFgShowIfOnScopeSemanticAction(char * the_message, ShowIfOnScope * the_showIfOnScope){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	GlErrorFg * glErrorFg = calloc(1, sizeof(GlErrorFg));
+	glErrorFg->message = the_message;
+	glErrorFg->showIfOnScope = the_showIfOnScope;
+	return glErrorFg;
+}
+
+GlitchFg * GlitchFgSemanticAction(GlErrorFg * the_error){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	GlitchFg * glitchFg = calloc(1, sizeof(GlitchFg));
+	glitchFg->error = the_error;
+
+	return glitchFg;
+}
+GlitchFg * GlitchFgExtendedSemanticAction(GlErrorFg * the_error, GlitchFg * the_nextErrors ){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	GlitchFg * glitchFg = calloc(1, sizeof(GlitchFg));
+	glitchFg->error = the_error;
+	glitchFg->nextErrorr = the_nextErrors;
+	return glitchFg;
+}
 
 
 

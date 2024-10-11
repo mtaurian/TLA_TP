@@ -22,6 +22,7 @@ typedef enum BasicPropType BasicPropType;
 typedef enum ConditionType ConditionType;
 typedef enum QuestionType QuestionType;
 typedef enum ListOptionsHasShowIf ListOptionsHasShowIf;
+typedef enum ShowIfType ShowIfType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -37,6 +38,9 @@ typedef struct ShowIfDeclaration ShowIfDeclaration;
 typedef struct ShowIfCall ShowIfCall;
 typedef struct ShowIfOnScope ShowIfOnScope;
 typedef struct ListOptions ListOptions;
+typedef struct GlErrorFg GlErrorFg;
+typedef struct GlitchFg GlitchFg;
+
 
 typedef char Boolean;
 
@@ -131,6 +135,12 @@ enum ListOptionsHasShowIf{
 	NONE
 };
 
+enum ShowIfType{
+	SHOW_IF_CALL,
+	SHOW_IF_ON_SCOPE,
+	SHOW_IF_DECLARATION
+};
+
 struct ShowIfOnScope {
 	Condition * condition;
 };
@@ -178,6 +188,19 @@ struct Condition {
 	ConditionType type;
 };
 
+struct GlErrorFg {
+	char * message; 
+	union{
+		ShowIfCall * showIfCall;
+		ShowIfOnScope * showIfOnScope;
+	};
+	ShowIfType showIfType;
+};
+
+struct GlitchFg  {
+	GlErrorFg * error;
+	GlitchFg * nextErrors; 
+};
 
 struct Factor {
 	union {

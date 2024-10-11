@@ -51,4 +51,10 @@ ListOptions * ListOptionsSemanticAction(Value * the_value);
 ListOptions * ListOptionsExtendedShowIfCallSemanticAction(Value * the_value,ShowIfCall * the_showIfCall,ListOptions* the_nextOptions);
 ListOptions * ListOptionsExtendedShowIfOnScopeSemanticAction(Value * the_value,ShowIfOnScope * the_showIfOnScope, ListOptions * the_nextOptions);
 ListOptions * ListOptionsExtendedSemanticAction(Value * the_value,ListOptions * the_nextOptions);
+
+GlErrorFg * GlErrorFgShowIfCallSemanticAction(char * the_message, ShowIfCall * the_showIfCall);
+GlErrorFg * GlErrorFgShowIfOnScopeSemanticAction(char * the_message, ShowIfOnScope * the_showIfOnScope);
+GlitchFg * GlitchFgSemanticAction(GlErrorFg * the_error);
+GlitchFg * GlitchFgExtendedSemanticAction(GlErrorFg * the_error, GlitchFg * the_nextErrors );
+
 #endif
