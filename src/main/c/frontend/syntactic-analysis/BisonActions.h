@@ -41,4 +41,7 @@ Condition * ConditionAndSemanticAction(Condition * the_left, Condition * the_rig
 Condition * ConditionOrSemanticAction(Condition * the_left, Condition * the_right);
 Condition * ConditionNotSemanticAction(Condition * the_condition);
 Condition * ConditionParenthesisSemanticAction(Condition * the_condition);
+ShowIfDeclaration * ShowIfDeclarationSemanticAction(char * the_id, Condition * the_condition);
+ShowIfCall * ShowIfCallSemanticAction(char * the_conditionId);
+ShowIfOnScope * ShowIfOnScopeSemanticAction(Condition * the_condition);
 #endif

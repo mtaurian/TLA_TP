@@ -32,6 +32,9 @@ typedef struct Date Date;
 typedef struct LibFunction LibFunction;
 typedef struct Condition Condition;
 typedef struct BasicProp BasicProp;
+typedef struct ShowIfDeclaration ShowIfDeclaration;
+typedef struct ShowIfCall ShowIfCall;
+typedef struct ShowIfOnScope ShowIfOnScope;
 
 typedef char Boolean;
 
@@ -120,9 +123,17 @@ enum LibFunctionType {
 	LIB_FUNCTION_IS_WEEKEND
 };
 
+struct ShowIfOnScope {
+	Condition * condition;
+};
 
-struct Constant {
-	int value;
+struct ShowIfCall {
+	char * conditionId;
+};
+
+struct ShowIfDeclaration {
+	Condition * condtion;
+	char * id;
 };
 
 struct BasicProp {
@@ -155,6 +166,10 @@ struct Factor {
 		Expression * expression;
 	};
 	FactorType type;
+};
+
+struct Constant {
+	int value;
 };
 
 struct Expression {

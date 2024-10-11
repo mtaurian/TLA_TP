@@ -27,6 +27,9 @@
 	LibFunction * libFunction;
 	Condition * condition;
 	QuestionType* questionType;
+	ShowIfDeclaration * showIfDeclaration;
+	ShowIfCall * showIfCall;
+	ShowIfOnScope * showIfOnScope;
 }
 
 /**
@@ -183,11 +186,11 @@
 %type <glitchFg> glitchFg
 %type <glErrorFg> glErrorFg
 %type <doFg> doFg
-%type <showIf> showIf
-%type <showIfDeclaration> showIfDeclaration
-%type <showIfCall> showIfCall
-%type <showIfOnScope> showIfOnScope
 */
+
+%type <showIfOnScope> showIfOnScope
+%type <showIfCall> showIfCall
+%type <showIfDeclaration> showIfDeclaration
 %type <condition> condition
 %type <libFunction> libFunction 
 %type <date> date
@@ -198,7 +201,6 @@
 /*
 %type <options> options
 %type <listOptions> listOptions
-%type <optShowIf> optShowIf
 */
 %type <questionType> questionType
 
@@ -305,7 +307,9 @@ sectionFg: sectionSubFg
 	;
 
 sectionSubFg: question
-	| showIf
+	| showIfOnScope
+	| showIfDeclaration
+	| showIfCall
 	;
 
 sectionSp: TITLE STRING
@@ -329,7 +333,9 @@ questionSp: DEFAULT STRING
 	| REQUIRED
 	;
 
-questionSubFg : showIf 
+questionSubFg : showIfOnScope
+	| showIfCall
+	| showIfDeclaration
 	| glitch
 	| do
 	;
@@ -346,18 +352,13 @@ doFg : task doFg
 	| task
 	;
 
-showIf: showIfOnScope
-	| showIfCall
-	| showIfDeclaration
+showIfDeclaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES 		{$$ = ShowIfDeclarationSemanticAction($2, $4);}
 	;
 
-showIfDeclaration : SHOWIF ID OPEN_BRACES condition CLOSE_BRACES
+showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS				{ $$ = ShowIfCallSemanticAction($3);}
 	;
 
-showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS
-	;
-
-showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 
+showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 				{ $$ = ShowIfOnScopeSemanticAction($3);}
 	;
 
 condition: TRUE												{$$ = ConditionBooleanSemanticAction(TYPE_TRUE);}
@@ -434,18 +435,18 @@ value: INTEGER 					{$$ = ValueIntegerSemanticAction($1);}
 options : OPTIONS OPEN_BRACKETS listOptions CLOSE_BRACKETS
 	;
 
-listOptions: option optShowIf
-	| option optShowIf COMMA listOptions
+listOptions: option showIfCall
+	| option showIfOnScope
+	| option
+	| option showIfCall COMMA listOptions
+	| option showIfOnScope COMMA listOptions
+	| option COMMA listOptions
 	;
 
 option : value					//default action is OK
 	;
 
-optShowIf : showIfCall 
-	| showIfOnScope
-	| %empty
-	;
-questionType : TYPE CHECKBOX   	{return QUESTION_TYPE_CHECKBOX;}
+questionType : TYPE CHECKBOX   		{return QUESTION_TYPE_CHECKBOX;}
 	| TYPE RADIOS					{return QUESTION_TYPE_RADIOS;}
 	| TYPE SELECT TEXT				{return QUESTION_TYPE_SELECT_TEXT;}
 	| TYPE SELECT NUMERIC			{return QUESTION_TYPE_SELECT_NUMERIC;}

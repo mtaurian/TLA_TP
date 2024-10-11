@@ -179,6 +179,36 @@ Condition * ConditionParenthesisSemanticAction(Condition * the_condition){
 	return condition;
 }
 
+ShowIfDeclaration * ShowIfDeclarationSemanticAction(char * the_id, Condition * the_condition){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ShowIfDeclaration * showIfDeclaration = calloc(1, sizeof(ShowIfDeclaration));
+	showIfDeclaration->id = the_id;
+	showIfDeclaration->condtion = the_condition;
+	return showIfDeclaration;
+}
+
+ShowIfCall * ShowIfCallSemanticAction(char * the_conditionId){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ShowIfCall * showIfCall = calloc(1, sizeof(ShowIfCall));
+	showIfCall->conditionId = the_conditionId;
+	return showIfCall;
+}
+
+ShowIfOnScope * ShowIfOnScopeSemanticAction(Condition * the_condition){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	ShowIfOnScope * ShowIfOnScope = calloc(1, sizeof(ShowIfOnScope));
+	ShowIfOnScope->condition = the_condition;
+	return ShowIfOnScope;
+}
+
+
+
+
+
+
+
+
+
 Constant * IntegerConstantSemanticAction(const int value) {
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Constant * constant = calloc(1, sizeof(Constant));
