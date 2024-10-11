@@ -254,7 +254,7 @@ transport : WHEN condition GOTO ID												{$$ = TransportSemanticAction($2, 
 	| WHEN condition GOTO END													{$$ = TransportSemanticAction($2, 0x0, 1);}
 	;
 transports : transport															{$$ = TransportsSemanticAction($1);}	
-	| transport transports														{$$ = TransportsSemanticAction($1, $2);}
+	| transport transports														{$$ = TransportsExtendedSemanticAction($1, $2);}
 	;
 
 formConfigFg : formConfigSp

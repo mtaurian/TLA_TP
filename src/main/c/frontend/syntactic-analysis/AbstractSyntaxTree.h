@@ -227,7 +227,7 @@ struct Transports{
 struct Transport {
 	char * stepId; 
 	Boolean goesToEnd;
-	Condition when;
+	Condition * when;
 };
 
 struct StepSp {
