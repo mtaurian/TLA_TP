@@ -117,4 +117,6 @@ FormConfigSp * FormConfigSpSafeAndSoundSemanticAction();
 FormConfigFg * FormConfigFgSemanticAction(FormConfigSp * the_sp);
 FormConfigFg * FormConfigFgExtendedSemanticAction(FormConfigSp * the_sp, FormConfigFg * the_nextFgs);
 
+FormSp * FormSpSemanticAction(char * the_string, FormSpType the_type);
+
 #endif

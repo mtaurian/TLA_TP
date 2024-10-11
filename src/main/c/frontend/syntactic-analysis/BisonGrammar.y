@@ -47,6 +47,7 @@
 	Transports * transports;
 	FormConfigSp * formConfigSp;
 	FormConfigFg * formConfigFg;
+	FormSp * formSp;
 }
 
 /**
@@ -148,7 +149,6 @@
 %token <token> MIDNIGHTS
 %token <token> TTPD
 
-%token <token> POINT
 %token <token> COMMA
 
 %token <string> ID
@@ -166,11 +166,10 @@
 
 /** Non-terminals. */
 /*
-%type <form> form
 %type <formFg> formFg
 %type <formSubFg> formSubFg
 */
-
+%type <formSp> formSp
 %type <formConfigFg> config
 %type <formConfigFg> formConfigFg
 %type <formConfigSp> formConfigSp
@@ -214,8 +213,6 @@
  *
  * @see https://www.gnu.org/software/bison/manual/html_node/Precedence.html
  */
-%left ADD SUB
-%left MUL DIV
 
 %left OR
 %left AND
@@ -226,9 +223,9 @@
 // IMPORTANT: To use λ in the following grammar, use the %empty symbol.
 
 formFg : formSubFg
-	| form_sp
+	| formSp
 	| formSubFg formFg
-	| form_sp formFg
+	| formSp formFg
 	;
 
 formSubFg : config 
@@ -237,9 +234,9 @@ formSubFg : config
 	| question 
 	;
 
-form_sp : TITLE STRING
-	| DESCRIPTION STRING
-	| CLOSURE STRING
+formSp : TITLE STRING															{$$ = FormSpSemanticAction($2, FORM_SP_TITLE);}
+	| DESCRIPTION STRING														{$$ = FormSpSemanticAction($2, FORM_SP_DESCRIPTION);}
+	| CLOSURE STRING															{$$ = FormSpSemanticAction($2, FORM_SP_CLOSURE);}
 	;
 
 question : 	QUESTION ID OPEN_BRACES questionFg CLOSE_BRACES						{$$ = QuestionSemanticAction($2,$4);}

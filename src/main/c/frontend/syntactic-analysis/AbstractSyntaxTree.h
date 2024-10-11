@@ -33,7 +33,7 @@ typedef enum ThemeSp ThemeSp;
 typedef enum StepSpType StepSpType;
 typedef enum StepFgType StepFgType;
 typedef enum FormConfigSpType FormConfigSpType;
-
+typedef enum FormSpType FormSpType;
 
 typedef struct Constant Constant;
 typedef struct Expression Expression;
@@ -64,6 +64,8 @@ typedef struct StepFg StepFg;
 typedef struct Step Step;
 typedef struct FormConfigSp FormConfigSp;
 typedef struct FormConfigFg FormConfigFg;
+typedef struct FormSp FormSp;
+
 
 typedef char Boolean;
 
@@ -235,6 +237,17 @@ enum FormConfigSpType {
 	FORM_CONFIG_SP_SUBMIT,
 	FORM_CONFIG_SP_THEME,
 	FORM_CONFIG_SP_SAFE_AND_SOUND
+};
+
+enum FormSpType{
+	FORM_SP_TITLE,
+	FORM_SP_DESCRIPTION,
+	FORM_SP_CLOSURE
+};
+
+struct FormSp {
+	char * v_string;
+	FormSpType type;
 };
 
 struct FormConfigFg {

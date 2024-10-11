@@ -614,6 +614,16 @@ FormConfigFg * FormConfigFgExtendedSemanticAction(FormConfigSp * the_sp, FormCon
 	return formConfigFg;
 }
 
+FormSp * FormSpSemanticAction(char * the_string, FormSpType the_type){
+	_logSyntacticAnalyzerAction(__FUNCTION__);
+	FormSp * formSp = callco(1, sizeof(FormSp));
+	formSp->v_string = the_string;
+	formSp->type = the_type;
+	return formSp;
+}
+
+
+
 
 
 Constant * IntegerConstantSemanticAction(const int value) {
