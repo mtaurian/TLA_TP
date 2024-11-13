@@ -71,8 +71,6 @@ typedef struct FormSubFg FormSubFg;
 typedef struct FormFg FormFg;
 
 
-typedef char Boolean;
-
 /**
  * Node types for the Abstract Syntax Tree (AST).
  */
@@ -319,7 +317,7 @@ struct Transports{
 
 struct Transport {
 	char * stepId; 
-	Boolean goesToEnd;
+	boolean goesToEnd;
 	Condition * when;
 };
 

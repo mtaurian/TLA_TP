@@ -77,7 +77,7 @@ Token LogicLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token t
 	return logAndReturnToken(__FUNCTION__, lexicalAnalyzerContext, token);
 }
 
-Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
+Token StringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext){
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
 	lexicalAnalyzerContext->semanticValue->string = lexicalAnalyzerContext->lexeme;
 	return STRING;
@@ -98,7 +98,7 @@ Token IntegerLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 
 Token FloatLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext) {
 	_logLexicalAnalyzerContext(__FUNCTION__, lexicalAnalyzerContext);
-	lexicalAnalyzerContext->semanticValue->t_float = atof(lexicalAnalyzerContext->lexeme);
+	lexicalAnalyzerContext->semanticValue->real = atof(lexicalAnalyzerContext->lexeme);
 	return FLOAT;
 }
 

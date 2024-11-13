@@ -13,7 +13,7 @@
 	int integer;
 	Token token;
 	char * string;
-	float t_float;
+	float real;
 
 	/** Non-terminals. */
 
@@ -157,7 +157,7 @@
 %token <string> STRING
 
 %token <integer> INTEGER
-%token <t_float> FLOAT
+%token <real> FLOAT
 
 //maths and logic
 %token <token> AND
@@ -250,8 +250,8 @@ step: STEP ID OPEN_BRACES stepFg CLOSE_BRACES									{$$ = StepSemanticAction($
 	;
 getaway : GETAWAYCAR OPEN_BRACES transports CLOSE_BRACES						{$$ = $3;}
 	;
-transport : WHEN condition GOTO ID												{$$ = TransportSemanticAction($2, $4, 0);}
-	| WHEN condition GOTO END													{$$ = TransportSemanticAction($2, 0x0, 1);}
+transport : WHEN condition GOTO ID												{$$ = TransportSemanticAction($2, $4, false);}
+	| WHEN condition GOTO END													{$$ = TransportSemanticAction($2, NULL, true);}
 	;
 transports : transport															{$$ = TransportsSemanticAction($1);}	
 	| transport transports														{$$ = TransportsExtendedSemanticAction($1, $2);}
@@ -279,7 +279,7 @@ themeSp: DEBUT						{$$= THEME_DEBUT;}
 	| TTPD							{$$= THEME_TTPD;}
 	;
 
-stepFg : stepSp											{$$=StepFgStepSpSemanticAction($1);}
+stepFg : stepSp						{$$=StepFgStepSpSemanticAction($1);}
 	| getaway						{$$=StepFgGetawaySemanticAction($1);}
 	| section						{$$=StepFgSectionSemanticAction($1);}
 	| question						{$$=StepFgQuestionSemanticAction($1);}
@@ -318,7 +318,7 @@ questionFg : questionSubFg								{$$ = QuestionFgSubFgSemanticAction($1);}
 questionSp: DEFAULT STRING								{$$ = QuestionSpStringSemanticAction(QUESTION_SP_DEFAULT_STRING,$2);}
 	| DEFAULT FLOAT										{$$ = QuestionSpDefaultFloatSemanticAction($2);}
 	| DEFAULT INTEGER									{$$ = QuestionSpDefaultIntegerSemanticAction($2);}
-	| questionType										{$$ = QuestionSpQuestionTypeSemanticAction($1);}
+	| TYPE questionType										{$$ = QuestionSpQuestionTypeSemanticAction($1);}
 	| options											{$$ = QuestionSpOptionSemanticAction($1);}
 	| TITLE STRING										{$$ = QuestionSpStringSemanticAction(QUESTION_SP_TITLE,$2);}
 	| HELP STRING										{$$ = QuestionSpStringSemanticAction(QUESTION_SP_HELP,$2);}
@@ -354,8 +354,8 @@ showIfCall : SHOWIF OPEN_PARENTHESIS ID CLOSE_PARENTHESIS				{ $$ = ShowIfCallSe
 showIfOnScope : SHOWIF OPEN_BRACES condition CLOSE_BRACES 				{ $$ = ShowIfOnScopeSemanticAction($3);}
 	;
 
-condition: TRUE												{$$ = ConditionBooleanSemanticAction(1);}
-	| FALSE 												{$$ = ConditionBooleanSemanticAction(0);}
+condition: TRUE												{$$ = ConditionBooleanSemanticAction(true);}
+	| FALSE 												{$$ = ConditionBooleanSemanticAction(false);}
 	| ID libFunction										{$$ = ConditionFunctionSemanticAction($1, $2);}
 	| condition AND condition								{$$ = ConditionAndSemanticAction($1, $3);}
 	| condition OR condition								{$$ = ConditionOrSemanticAction($1, $3);}
@@ -439,18 +439,18 @@ listOptions: value showIfCall						{$$ = ListOptionsShowIfCallSemanticAction($1,
 
 	;
 
-questionType : TYPE CHECKBOX   		{$$ = QUESTION_TYPE_CHECKBOX;}
-	| TYPE RADIOS					{$$ = QUESTION_TYPE_RADIOS;}
-	| TYPE SELECT TEXT				{$$ = QUESTION_TYPE_SELECT_TEXT;}
-	| TYPE SELECT NUMERIC			{$$ = QUESTION_TYPE_SELECT_NUMERIC;}
-	| TYPE SELECT DATE				{$$ = QUESTION_TYPE_SELECT_DATE;}
-	| TYPE TEXT						{$$ = QUESTION_TYPE_TEXT;}
-	| TYPE IMAGE					{$$ = QUESTION_TYPE_IMAGE;}
-	| TYPE DOCUMENT					{$$ = QUESTION_TYPE_DOCUMENT;}
-	| TYPE LONGTEXT					{$$ = QUESTION_TYPE_LONGTEXT;}
-	| TYPE NUMERIC					{$$ = QUESTION_TYPE_NUMERIC;}
-	| TYPE PASSWORD					{$$ = QUESTION_TYPE_PASSWORD;}
-	| TYPE DATE						{$$ = QUESTION_TYPE_DATE;}
+questionType :  CHECKBOX   		{$$ = QUESTION_TYPE_CHECKBOX;}
+	|  RADIOS					{$$ = QUESTION_TYPE_RADIOS;}
+	|  SELECT TEXT				{$$ = QUESTION_TYPE_SELECT_TEXT;}
+	|  SELECT NUMERIC			{$$ = QUESTION_TYPE_SELECT_NUMERIC;}
+	|  SELECT DATE				{$$ = QUESTION_TYPE_SELECT_DATE;}
+	|  TEXT						{$$ = QUESTION_TYPE_TEXT;}
+	|  IMAGE					{$$ = QUESTION_TYPE_IMAGE;}
+	|  DOCUMENT					{$$ = QUESTION_TYPE_DOCUMENT;}
+	|  LONGTEXT					{$$ = QUESTION_TYPE_LONGTEXT;}
+	|  NUMERIC					{$$ = QUESTION_TYPE_NUMERIC;}
+	|  PASSWORD					{$$ = QUESTION_TYPE_PASSWORD;}
+	|  DATE						{$$ = QUESTION_TYPE_DATE;}
 
 
 %%

@@ -16,6 +16,7 @@ void shutdownAbstractSyntaxTreeModule() {
 
 /** PUBLIC FUNCTIONS */
 void releaseQuestionSp(QuestionSp * questionSp){
+	logDebugging(_logger, "Executing destructor: %s", __FUNCTION__);
 	if (questionSp != NULL){
 		switch (questionSp->type){
 			case QUESTION_SP_DEFAULT_STRING:
@@ -23,7 +24,9 @@ void releaseQuestionSp(QuestionSp * questionSp){
 			case QUESTION_SP_HELP:
 			case QUESTION_SP_PLACE_HOLDER: free(questionSp->v_string);	break;
 			case QUESTION_SP_OPTIONS: releaseListOptions(questionSp->options); break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(questionSp);
 	}
@@ -35,7 +38,9 @@ void releaseGlitchErrorFg(GlErrorFg * glErrorFg){
 		switch (glErrorFg->showIfType){
 			case SHOW_IF_CALL : releaseShowIfCall(glErrorFg->showIfCall);break;
 			case SHOW_IF_ON_SCOPE :releaseShowIfOnScope(glErrorFg->showIfOnScope);break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(glErrorFg->message);
 		free(glErrorFg);
@@ -57,7 +62,9 @@ void releaseValue(Value * value){
 		switch (value->type){
 			case TYPE_STRING : free(value->v_string);break;
 			case TYPE_DATE : releaseDate(value->v_date); break;		
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(value);
 	}
@@ -69,7 +76,9 @@ void releaseListOptions(ListOptions * options){
 		switch (options->hasShowIf){
 			case CALL : releaseShowIfCall(options->showIfCall); break;
 			case SCOPE : releaseShowIfOnScope(options->showIfOnScope);break;		
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		releaseValue(options->value);
 		releaseListOptions(options->nextOptions);
@@ -85,7 +94,9 @@ void releaseQuestionSubFg(QuestionSubFg * questionSubFg){
 			case QUESTION_SUB_FG_SHOW_IF_ON_SCOPE : releaseShowIfOnScope(questionSubFg->showIfOnScope);break;
 			case QUESTION_SUB_FG_SHOW_IF_DECLARATION : releaseShowIfDeclaration(questionSubFg->showIfDeclaration);break;
 			case QUESTION_SUB_FG_GLITCH : releaseGlitchFg(questionSubFg->glitchFg);break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(questionSubFg);
 	}
@@ -97,7 +108,9 @@ void releaseQuestionFg(QuestionFg * questionFg){
 		switch(questionFg->type){
 			case QUESTION_FG_SUB_FG : releaseQuestionSubFg(questionFg->questionSubFg);break;
 			case QUESTION_FG_SP : releaseQuestionSp(questionFg->questionSp);break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		releaseQuestionFg(questionFg->nextQuestionSubFgsOrSps);
 		free(questionFg);
@@ -146,7 +159,9 @@ void releaseSectionSubFg(SectionSubFg * sectionSubFg){
 			case SECTION_SUB_FG_SHOW_IF_ON_SCOPE : releaseShowIfOnScope(sectionSubFg->showIfOnScope);break;
 			case SECTION_SUB_FG_SHOW_IF_DECLARATION : releaseShowIfDeclaration(sectionSubFg->showIfDeclaration);break;
 			case SECTION_SUB_FG_QUESTION : releaseQuestion(sectionSubFg->question);break;
-			default: break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(sectionSubFg);
 	}
@@ -166,7 +181,9 @@ void releaseSection(SectionFg * section){
 		switch (section->type){
 			case SECTION_FG_SUB_FG : releaseSectionSubFg(section->sectionSubFg);break;
 			case SECTION_FG_SP : releaseSectionSp(section->sectionSp); break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		releaseSection(section->nextSectionSubFgsOrSps);
 		free(section);
@@ -187,7 +204,9 @@ void releaseLibFunction(LibFunction * libFunction){
 			case TYPE_STRING: free(libFunction->v_string);break;
 			case TYPE_ID: free(libFunction->v_id);break;
 			case TYPE_DATE: releaseDate(libFunction->v_date);break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(libFunction);
 	}
@@ -199,7 +218,9 @@ void releaseBasicProp(BasicProp * basicProp){
 		switch (basicProp->type){
 			case BASIC_PROP_TYPE_BOOLEAN:break;
 			case BASIC_PROP_TYPE_FUNCTION:releaseLibFunction(basicProp->function); free(basicProp->id);break;
-			default:break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(basicProp);
 	}
@@ -212,7 +233,9 @@ void releaseCondition(Condition * condition){
 		case CONDITION_TYPE_BASIC: releaseBasicProp(condition->basicProp); break;
 		case CONDITION_TYPE_NOT : case CONDITION_TYPE_SINGLE : releaseCondition(condition->condition);break;
 		case CONDITION_TYPE_AND : case CONDITION_TYPE_OR : releaseCondition(condition->leftCondition); releaseCondition(condition->rightCondition);break;
-		default:break;
+		default:
+		logError(_logger, "Invalid status on: %s", __FUNCTION__);
+		break;
 		}
 		free(condition);
 	}
@@ -252,6 +275,9 @@ void releaseStepFg(StepFg * stepFg){
 			case STEP_FG_QUESTION	: releaseQuestion(stepFg->question); break;
 			case STEP_FG_SECTION	: releaseSection(stepFg->section); break;
 			case STEP_FG_STEP_SP	: releaseStepSp(stepFg->stepSp); break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		releaseStepFg(stepFg->nextStepFg);
 		free(stepFg);
@@ -302,6 +328,9 @@ void releaseFormSubFg(FormSubFg * formSubFg){
 			case FORM_SUB_FG_QUESTION 	: releaseQuestion(formSubFg->question); break;
 			case FORM_SUB_FG_SECTION  	: releaseSection(formSubFg->section); break;
 			case FORM_SUB_FG_STEP 		: releaseStep(formSubFg->step); break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		free(formSubFg);
 	}	
@@ -313,6 +342,9 @@ void releaseFormFg(FormFg * formFg) {
 		switch(formFg->type){
 			case FORM_FG_SP : releaseFormSp(formFg->formSp); break;
 			case FORM_FG_SUB_FG : releaseFormSubFg(formFg->formSubFg); break;
+			default:
+			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+			break;
 		}
 		releaseFormFg(formFg->nextFormFgs);
 		free(formFg);

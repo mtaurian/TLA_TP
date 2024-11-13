@@ -39,7 +39,7 @@ Token ParenthesisLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, T
 
 Token LogicLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 
-Token stringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
+Token StringLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext);
 
 Token SpecifiersLexemeAction(LexicalAnalyzerContext * lexicalAnalyzerContext, Token token);
 

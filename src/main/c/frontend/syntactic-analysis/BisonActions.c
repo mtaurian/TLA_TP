@@ -29,6 +29,16 @@ static void _logSyntacticAnalyzerAction(const char * functionName) {
 	logDebugging(_logger, "%s", functionName);
 }
 
+void setCompilerState(){
+	if (0 < flexCurrentContext()) {
+        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
+        compilerState->succeed = false;
+    }
+    else {
+        compilerState->succeed = true;
+    }
+}
+
 /* PUBLIC FUNCTIONS */
 
 Value * ValueStringSemanticAction(char * the_string){
@@ -124,7 +134,7 @@ Date * CreateDateSemanticAction(int the_day, int the_month, int the_year){
 }
 
 
-Condition * ConditionBooleanSemanticAction(Boolean the_truthValue){
+Condition * ConditionBooleanSemanticAction(boolean the_truthValue){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_BASIC;
@@ -394,7 +404,7 @@ QuestionFg * QuestionFgExtendedSpSemanticAction(QuestionSp * the_questionSp,Ques
 Question * QuestionSemanticAction(char * the_id, QuestionFg * the_questionFg){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Question * question=calloc(1,sizeof(Question));
-	question->id-the_id;
+	question->id=the_id;
 	question->questionFg=the_questionFg;
 	return question;
 }
@@ -481,7 +491,7 @@ StepSp * StepSpSemanticAction(StepSpType the_type, char * the_string){
 	return stepSp;
 }
 
-Transport * TransportSemanticAction(Condition * the_condition, char * the_stepId, Boolean is_GoesToEnd){
+Transport * TransportSemanticAction(Condition * the_condition, char * the_stepId, boolean is_GoesToEnd){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Transport * transport = calloc(1, sizeof(Transport));
 	transport->when = the_condition;
@@ -571,7 +581,7 @@ StepFg * StepFgQuestionExtendedSemanticAction(Question * the_question,StepFg * t
 Step * StepSemanticAction(char * the_id, StepFg * the_stepFg){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
 	Step * step=calloc(1,sizeof(Step));
-	step->id-the_id;
+	step->id=the_id;
 	step->stepFg=the_stepFg;
 	return step;
 }
@@ -658,13 +668,7 @@ FormFg * FormFgSubFgSemanticAction(FormSubFg * the_formSubFg,CompilerState * com
 	formFg->formSubFg=the_formSubFg;
 	formFg->type=FORM_FG_SUB_FG;
 	compilerState->abstractSyntaxtTree = formFg;
-    if (0 < flexCurrentContext()) {
-        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
-        compilerState->succeed = false;
-    }
-    else {
-        compilerState->succeed = true;
-    }
+    setCompilerState();
 	return formFg;
 }
 FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerState){
@@ -673,13 +677,7 @@ FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerStat
 	formFg->formSp=the_formSp;
 	formFg->type=FORM_FG_SP;
 	compilerState->abstractSyntaxtTree = formFg;
-    if (0 < flexCurrentContext()) {
-        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
-        compilerState->succeed = false;
-    }
-    else {
-        compilerState->succeed = true;
-    }
+    setCompilerState();
 	return formFg;
 }
 FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * the_nextFormFgs,CompilerState * compilerState){
@@ -689,13 +687,7 @@ FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * th
 	formFg->type=FORM_FG_SUB_FG;
 	formFg->nextFormFgs=the_nextFormFgs;
 	compilerState->abstractSyntaxtTree = formFg;
-    if (0 < flexCurrentContext()) {
-        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
-        compilerState->succeed = false;
-    }
-    else {
-        compilerState->succeed = true;
-    }
+    setCompilerState();
 	return formFg;
 }
 FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFormFgs,CompilerState * compilerState){
@@ -705,12 +697,6 @@ FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFor
 	formFg->type=FORM_FG_SP;
 	formFg->nextFormFgs=the_nextFormFgs;
 	compilerState->abstractSyntaxtTree = formFg;
-    if (0 < flexCurrentContext()) {
-        logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
-        compilerState->succeed = false;
-    }
-    else {
-        compilerState->succeed = true;
-    }
+    setCompilerState();
 	return formFg;
 }
