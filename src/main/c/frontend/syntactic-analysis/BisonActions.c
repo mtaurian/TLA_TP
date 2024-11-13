@@ -29,7 +29,7 @@ static void _logSyntacticAnalyzerAction(const char * functionName) {
 	logDebugging(_logger, "%s", functionName);
 }
 
-void setCompilerState(){
+void setCompilerState(CompilerState * compilerState){
 	if (0 < flexCurrentContext()) {
         logError(_logger, "The final context is not the default (0): %d", flexCurrentContext());
         compilerState->succeed = false;
@@ -668,7 +668,7 @@ FormFg * FormFgSubFgSemanticAction(FormSubFg * the_formSubFg,CompilerState * com
 	formFg->formSubFg=the_formSubFg;
 	formFg->type=FORM_FG_SUB_FG;
 	compilerState->abstractSyntaxtTree = formFg;
-    setCompilerState();
+    setCompilerState(compilerState);
 	return formFg;
 }
 FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerState){
@@ -677,7 +677,7 @@ FormFg * FormFgSpSemanticAction(FormSp * the_formSp,CompilerState * compilerStat
 	formFg->formSp=the_formSp;
 	formFg->type=FORM_FG_SP;
 	compilerState->abstractSyntaxtTree = formFg;
-    setCompilerState();
+    setCompilerState(compilerState);
 	return formFg;
 }
 FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * the_nextFormFgs,CompilerState * compilerState){
@@ -687,7 +687,7 @@ FormFg * FormFgExtendedSubFgSemanticAction(FormSubFg * the_formSubFg,FormFg * th
 	formFg->type=FORM_FG_SUB_FG;
 	formFg->nextFormFgs=the_nextFormFgs;
 	compilerState->abstractSyntaxtTree = formFg;
-    setCompilerState();
+    setCompilerState(compilerState);
 	return formFg;
 }
 FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFormFgs,CompilerState * compilerState){
@@ -697,6 +697,6 @@ FormFg * FormFgExtendedSpSemanticAction(FormSp * the_formSp,FormFg * the_nextFor
 	formFg->type=FORM_FG_SP;
 	formFg->nextFormFgs=the_nextFormFgs;
 	compilerState->abstractSyntaxtTree = formFg;
-    setCompilerState();
+    setCompilerState(compilerState);
 	return formFg;
 }
