@@ -404,7 +404,7 @@ struct ListOptions {
 
 struct BasicProp {
 	union {
-		Boolean truthValue;
+		boolean truthValue;
 		struct {
 			char * id;
 			LibFunction * function;
