@@ -8,7 +8,8 @@
 #include "shared/Environment.h"
 #include "shared/Logger.h"
 #include "shared/String.h"
-
+#include "backend/extern-utils/hashmap.h"
+#include "backend/domain-specific/symbol-table.h"
 /**
  * The main entry-point of the entire application. If you use "strtok" to
  * parse anything inside this project instead of using Flex and Bison, I will
@@ -32,7 +33,7 @@ const int main(const int count, const char ** arguments) {
 	CompilerState compilerState = {
 		.abstractSyntaxtTree = NULL,
 		.succeed = false,
-		.value = 0
+		.table = hashmap_new(sizeof(struct user), 0, 0, 0, formFg_hash, formFg_compare, NULL, NULL);;
 	};
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
@@ -41,7 +42,7 @@ const int main(const int count, const char ** arguments) {
 		// Beginning of the Backend... ------------------------------------------------------------
 		logDebugging(logger, "Computing expression value...");
 		FormFg * program = compilerState.abstractSyntaxtTree;
-		/*ComputationResult computationResult = computeExpression(program->expression);
+		ComputationResult computationResult = computeFormFg(program,compilerState.table);
 		if (computationResult.succeed) {
 			compilerState.value = computationResult.value;
 			generate(&compilerState);
