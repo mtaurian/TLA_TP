@@ -16,12 +16,23 @@
                         <v-card-title>{{ field.label }}</v-card-title>
                         <v-card-text>
                             <v-text-field
+                            v-if="field.type !== 'select'"
                             v-model="field.value"
                             :label="field.label"
                             :type="field.type"
-                            @blur="validateField(field, index)"
+                            @blur="validateField(field)"
                             :error-messages="field.error"
                         ></v-text-field>
+                        <v-card-text>
+                            <v-select
+                                v-if="field.type === 'select'" 
+                                v-model="field.value"
+                                :items="filteredOptions(field)"
+                                :label="field.label"
+                                @blur="validateField(field)"
+                                :error-messages="field.error"
+                                solo
+                            ></v-select>
                         </v-card-text>
                     </v-card>
                 </template>
@@ -42,29 +53,38 @@
             template: "#app-template",
             setup() {
                 const currentStep = ref(0);
-                const stepsQty = 3;
+                const stepsQty = 2;
                 const stepHistory = ref([]);
+                
+                const steps = ref([{title : 'the first step', description : ''}, {title : 'the first step', description : ''}]);
 
-                // Define the questions array
                 const questions = ref([
-                    { id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: (value) => isMultipleOf(value, 3), msg: "Entry is not multiple of 3" }], error: '' },
-                    { id: 'question_2', type: 'email', label: 'Email', value: -1, required: true, errors: [{ condition: (value) => isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' },
-                    { id: 'question_3', type: 'date', label: 'Birthdate', value: -1, required: true, errors: [], error: '' },
+                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null },
+                    { step: 0, section : 1, id: 'question_2', type: 'email',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null},
+                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null },
+                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}]}
                 ]);
 
-                // Define getaway logic (you can extend this logic as needed)
                 const getaways = ref([
-                    [{ condition: () => questions.value[0].value == 0, step: 2 }],  // Jump to birthdate if question 1 is 0
+                    [{ condition: () => questions.value[0].value == 0, step: 2 }],  
                     [{ condition: () => true, step: 2 }],
-                    [{ condition: () => true, step: 3 }]
+                    [{ condition: () => true, step: 3 }],
+                    [{ condition: () => true, step: 4}]
                 ]);
 
-                // Function to move to the next step
+                const filteredOptions = (field) => {
+                    if (field.type === 'select' && Array.isArray(field.options)) {
+                        return field.options
+                        .filter((option) => option.condition && option.condition())
+                        .map((option) =>  option.value);
+                    }
+                    return [];
+                };
+                
                 const nextStep = () => {
                     if (currentStep.value < stepsQty - 1) {
                         let next = currentStep.value + 1;
 
-                        // Check getaway conditions
                         if (getaways.value[currentStep.value]) {
                             getaways.value[currentStep.value].forEach(gateway => {
                                 if (gateway.condition()) {
@@ -78,31 +98,38 @@
                     }
                 };
 
-                // Function to go to the previous step
                 const previousStep = () => {
                     if (stepHistory.value.length > 0) {
                         currentStep.value = stepHistory.value.pop();
                     }
                 };
 
-                // Function to validate a field
-                const validateField = (field, index) => {
-                    const errors = field.errors
-                        .map((error) => !error.condition(field.value) ? error.msg : "")
-                        .filter(Boolean);
+                const validateField = (field) => {
+                    if (field.required && field.value == ''){
+                        field.error = 'This field is required'
+                        return false
+                    }
 
-                    field.error = errors.length ? errors : [];
+                    field.error = field.errors
+                        .map((error) => error.condition(field.value) ? error.msg : "").filter((e) => e.length).toString()
+            
+                    if (field.error.length >= 0){
+                        field.error = errors;
+                        return true;
+                    }else {
+                        field.error = "";
+                        return false;
+                    }
                 };
 
-                // Function to submit the form
                 const submitForm = () => {
-                    questions.value.forEach(field => validateField(field));  // Validate all fields
+                    questions.value.forEach(field => validateField(field)); 
                     if (questions.value.every(field => !field.error)) {
                         alert('Form submitted successfully!');
                     }
                 };
 
-                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, stepHistory };
+                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, filteredOptions, stepHistory };
             }
         });
 
@@ -112,7 +139,6 @@
 </html>
 
 <script>
-    // Utility functions for validation
     const isMultipleOf = (value, of) => { 
         return (value % of) === 0;
     }
