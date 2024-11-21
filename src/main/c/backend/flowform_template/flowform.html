@@ -11,35 +11,43 @@
     <script type="text/x-template" id="app-template">
         <v-app>
             <v-container>
-                <template v-for="(field, index) in questions" :key="index">
-                    <v-card v-if="currentStep === index" flat>
-                        <v-card-title>{{ field.label }}</v-card-title>
-                        <v-card-text>
-                            <v-text-field
-                            v-if="field.type !== 'select'"
-                            v-model="field.value"
-                            :label="field.label"
-                            :type="field.type"
-                            @blur="validateField(field)"
-                            :error-messages="field.error"
-                        ></v-text-field>
-                        <v-card-text>
-                            <v-select
-                                v-if="field.type === 'select'" 
-                                v-model="field.value"
-                                :items="filteredOptions(field)"
-                                :label="field.label"
-                                @blur="validateField(field)"
-                                :error-messages="field.error"
-                                solo
-                            ></v-select>
-                        </v-card-text>
-                    </v-card>
+                <template v-if="steps.length">
+                    <div v-for="(step, index) in steps" :key="index">
+                        <v-card v-if="currentStep === index" flat>
+                            <div>
+                                <h1>{{step.title}}</h1>
+                                <p>{{step.description}}</p>
+                            </div>
+                            <div v-if="step.sections.length" v-for="(section, sectionIdx) in step.sections">
+                                <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)">
+                                    <v-card-title>{{ field.label }}</v-card-title>
+                                    <v-card-text>
+                                        <v-text-field
+                                        v-if="field.type !== 'select'"
+                                        v-model="field.value"
+                                        :label="field.label"
+                                        :type="field.type"
+                                        @blur="validateField(field)"
+                                        :error-messages="field.error"
+                                        />
+                                        <v-select
+                                        v-if="field.type === 'select'" 
+                                        v-model="field.value"
+                                        :items="filteredOptions(field)"
+                                        :label="field.label"
+                                        @blur="validateField(field)"
+                                        :error-messages="field.error"
+                                        solo
+                                        />
+                                    </v-card-text>
+                                </div>
+                            </div>
+                        </v-card>
+                    </div>
                 </template>
-
                 <v-btn @click="previousStep" v-if="stepHistory.length > 0">Previous</v-btn>
-                <v-btn @click="nextStep" v-if="currentStep < questions.length - 1">Next</v-btn>
-                <v-btn @click="submitForm" v-if="currentStep === questions.length - 1">Submit</v-btn>
+                <v-btn @click="nextStep" v-if="currentStep < steps.length - 1">Next</v-btn>
+                <v-btn @click="submitForm" v-if="currentStep === steps.length - 1">Submit</v-btn>
             </v-container>
         </v-app>
     </script>
@@ -52,25 +60,43 @@
         const app = createApp({
             template: "#app-template",
             setup() {
+
+                //manage steps
                 const currentStep = ref(0);
-                const stepsQty = 2;
                 const stepHistory = ref([]);
+        
+                const steps = ref([{title : 'the first step', description : 's1 desc' 
+                    , sections : [{title : 'the first section of s1', description : 'the desc of sec1 s1'}, {title : 'the second section of s1', description : 'the desc of sec2 s1'}]
+                }
+                , {title : 'the second step', description : 's2 desc', 
+                    sections : []
+                }, {title : 'the third step', description : 's3 desc', 
+                    sections : []   
+                }]);
+                const stepsQty = steps.value.length+1;
                 
-                const steps = ref([{title : 'the first step', description : ''}, {title : 'the first step', description : ''}]);
-
-                const questions = ref([
-                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null },
-                    { step: 0, section : 1, id: 'question_2', type: 'email',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null},
-                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null },
-                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}]}
-                ]);
-
                 const getaways = ref([
                     [{ condition: () => questions.value[0].value == 0, step: 2 }],  
                     [{ condition: () => true, step: 2 }],
                     [{ condition: () => true, step: 3 }],
-                    [{ condition: () => true, step: 4}]
                 ]);
+
+
+                //manage questions
+                const questions = ref([
+                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null },
+                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null},
+                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null },
+                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}]}
+                ]);
+
+                //lib
+
+                //manage sections 
+                
+                const sectionQuestions = (stepIdx, sectionIdx) => {
+                    return questions.value.filter((q) => q.section === sectionIdx && q.step === stepIdx)
+                }
 
                 const filteredOptions = (field) => {
                     if (field.type === 'select' && Array.isArray(field.options)) {
@@ -129,7 +155,7 @@
                     }
                 };
 
-                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, filteredOptions, stepHistory };
+                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps };
             }
         });
 
