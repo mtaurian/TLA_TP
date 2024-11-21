@@ -2,7 +2,7 @@
 #Description "Because the parent is present, there are mandatory statements. In this case, the #Title is missing"
 @Section {
     @Question name {
-        #Type text
+        #Type TEXT
         #Title "Name"
         #PlaceHolder "Enter your name"
         #Default "."
@@ -15,7 +15,7 @@
             }
             @Error {
                 #Message "Too short"
-                @ShowIf { name isShorterThan 1 or name isEmpty }
+                @ShowIf { name isShorterThan 1 OR name isEmpty }
             }
         }
     }	

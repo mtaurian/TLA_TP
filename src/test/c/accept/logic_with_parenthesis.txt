@@ -1,11 +1,11 @@
 #Title "logic with parenthesis"
 @Question q1 {
 	#Title "question 1"
-	#Type text
+	#Type TEXT
 }
 
 @Question q2 {
 	#Title "question 2"
-	#Type text
-	@ShowIf { (q1 isEmpty OR q1 contains "foo") and q1 isLongerThan 8 }
+	#Type TEXT
+	@ShowIf { (q1 isEmpty OR q1 contains "foo") AND q1 isLongerThan 8 }
 }

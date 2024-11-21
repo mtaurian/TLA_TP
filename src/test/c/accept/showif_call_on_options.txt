@@ -2,6 +2,6 @@
 @Question q1 {
 	#Title "question 1"
 	@ShowIf hidden { FALSE }
-	#Type radios
+	#Type RADIOS
 	#Options ["opt1", "opt2" @ShowIf(hidden), "opt3"] 
 }

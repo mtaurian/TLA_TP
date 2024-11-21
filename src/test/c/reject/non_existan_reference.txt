@@ -6,8 +6,8 @@
 	#Title "Step 1: Data"
 	#Description "Fill your personal Data"
 	@GetAwayCar {
-		when howOld isLowerThan 13 goto END
-		when howOld isGreaterThan 18 or howOld isEmpty goto s3 
+		WHEN howOld isLowerThan 13 GOTO END
+		WHEN howOld isGreaterThan 18 OR howOld isEmpty GOTO s3 
 	}
 	@Section {
 		#Title "First Section of s1"
@@ -15,7 +15,7 @@
 		@ShowIf isOlderThan18 { name isLongerThan 5 }
 
 		@Question howOld {
-			#Type numeric
+			#Type NUMERIC
 			#Title "How old are you?"
 			#Required		
 			@ShowIf(isOlderThan18)
