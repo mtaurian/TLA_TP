@@ -6,7 +6,7 @@
 		#Title "First Section of s1"
 
 		@Question name {
-			#Type text
+			#Type TEXT
 			#Title "Name"
 			#PlaceHolder "Enter your name"
 			#Default "."
@@ -14,7 +14,7 @@
 		}
 
 		@Question favoriteBeer {
-			#Type select text
+			#Type SELECT TEXT
 			#Title "Whats your favorite beer"
 			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
 		}		
@@ -23,7 +23,7 @@
 		#Title "Second Section of s1"
 
 		@Question patagonia {
-			#Type text
+			#Type TEXT
 			#Title "Whats your favorite patagonia?"
 		}
 		

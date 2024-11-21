@@ -3,7 +3,7 @@
 	@Section {
 		@Question q1 {
 			#Title "q1"
-			#Type LongText
+			#Type LONGTEXT
 		}
 	}
 }
@@ -11,6 +11,6 @@
 @Step s2 {
 	@Question q2 {
 		#Title "q2"
-		#Type Text	
+		#Type TEXT	
 	}
 }

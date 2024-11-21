@@ -9,20 +9,20 @@
 		#Description "First Section Desc"
 
 		@Question name {
-			#Type text
+			#Type TEXT
 			#Title "Name"
 			#PlaceHolder "Enter your name"
 		}
 
 		@Question howOld {
-			#Type numeric
+			#Type NUMERIC
 			#Title "How old are you?"
 			#Required		
 		}
 
 		@Question favoriteBeer {
-			#Type select text
-			#Title "Whats your favorite beer"
+			#Type SELECT TEXT
+			#Title "What's your favorite beer?"
 			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
 		}		
 	}

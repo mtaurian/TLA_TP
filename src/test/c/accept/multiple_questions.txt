@@ -1,11 +1,11 @@
 #Title "Multiple Questions"
 @Question question1 {
-    #Type text
+    #Type TEXT
     #Title "Name"
     #PlaceHolder "Enter your name"
 }
 @Question question2 {
-    #Type numeric
+    #Type NUMERIC
     #Title "How old are you?"
     #Required	
 }

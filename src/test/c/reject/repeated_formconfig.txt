@@ -6,7 +6,7 @@
 	#Theme Fearless
 }
 @Question name {
-    #Type text
+    #Type TEXT
     #Title "Insert your name"
     #Required
 }
