@@ -9,8 +9,8 @@
 	#Title "Step 1: Data"
 	#Description "Fill your personal Data"
 	@GetAwayCar {
-		when howOld isLowerThan 13 goto END
-		when howOld isGreaterThan 18 or howOld isEmpty goto s3 
+		WHEN howOld isLowerThan 13 GOTO END
+		WHEN howOld isGreaterThan 18 OR howOld isEmpty GOTO s3 
 	}
 	@Section {
 		#Title "First Section of s1"
@@ -18,7 +18,7 @@
 		@ShowIf isOlderThan18 { howOld isGreaterThan 18 }
 
 		@Question name {
-			#Type text
+			#Type TEXT
 			#Title "Name"
 			#PlaceHolder "Enter your name"
 			#Default "."
@@ -31,20 +31,20 @@
 				}
 				@Error {
 					#Message "Too short"
-					@ShowIf { name isShorterThan 1 or name isEmpty }
+					@ShowIf { name isShorterThan 1 OR name isEmpty }
 				}
 			}
 		}
 
 		@Question howOld {
-			#Type numeric
-			#Title "How old are you"
+			#Type NUMERIC
+			#Title "How old are you?"
 			#Required		
 		}
 
 		@Question favoriteBeer {
-			#Type select text
-			#Title "Whats your favorite beer"
+			#Type SELECT TEXT
+			#Title "What's your favorite beer?"
 			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
 			@ShowIf(isOlderThan18)
 		}		
@@ -54,19 +54,19 @@
 		#Description "Second Section Desc"
 
 		@Question brhama {
-			#Type text
-			#Title "Whats your favorite brhama?"
-			@ShowIf { favoriteBeer equals "brhama" }
+			#Type TEXT
+			#Title "What's your favorite Brhama?"
+			@ShowIf { favoriteBeer equals "Brhama" }
 		}
 		
 		@Question patagonia {
-			#Type text
-			#Title "Whats your favorite patagonia?"
-			@ShowIf { favoriteBeer equals "patagonia" }
+			#Type TEXT
+			#Title "What's your favorite Patagonia?"
+			@ShowIf { favoriteBeer equals "Patagonia" }
 		}
 		
 		@ShowIf {
-			(favoriteBeer equals "brhama" or favoriteBeer equals "Patagonia") and howOld isGreaterThan 18
+			(favoriteBeer equals "Brhama" OR favoriteBeer equals "Patagonia") AND howOld isGreaterThan 18
 		}
 	}
 	
@@ -76,7 +76,7 @@
 	#Title "Step 2"
 	#Description "Step 2 desc"
 	@Question s2q1 {
-		#Type text
+		#Type TEXT
 		#Title "Step 2 question"
 	}
 }
@@ -85,7 +85,7 @@
 	#Title "Step 3"
 	#Description "Step 3 desc"
 	@Question s3q1 {
-		#Type date
+		#Type DATE
 		#Title "When were you born?"
 		@Glitch {
 			@Error {
