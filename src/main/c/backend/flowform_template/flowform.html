@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@3.7.3/dist/vuetify-labs.css" rel="stylesheet"/>
+</head>
+<body>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.3/dist/vuetify.min.js"></script>
+
+    <div id="app"></div>
+    <script type="text/x-template" id="app-template">
+        <v-app>
+            <v-container>
+                <template v-for="(field, index) in questions" :key="index">
+                    <v-card v-if="currentStep === index" flat>
+                        <v-card-title>{{ field.label }}</v-card-title>
+                        <v-card-text>
+                            <v-text-field
+                            v-model="field.value"
+                            :label="field.label"
+                            :type="field.type"
+                            @blur="validateField(field, index)"
+                            :error-messages="field.error"
+                        ></v-text-field>
+                        </v-card-text>
+                    </v-card>
+                </template>
+
+                <v-btn @click="previousStep" v-if="stepHistory.length > 0">Previous</v-btn>
+                <v-btn @click="nextStep" v-if="currentStep < questions.length - 1">Next</v-btn>
+                <v-btn @click="submitForm" v-if="currentStep === questions.length - 1">Submit</v-btn>
+            </v-container>
+        </v-app>
+    </script>
+    <script>
+        const { createApp, ref } = Vue;
+        const { createVuetify } = Vuetify;
+
+        const vuetify = createVuetify();
+
+        const app = createApp({
+            template: "#app-template",
+            setup() {
+                const currentStep = ref(0);
+                const stepsQty = 3;
+                const stepHistory = ref([]);
+
+                // Define the questions array
+                const questions = ref([
+                    { id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: (value) => isMultipleOf(value, 3), msg: "Entry is not multiple of 3" }], error: '' },
+                    { id: 'question_2', type: 'email', label: 'Email', value: -1, required: true, errors: [{ condition: (value) => isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' },
+                    { id: 'question_3', type: 'date', label: 'Birthdate', value: -1, required: true, errors: [], error: '' },
+                ]);
+
+                // Define getaway logic (you can extend this logic as needed)
+                const getaways = ref([
+                    [{ condition: () => questions.value[0].value == 0, step: 2 }],  // Jump to birthdate if question 1 is 0
+                    [{ condition: () => true, step: 2 }],
+                    [{ condition: () => true, step: 3 }]
+                ]);
+
+                // Function to move to the next step
+                const nextStep = () => {
+                    if (currentStep.value < stepsQty - 1) {
+                        let next = currentStep.value + 1;
+
+                        // Check getaway conditions
+                        if (getaways.value[currentStep.value]) {
+                            getaways.value[currentStep.value].forEach(gateway => {
+                                if (gateway.condition()) {
+                                    next = gateway.step;
+                                }
+                            });
+                        }
+
+                        stepHistory.value.push(currentStep.value);
+                        currentStep.value = next;
+                    }
+                };
+
+                // Function to go to the previous step
+                const previousStep = () => {
+                    if (stepHistory.value.length > 0) {
+                        currentStep.value = stepHistory.value.pop();
+                    }
+                };
+
+                // Function to validate a field
+                const validateField = (field, index) => {
+                    const errors = field.errors
+                        .map((error) => !error.condition(field.value) ? error.msg : "")
+                        .filter(Boolean);
+
+                    field.error = errors.length ? errors : [];
+                };
+
+                // Function to submit the form
+                const submitForm = () => {
+                    questions.value.forEach(field => validateField(field));  // Validate all fields
+                    if (questions.value.every(field => !field.error)) {
+                        alert('Form submitted successfully!');
+                    }
+                };
+
+                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, stepHistory };
+            }
+        });
+
+        app.use(vuetify).mount('#app');
+    </script>
+</body>
+</html>
+
+<script>
+    // Utility functions for validation
+    const isMultipleOf = (value, of) => { 
+        return (value % of) === 0;
+    }
+
+    const isDivisorOf = (divisor, of) => { 
+        return (of % divisor) === 0;
+    }
+
+    const like = (value, regex) => {
+        return regex.test(value);
+    }
+
+    const lengthEquals = (str1, str2) => {
+        return str1.length === str2.length;
+    }
+    
+    const longerThan = (str1, str2) => {
+        return str1.length > str2.length;
+    }
+
+    const shorterThan = (str1, str2) => {
+        return str1.length < str2.length;
+    }
+
+    const isEmpty = (str) => {
+        return str.length == 0;
+    }
+
+    const isBefore = (date1, date2) => {
+        return new Date(date1) < new Date(date2);
+    }
+    
+    const isAfter = (date1, date2) => {
+        return new Date(date1) > new Date(date2);
+    }
+
+    const isWeekend = (date) => {
+        const day = new Date(date).getDay();
+        return day === 0 || day === 6;
+    }
+</script>
