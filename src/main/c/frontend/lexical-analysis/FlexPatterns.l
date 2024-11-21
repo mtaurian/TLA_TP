@@ -74,32 +74,32 @@
 "isAfter"                           {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_AFTER);}
 "isWeekend"                         {return LibraryLexemeAction(createLexicalAnalyzerContext(), IS_WEEKEND);}
 
-"when"|"WHEN"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), WHEN);}
-"goto"|"GOTO"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), GOTO);}
-"end"|"END"                               {return TransportLexemeAction(createLexicalAnalyzerContext(), END);}
+"WHEN"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), WHEN);}
+"GOTO"                              {return TransportLexemeAction(createLexicalAnalyzerContext(), GOTO);}
+"END"                               {return TransportLexemeAction(createLexicalAnalyzerContext(), END);}
 
-"CheckBox"|"CHECKBOX"|"checkbox"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
-"Radios"|"RADIOS"|"radios"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
-"Select"|"SELECT"|"select"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
-"Text"|"TEXT"|"text"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), TEXT);}
-"Image"|"IMAGE"|"image"                             {return TypesLexemeAction(createLexicalAnalyzerContext(), IMAGE);}
-"Document"|"DOCUMENT"|"document"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), DOCUMENT);}
-"LongText"|"LONGTEXT"|"longtext"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
-"Numeric"|"NUMERIC"|"numeric"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
-"Password"|"PASSWORD"|"password"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
-"Date"|"DATE"|"date"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
+"CHECKBOX"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), CHECKBOX);}
+"RADIOS"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), RADIOS);}
+"SELECT"                            {return TypesLexemeAction(createLexicalAnalyzerContext(), SELECT);}
+"TEXT"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), TEXT);}
+"IMAGE"                             {return TypesLexemeAction(createLexicalAnalyzerContext(), IMAGE);}
+"DOCUMENT"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), DOCUMENT);}
+"LONGTEXT"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), LONGTEXT);}
+"NUMERIC"                           {return TypesLexemeAction(createLexicalAnalyzerContext(), NUMERIC);}
+"PASSWORD"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
+"DATE"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
 
-"Debut"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), DEBUT);}
-"Fearless"                           {return ThemesLexemeAction(createLexicalAnalyzerContext(), FEARLESS);}
-"SpeakNow"                           {return ThemesLexemeAction(createLexicalAnalyzerContext(), SPEAK_NOW);}
-"Red"                                {return ThemesLexemeAction(createLexicalAnalyzerContext(), RED);}
-"1989"                               {return ThemesLexemeAction(createLexicalAnalyzerContext(), NINETEEN_EIGHTY_NINE);}
-"Reputation"                         {return ThemesLexemeAction(createLexicalAnalyzerContext(), REPUTATION);}
-"Lover"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), LOVER);}
-"Folklore"                           {return ThemesLexemeAction(createLexicalAnalyzerContext(), FOLKLORE);}
-"Evermore"                           {return ThemesLexemeAction(createLexicalAnalyzerContext(), EVERMORE);}
-"Midnights"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), MIDNIGHTS);}
-"TTPD"                               {return ThemesLexemeAction(createLexicalAnalyzerContext(), TTPD);}
+"Debut"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), DEBUT);}
+"Fearless"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FEARLESS);}
+"SpeakNow"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), SPEAK_NOW);}
+"Red"                               {return ThemesLexemeAction(createLexicalAnalyzerContext(), RED);}
+"1989"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), NINETEEN_EIGHTY_NINE);}
+"Reputation"                        {return ThemesLexemeAction(createLexicalAnalyzerContext(), REPUTATION);}
+"Lover"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), LOVER);}
+"Folklore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FOLKLORE);}
+"Evermore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), EVERMORE);}
+"Midnights"                         {return ThemesLexemeAction(createLexicalAnalyzerContext(), MIDNIGHTS);}
+"TTPD"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), TTPD);}
 
 "["                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), OPEN_BRACKETS);}
 "]"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACKETS);}
@@ -109,11 +109,11 @@
 ")"									{ return ParenthesisLexemeAction(createLexicalAnalyzerContext(), CLOSE_PARENTHESIS); }
 ","                                 { return CommaLexemeAction(createLexicalAnalyzerContext());}
 
-"and"|"AND"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), AND);}
-"or"|"OR"                           { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
-"not"|"NOT"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
-"true"|"TRUE"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), TRUE);}
-"false"|"FALSE"                         { return LogicLexemeAction(createLexicalAnalyzerContext(), FALSE);}
+"AND"                               { return LogicLexemeAction(createLexicalAnalyzerContext(), AND);}
+"OR"                                { return LogicLexemeAction(createLexicalAnalyzerContext(), OR);}
+"NOT"                               { return LogicLexemeAction(createLexicalAnalyzerContext(), NOT);}
+"TRUE"                              { return LogicLexemeAction(createLexicalAnalyzerContext(), TRUE);}
+"FALSE"                             { return LogicLexemeAction(createLexicalAnalyzerContext(), FALSE);}
 
 [[:digit:]]+						        { return IntegerLexemeAction(createLexicalAnalyzerContext()); }
 [[:alpha:]][[:alnum:]]+                     { return IDLexemeAction(createLexicalAnalyzerContext());}
@@ -123,7 +123,7 @@
 
 "\""                                { BEGIN(STRING_CONTEXT); }
 <STRING_CONTEXT>"\""                { BEGIN(INITIAL);} 
-<STRING_CONTEXT>[^\"]+              { return StringLexemeAction(createLexicalAnalyzerContext());} 
+<STRING_CONTEXT>[^\"]+              { return stringLexemeAction(createLexicalAnalyzerContext());} 
 "/*"								{ BEGIN(MULTILINE_COMMENT); BeginMultilineCommentLexemeAction(createLexicalAnalyzerContext()); }
 <MULTILINE_COMMENT>"*/"				{ EndMultilineCommentLexemeAction(createLexicalAnalyzerContext()); BEGIN(INITIAL); }
 <MULTILINE_COMMENT>[[:space:]]+		{ IgnoredLexemeAction(createLexicalAnalyzerContext()); }
