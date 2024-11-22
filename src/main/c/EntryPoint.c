@@ -21,6 +21,7 @@ const int main(const int count, const char ** arguments) {
 	initializeBisonActionsModule();
 	initializeSyntacticAnalyzerModule();
 	initializeAbstractSyntaxTreeModule();
+    initializeFlowFormModule();
 	// initializeCalculatorModule();
 	// initializeGeneratorModule();
 
@@ -41,7 +42,8 @@ const int main(const int count, const char ** arguments) {
 		.tableGetaways = initTable(sizeof(struct TableGetaways)),
 		.tableOptions = initTable(sizeof(struct TableOptions)),
 		.tableGlitches = initTable(sizeof(struct TableGlitches)),
-		.contexStack = initStringStack();
+		.contextStack = initStringStack(),
+        .formConfig = malloc(sizeof(struct formConfiguration))
 	};
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
@@ -51,15 +53,14 @@ const int main(const int count, const char ** arguments) {
 		logDebugging(logger, "Computing expression value...");
 		FormFg * program = compilerState.abstractSyntaxtTree;
 		FormFlags initialFormFlags = { .state = FORM_NOT_DEFINED, .formConfigDone = false };
-		//// ComputationResult computationResult = computeFormFg(program,compilerState, initialFormFlags);
-		//if (computationResult.succeed) {
-		//	compilerState.value = computationResult.value;
-		//	generate(&compilerState);
-		//}
-		//else {
-		//	logError(logger, "The computation phase rejects the input program.");
-		//	compilationStatus = FAILED;
-		//}*/
+        boolean computationResult = computeFormFg(program,&compilerState, &initialFormFlags);
+		if (computationResult) {
+			//generate(&compilerState);
+		}
+		else {
+			logError(logger, "The computation phase rejects the input program.");
+			compilationStatus = FAILED;
+		}
 		//// ...end of the Backend. -----------------------------------------------------------------
 		//// ----------------------------------------------------------------------------------------
 		//logDebugging(logger, "Releasing AST resources...");

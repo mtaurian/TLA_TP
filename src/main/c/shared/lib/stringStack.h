@@ -4,7 +4,7 @@
 #define STRING_STACK_H
 
 #include <stddef.h>
-#include "Type.h"
+#include "../Type.h"
 
 #define STACK_CHUNK_SIZE 15
 

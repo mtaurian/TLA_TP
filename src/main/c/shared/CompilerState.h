@@ -14,9 +14,19 @@ typedef enum {
 	FAILED = 1
 } CompilationStatus;
 
+typedef enum EntrySymbolsType {
+    ENTRY_SYMBOLS_STEP = 0,
+    ENTRY_SYMBOLS_SHOWIF_DECLARATION,
+    ENTRY_SYMBOLS_SECTION,
+    ENTRY_SYMBOLS_QUESTION,
+    ENTRY_SYMBOLS_GETAWAY,
+    ENTRY_SYMBOLS_OPTION,
+    ENTRY_SYMBOLS_GLITCH
+} EntrySymbolsType;
+
 struct EntrySymbols {
 	char * id;
-	FormSubFgType * formFg;
+    EntrySymbolsType  entrySymbolsType;
 	size_t index;
 };
 
@@ -66,6 +76,12 @@ struct TableGlitches {
 	char * errorMessage;
 };
 
+struct formConfiguration {
+    ThemeSp theme;
+    char * submitText;
+    boolean safeAndSound;
+};
+
 /**
  * The global state of the compiler. Should transport every data structure
  * needed across the different phases of a compilation.
@@ -77,6 +93,8 @@ typedef struct {
 	// A flag that indicates the current state of the compilation so far.
 	boolean succeed;
 
+    struct formConfiguration * formConfig;
+
 	struct hashmap * tableSymbols;
 	struct Table * tableShowIfDeclarations;
 	struct Table * tableSteps;
@@ -85,7 +103,7 @@ typedef struct {
 	struct Table * tableGetaways;
 	struct Table * tableOptions;
 	struct Table * tableGlitches;
-	stringStack * contexStack;
+	stringStack * contextStack;
 
 } CompilerState;
 
