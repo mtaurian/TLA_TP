@@ -19,6 +19,10 @@
                                 <p>{{step.description}}</p>
                             </div>
                             <div v-if="step.sections.length" v-for="(section, sectionIdx) in step.sections">
+                                <div>
+                                    <h1>{{section.title}}</h1>
+                                    <p>{{section.description}}</p>
+                                </div>
                                 <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)">
                                     <v-card-title>{{ field.label }}</v-card-title>
                                     <v-card-text>
@@ -69,9 +73,9 @@
                     , sections : [{title : 'the first section of s1', description : 'the desc of sec1 s1'}, {title : 'the second section of s1', description : 'the desc of sec2 s1'}]
                 }
                 , {title : 'the second step', description : 's2 desc', 
-                    sections : []
+                    sections : [{title : '', description : ''}]
                 }, {title : 'the third step', description : 's3 desc', 
-                    sections : []   
+                    sections : [{title : '', description : ''}]   
                 }]);
                 const stepsQty = steps.value.length+1;
                 
@@ -81,21 +85,18 @@
                     [{ condition: () => true, step: 3 }],
                 ]);
 
-
                 //manage questions
                 const questions = ref([
-                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null },
-                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null},
-                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null },
-                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}]}
+                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null, showif : () => true },
+                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null, showif : () => questions.value[0].value != 0},
+                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null, showif : () => true},
+                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}], showif : () => questions.value[1].value != 'hola'}
                 ]);
 
-                //lib
+                //utils
 
-                //manage sections 
-                
                 const sectionQuestions = (stepIdx, sectionIdx) => {
-                    return questions.value.filter((q) => q.section === sectionIdx && q.step === stepIdx)
+                    return questions.value.filter((q) => q.section === sectionIdx && q.step === stepIdx && q.showif());
                 }
 
                 const filteredOptions = (field) => {
@@ -137,14 +138,14 @@
                     }
 
                     field.error = field.errors
-                        .map((error) => error.condition(field.value) ? error.msg : "").filter((e) => e.length).toString()
+                        .map((error) => error.condition(field.value) ? error.msg + ' ' : "").filter((e) => e.length).toString()
             
                     if (field.error.length >= 0){
                         field.error = errors;
-                        return true;
+                        return false;
                     }else {
                         field.error = "";
-                        return false;
+                        return true;
                     }
                 };
 
