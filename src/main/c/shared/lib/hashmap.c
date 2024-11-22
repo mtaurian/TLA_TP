@@ -54,7 +54,7 @@ struct hashmap {
     size_t shrinkat;
     uint8_t loadfactor;
     uint8_t growpower;
-    bool oom;
+    boolean oom;
     void *buckets;
     void *spare;
     void *edata;
@@ -204,7 +204,7 @@ static void free_elements(struct hashmap *map) {
 // When the update_cap is provided, the map's capacity will be updated to match
 // the currently number of allocated buckets. This is an optimization to ensure
 // that this operation does not perform any allocations.
-void hashmap_clear(struct hashmap *map, bool update_cap) {
+void hashmap_clear(struct hashmap *map, boolean update_cap) {
     map->count = 0;
     free_elements(map);
     if (update_cap) {
@@ -223,7 +223,7 @@ void hashmap_clear(struct hashmap *map, bool update_cap) {
     map->shrinkat = map->nbuckets * SHRINK_AT;
 }
 
-static bool resize0(struct hashmap *map, size_t new_cap) {
+static boolean resize0(struct hashmap *map, size_t new_cap) {
     struct hashmap *map2 = hashmap_new_with_allocator(map->malloc, map->realloc, 
         map->free, map->elsize, new_cap, map->seed0, map->seed1, map->hash, 
         map->compare, map->elfree, map->udata);
@@ -260,7 +260,7 @@ static bool resize0(struct hashmap *map, size_t new_cap) {
     return true;
 }
 
-static bool resize(struct hashmap *map, size_t new_cap) {
+static boolean resize(struct hashmap *map, size_t new_cap) {
     return resize0(map, new_cap);
 }
 
@@ -427,15 +427,15 @@ void hashmap_free(struct hashmap *map) {
 
 // hashmap_oom returns true if the last hashmap_set() call failed due to the 
 // system being out of memory.
-bool hashmap_oom(struct hashmap *map) {
+boolean hashmap_oom(struct hashmap *map) {
     return map->oom;
 }
 
 // hashmap_scan iterates over all items in the hash map
 // Param `iter` can return false to stop iteration early.
 // Returns false if the iteration has been stopped early.
-bool hashmap_scan(struct hashmap *map, 
-    bool (*iter)(const void *item, void *udata), void *udata)
+boolean hashmap_scan(struct hashmap *map,
+    boolean (*iter)(const void *item, void *udata), void *udata)
 {
     for (size_t i = 0; i < map->nbuckets; i++) {
         struct bucket *bucket = bucket_at(map, i);
@@ -464,7 +464,7 @@ bool hashmap_scan(struct hashmap *map,
 //
 // The function returns true if an item was retrieved; false if the end of the
 // iteration has been reached.
-bool hashmap_iter(struct hashmap *map, size_t *i, void **item) {
+boolean hashmap_iter(struct hashmap *map, size_t *i, void **item) {
     struct bucket *bucket;
     do {
         if (*i >= map->nbuckets) return false;
@@ -813,7 +813,7 @@ static size_t deepcount(struct hashmap *map) {
 #include <stdio.h>
 #include "hashmap.h"
 
-static bool rand_alloc_fail = false;
+static boolean rand_alloc_fail = false;
 static int rand_alloc_fail_odds = 3; // 1 in 3 chance malloc will fail.
 static uintptr_t total_allocs = 0;
 static uintptr_t total_mem = 0;
@@ -849,7 +849,7 @@ static void shuffle(void *array, size_t numels, size_t elsize) {
     }
 }
 
-static bool iter_ints(const void *item, void *udata) {
+static boolean iter_ints(const void *item, void *udata) {
     int *vals = *(int**)udata;
     vals[*(int*)item] = 1;
     return true;
