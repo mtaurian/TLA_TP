@@ -209,6 +209,14 @@ void releaseLibFunction(LibFunction * libFunction){
 			case TYPE_STRING: free(libFunction->v_string);break;
 			case TYPE_ID: free(libFunction->v_id);break;
 			case TYPE_DATE: releaseDate(libFunction->v_date);break;
+			case TYPE_FLOAT:
+			case TYPE_INTEGER:
+			case TYPE_NONE:
+			case TYPE_VALUE:
+			case TYPE_NUMBER:
+			case TYPE_TRUE:
+			case TYPE_FALSE:
+			break;
 			default:
 			logError(_logger, "Invalid status on: %s", __FUNCTION__);
 			break;
