@@ -8,8 +8,8 @@
 #include "shared/Environment.h"
 #include "shared/Logger.h"
 #include "shared/String.h"
-#include "backend/extern-utils/hashmap.h"
 #include "backend/domain-specific/symbol-table.h"
+#include "backend/domain-specific/FlowForm.h"
 /**
  * The main entry-point of the entire application. If you use "strtok" to
  * parse anything inside this project instead of using Flex and Bison, I will
@@ -33,7 +33,14 @@ const int main(const int count, const char ** arguments) {
 	CompilerState compilerState = {
 		.abstractSyntaxtTree = NULL,
 		.succeed = false,
-		.table = hashmap_new(sizeof(struct user), 0, 0, 0, formFg_hash, formFg_compare, NULL, NULL);;
+		.tableSymbols = hashmap_new(sizeof(struct  EntrySymbols ), 0, 0, 0, entrySymbolHash,entrySymbolCompare, NULL, NULL),
+		.tableShowIfDeclarations = initTable(sizeof(struct TableShowIfDeclarations)),
+		.tableSteps = initTable(sizeof(struct TableSteps)),
+		.tableSections = initTable(sizeof(struct TableSections)),
+		.tableQuestions =initTable(sizeof(struct TableQuestions)),
+		.tableGetaways = initTable(sizeof(struct TableGetaways)),
+		.tableOptions = initTable(sizeof(struct TableOptions)),
+		.tableGlitches = initTable(sizeof(struct TableGlitches)),
 	};
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
@@ -42,18 +49,18 @@ const int main(const int count, const char ** arguments) {
 		// Beginning of the Backend... ------------------------------------------------------------
 		logDebugging(logger, "Computing expression value...");
 		FormFg * program = compilerState.abstractSyntaxtTree;
-		ComputationResult computationResult = computeFormFg(program,compilerState.table);
-		if (computationResult.succeed) {
-			compilerState.value = computationResult.value;
-			generate(&compilerState);
-		}
-		else {
-			logError(logger, "The computation phase rejects the input program.");
-			compilationStatus = FAILED;
-		}*/
-		// ...end of the Backend. -----------------------------------------------------------------
-		// ----------------------------------------------------------------------------------------
-		logDebugging(logger, "Releasing AST resources...");
+		//// ComputationResult computationResult = computeFormFg(program,compilerState.table);
+		//if (computationResult.succeed) {
+		//	compilerState.value = computationResult.value;
+		//	generate(&compilerState);
+		//}
+		//else {
+		//	logError(logger, "The computation phase rejects the input program.");
+		//	compilationStatus = FAILED;
+		//}*/
+		//// ...end of the Backend. -----------------------------------------------------------------
+		//// ----------------------------------------------------------------------------------------
+		//logDebugging(logger, "Releasing AST resources...");
 		releaseFormFg(program);
 	}
 	else {
