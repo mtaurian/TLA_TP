@@ -14,7 +14,7 @@ typedef ComputationResult (*BinaryOperator)(const int, const int);
 // FormSubFg
 
 typedef enum FormState {
-	ONLY_STEPS = 0, ONLY_SECTIONS, ONLY_QUESTIONS, NOT_DEFINED
+	FORM_ONLY_STEPS = 0, FORM_ONLY_SECTIONS, FORM_ONLY_QUESTIONS, FORM_NOT_DEFINED
 } FormState; 
 
 typedef struct FormFlags {
@@ -25,7 +25,7 @@ typedef struct FormFlags {
 // StepFg
 
 typedef enum StepState {
-	ONLY_SECTIONS = 0, ONLY_QUESTIONS, NOT_DEFINED
+	STEP_ONLY_SECTIONS = 0, STEP_ONLY_QUESTIONS, STEP_NOT_DEFINED
 } StepState; 
 
 typedef struct StepFlags {
