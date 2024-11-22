@@ -24,6 +24,11 @@ void releaseQuestionSp(QuestionSp * questionSp){
 			case QUESTION_SP_HELP:
 			case QUESTION_SP_PLACE_HOLDER: free(questionSp->v_string);	break;
 			case QUESTION_SP_OPTIONS: releaseListOptions(questionSp->options); break;
+			case QUESTION_SP_DEFAULT_FLOAT:
+			case QUESTION_SP_DEFAULT_INTEGER:
+			case QUESTION_SP_QUESTION_TYPE:
+			case QUESTION_SP_REQUIRED:
+			break;
 			default:
 			logError(_logger, "Invalid status on: %s", __FUNCTION__);
 			break;
