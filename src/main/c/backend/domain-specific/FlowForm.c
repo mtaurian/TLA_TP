@@ -1,7 +1,7 @@
-#include "FlowForm.h"
+/*#include "FlowForm.h"
 
 #include "symbol-table.h"
-#include "../extern-utils/hashmap.h"
+#include "../../shared/lib/hashmap.h"
 #include "../../frontend/syntactic-analysis/AbstractSyntaxTree.h"
 static boolean _invalidComputation() {
 	return false;
@@ -55,3 +55,4 @@ boolean computeStep(const Step * step,struct hashmap * table) {
 	return retRec;
 
 }
+*/

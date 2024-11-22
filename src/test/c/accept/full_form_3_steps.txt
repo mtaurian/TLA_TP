@@ -90,7 +90,7 @@
 		@Glitch {
 			@Error {
 				#Message "You are too old"
-				@ShowIf { s3q1 isBefore Date(15, 12, 2000) }
+				@ShowIf { s3q1 isBefore DATE(15, 12, 2000) }
 			}
 		}
 	}

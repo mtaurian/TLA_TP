@@ -5,12 +5,6 @@
 #include "../../shared/Logger.h"
 #include "../../shared/Type.h"
 
-typedef struct {
-	boolean succeed;
-} ComputationResult;
-
-typedef ComputationResult (*BinaryOperator)(const int, const int);
-
 // FormSubFg
 
 typedef enum FormState {
