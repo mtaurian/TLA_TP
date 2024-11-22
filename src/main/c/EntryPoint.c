@@ -41,6 +41,7 @@ const int main(const int count, const char ** arguments) {
 		.tableGetaways = initTable(sizeof(struct TableGetaways)),
 		.tableOptions = initTable(sizeof(struct TableOptions)),
 		.tableGlitches = initTable(sizeof(struct TableGlitches)),
+		.contexStack = initStringStack();
 	};
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
@@ -49,7 +50,8 @@ const int main(const int count, const char ** arguments) {
 		// Beginning of the Backend... ------------------------------------------------------------
 		logDebugging(logger, "Computing expression value...");
 		FormFg * program = compilerState.abstractSyntaxtTree;
-		//// ComputationResult computationResult = computeFormFg(program,compilerState.table);
+		FormFlags initialFormFlags = { .state = FORM_NOT_DEFINED, .formConfigDone = false };
+		//// ComputationResult computationResult = computeFormFg(program,compilerState, initialFormFlags);
 		//if (computationResult.succeed) {
 		//	compilerState.value = computationResult.value;
 		//	generate(&compilerState);

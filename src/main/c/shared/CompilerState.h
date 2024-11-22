@@ -4,6 +4,7 @@
 #include "../shared/lib/hashmap.h"
 #include "../shared/lib/tables.h"
 #include "../frontend/syntactic-analysis/AbstractSyntaxTree.h"
+#include "../shared/lib/stringStack.h"
 
 /**
  * The general status of a compilation.
@@ -84,7 +85,7 @@ typedef struct {
 	struct Table * tableGetaways;
 	struct Table * tableOptions;
 	struct Table * tableGlitches;
-	
+	stringStack * contexStack;
 
 } CompilerState;
 
