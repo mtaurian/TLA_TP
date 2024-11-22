@@ -24,23 +24,27 @@
                                     <p>{{section.description}}</p>
                                 </div>
                                 <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)">
-                                    <v-card-title>{{ field.label }}</v-card-title>
+                                    <v-card-title>
+                                        {{ field.label }}
+                                        <span v-if="field.required" style="color: red;">*</span>
+                                    </v-card-title>
+                                    <p v-if="field.help && field.help.length">{{ field.help }}</p>
                                     <v-card-text>
                                         <v-text-field
                                         v-if="field.type !== 'select'"
                                         v-model="field.value"
-                                        :label="field.label"
                                         :type="field.type"
                                         @blur="validateField(field)"
                                         :error-messages="field.error"
+                                        :placeholder="field.placeholder"
                                         />
                                         <v-select
                                         v-if="field.type === 'select'" 
                                         v-model="field.value"
                                         :items="filteredOptions(field)"
-                                        :label="field.label"
                                         @blur="validateField(field)"
                                         :error-messages="field.error"
+                                        :placeholder="field.placeholder"
                                         solo
                                         />
                                     </v-card-text>
@@ -49,14 +53,15 @@
                         </v-card>
                     </div>
                 </template>
+                <p><span style="color: red;">*</span> means field is required</p>
                 <v-btn @click="previousStep" v-if="stepHistory.length > 0">Previous</v-btn>
-                <v-btn @click="nextStep" v-if="currentStep < steps.length - 1">Next</v-btn>
-                <v-btn @click="submitForm" v-if="currentStep === steps.length - 1">Submit</v-btn>
+                <v-btn :disabled="!isStepValid" @click="nextStep" v-if="currentStep < steps.length - 1">Next</v-btn>
+                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1">Submit</v-btn>
             </v-container>
         </v-app>
     </script>
     <script>
-        const { createApp, ref } = Vue;
+        const { createApp, ref , computed} = Vue;
         const { createVuetify } = Vuetify;
 
         const vuetify = createVuetify();
@@ -68,7 +73,7 @@
                 //manage steps
                 const currentStep = ref(0);
                 const stepHistory = ref([]);
-        
+                
                 const steps = ref([{title : 'the first step', description : 's1 desc' 
                     , sections : [{title : 'the first section of s1', description : 'the desc of sec1 s1'}, {title : 'the second section of s1', description : 'the desc of sec2 s1'}]
                 }
@@ -87,16 +92,36 @@
 
                 //manage questions
                 const questions = ref([
-                    { step: 0, section : 0, id: 'question_1', type: 'number', label: 'Username', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], error: '', options : null, showif : () => true },
-                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: -1, required: true, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null, showif : () => questions.value[0].value != 0},
-                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: -1, required: true, errors: [], error: '', options : null, showif : () => true},
-                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: -1, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}], showif : () => questions.value[1].value != 'hola'}
+                    { step: 0, section : 0, id: 'question_1',
+                      type: 'number', label: 'Username', value: null,
+                      required: true, 
+                      errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], 
+                      error: '', options : null, showif : () => true
+                    , help: 'this is a help message', placeholder: 'this is a placeholder'},
+                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: null, required: false, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null, showif : () => questions.value[0].value != 0, help: 'this is a help message', placeholder: 'this is a placeholder'},
+                    { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: null, required: true, errors: [], error: '', options : null, showif : () => true, help: 'this is a help message', placeholder: 'this is a placeholder'},
+                    { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: null, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}], showif : () => questions.value[1].value != 'hola', help: 'this is a help message', placeholder: 'this is a placeholder'}
                 ]);
 
                 //utils
 
+                const isStepValid = computed(() => {
+                    const vq = questions.value.filter((q)=>q.step === currentStep.value && q.showif());
+                    return vq.every((q) => q.error === '' && (!q.required || (q.value && q.value !== '') ));                    ;
+                })
+
                 const sectionQuestions = (stepIdx, sectionIdx) => {
-                    return questions.value.filter((q) => q.section === sectionIdx && q.step === stepIdx && q.showif());
+                    return questions.value.filter((q) =>
+                    {   if(q.section === sectionIdx && q.step === stepIdx){
+                            if(q.showif()){
+                                return true;
+                            }  else {
+                                q.value = null;
+                                return false;
+                            }
+                        }
+                        return false
+                    } );
                 }
 
                 const filteredOptions = (field) => {
@@ -141,7 +166,6 @@
                         .map((error) => error.condition(field.value) ? error.msg + ' ' : "").filter((e) => e.length).toString()
             
                     if (field.error.length >= 0){
-                        field.error = errors;
                         return false;
                     }else {
                         field.error = "";
@@ -156,7 +180,7 @@
                     }
                 };
 
-                return { currentStep, questions, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps };
+                return { currentStep, questions, isStepValid, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps };
             }
         });
 
