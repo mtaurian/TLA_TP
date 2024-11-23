@@ -11,67 +11,144 @@
     <script type="text/x-template" id="app-template">
         <v-app>
             <div class="background">
-            <v-container class="container">
-                <h1 class="form-title">{{ formTitle }}</h1>
-                <template v-if="steps.length">
-                    <div v-for="(step, index) in steps" :key="index">
-                        <v-card v-if="currentStep === index" flat class="step-container">
-                            <div class="step">
-                                <h2 class="step-title">{{step.title}}</h2>
-                                <p class="step-description">{{ step.description }}</p>
-                            </div>
-                            <div v-if="step.sections.length" v-for="(section, sectionIdx) in step.sections">
-                                <div class="section">
-                                    <div class="section-border">
+                <v-container class="container">
+                    <form @submit.prevent="submitForm">
+                        <h1 class="form-title">{{ formTitle }}</h1>
+                        <template v-if="steps.length">
+                            <div v-for="(step, index) in steps" :key="index">
+                                <v-card v-if="currentStep === index" flat class="step-container">
+                                    <div class="step">
+                                        <h2 class="step-title">{{ step.title }}</h2>
+                                        <p class="step-description">{{ step.description }}</p>
                                     </div>
-                                    <h3 class="section-title">{{ section.title }}</h3>
-                                    <p class="section-description">{{ section.description }}</p>
-                                </div>
-                                <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)" class="questions">
-                                    <v-row>
-                                        <v-card-title>
-                                            {{ field.label }}
-                                            <span v-if="field.required" style="color: red;">*</span>
-                                        </v-card-title>
-                                        <div class="help-icon-container">
-                                            <span :title=field.help>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
-                                                </svg>
-                                            </span>
-                                          </div>
-                                    </v-row>
-                                    <v-card-text>
-                                        <v-text-field
-                                        v-if="field.type !== 'select'"
-                                        v-model="field.value"
-                                        :type="field.type"
-                                        @blur="validateField(field)"
-                                        :error-messages="field.error"
-                                        :placeholder="field.placeholder"
-                                        />
-                                        <v-select
-                                        v-if="field.type === 'select'" 
-                                        v-model="field.value"
-                                        :items="filteredOptions(field)"
-                                        @blur="validateField(field)"
-                                        :error-messages="field.error"
-                                        :placeholder="field.placeholder"
-                                        solo
-                                        />
-                                    </v-card-text>
-                                </div>
+                                    <div 
+                                        v-if="step.sections.length" 
+                                        v-for="(section, sectionIdx) in stepSections(index)"
+                                        :key="sectionIdx"
+                                    >
+                                        <div class="section">
+                                            <div class="section-border"></div>
+                                            <h3 class="section-title">{{ section.title }}</h3>
+                                            <p class="section-description">{{ section.description }}</p>
+                                        </div>
+                                        <div 
+                                            v-if="index === currentStep" 
+                                            v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)" 
+                                            :key="fieldIndx"
+                                            class="questions"
+                                        >
+                                            <v-row>
+                                                <v-card-title>
+                                                    {{ field.label }}
+                                                    <span v-if="field.required" style="color: red;">*</span>
+                                                </v-card-title>
+                                                <div class="help-icon-container">
+                                                    <span :title="field.help">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </v-row>
+                                            <v-card-text>
+                                                <v-text-field
+                                                    v-if="['text', 'number', 'date', 'file', 'password'].includes(field.type)"
+                                                    v-model="field.value"
+                                                    :type="field.type"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                />
+                                                <v-select
+                                                    v-if="field.type === 'select'" 
+                                                    :id="field.id"
+                                                    v-model="field.value"
+                                                    :items="filteredOptions(field)"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                    solo
+                                                />
+                                                <div v-if="field.type ==='checkbox'">
+                                                    <<v-radio-group v-model="field.value" :id="field.id" :multiple="true">
+                                                        <v-radio
+                                                            v-for="(option, optionIdx) in filteredOptions(field)"
+                                                            :key="optionIdx"
+                                                            :label="option"
+                                                            :value="option"
+                                                            />
+                                                        <v-btn @click="field.value = null" class="w10 m1 prev-button">Clear</v-btn>
+                                                    </v-radio-group>
+                                                </div>
+                                                <div v-if="field.type === 'radios'">
+                                                    <v-radio-group v-model="field.value" :id="field.id">
+                                                        <v-radio
+                                                            v-for="(option, optionIdx) in filteredOptions(field)"
+                                                            :key="optionIdx"
+                                                            :label="option"
+                                                            :value="option"
+                                                            />
+                                                        <v-btn @click="field.value = null; " class="w10 m1 prev-button">Clear</v-btn>
+                                                    </v-radio-group>
+                                                </div>
+                                                <div v-if="field.type === 'image'">
+                                                    <v-file-input
+                                                    accept="image/png, image/jpeg, image/bmp"
+                                                    :label="field.label"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                    v-model="field.value"
+                                                  ></v-file-input>                                                
+                                                </div>
+                                                <div v-if="field.type === 'textarea'">
+                                                    <v-textarea
+                                                    v-model="field.value"
+                                                    :type="field.type"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                />                                             
+                                                </div>
+                                            </v-card-text>
+                                        </div>
+                                    </div>
+                                </v-card>
                             </div>
-                        </v-card>
-                    </div>
-                </template>
-                <p class="required-note"><span style="color: red;">*</span> means field is required</p>
-                <v-btn @click="previousStep" v-if="stepHistory.length > 0" class="prev-button">Previous</v-btn>
-                <v-btn :disabled="!isStepValid" @click="nextStep" v-if="currentStep < steps.length - 1" class="prev-button next-button">Next</v-btn>
-                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1" class="prev-button submit-button">{{submitText}}</v-btn>
-            </v-container>
-        </div>
+                        </template>
+                        <p v-if="currentStep != steps.length - 1" class="required-note">
+                            <span style="color: red;">*</span> means field is required
+                        </p>
+                        <v-btn 
+                            @click="previousStep" 
+                            v-if="stepHistory.length > 0 && currentStep != steps.length - 1" 
+                            class="prev-button"
+                        >
+                            Previous
+                        </v-btn>
+                        <v-btn 
+                            :disabled="!isStepValid" 
+                            @click="nextStep" 
+                            v-if="currentStep < steps.length - 2 && !goesToEnd" 
+                            class="prev-button next-button"
+                        >
+                            Next
+                        </v-btn>
+                        <v-btn 
+                            type="submit" 
+                            :disabled="!isStepValid" 
+                            v-if="goesToEnd" 
+                            class="prev-button submit-button"
+                        >
+                            {{ submitText }}
+                        </v-btn>
+                    </form>
+                </v-container>                
+            </div>
         </v-app>
     </script>
     <script>
@@ -90,22 +167,24 @@
                 //manage steps
                 const currentStep = ref(0);
                 const stepHistory = ref([]);
-                
+                const closure = "This is the clossure message"
+
                 const steps = ref([{title : 'the first step', description : 's1 desc' 
-                    , sections : [{title : 'the first section of s1', description : 'the desc of sec1 s1'}, {title : 'the second section of s1', description : 'the desc of sec2 s1'}]
+                    , sections : [{title : 'the first section of s1', description : 'the desc of sec1 s1', showif : () => true}, {title : 'the second section of s1', description : 'the desc of sec2 s1', showif : () => true}]
+                    , getaways : [{ condition: () => questions.value[0].value == 0, step: 2 }]
                 }
                 , {title : 'the second step', description : 's2 desc', 
-                    sections : [{title : '', description : ''}]
+                    sections : [{title : 'the first section of second step', description : 'the first section desc of second step',showif : () => questions.value[1].value != 'hola' && questions.value[0].value > 6}]
+                    ,getaways : [{ condition: () => questions.value[1].value == 'jiji', step : 3}]
                 }, {title : 'the third step', description : 's3 desc', 
-                    sections : [{title : '', description : ''}]   
+                    sections : [{title : '', description : '', showif :() => true}]
+                    , getaways : []   
+                }, {title : 'Form submited successfully', description : closure, 
+                    sections : []
+                    , getaways : []   
                 }]);
-                const stepsQty = steps.value.length+1;
-                
-                const getaways = ref([
-                    [{ condition: () => questions.value[0].value == 0, step: 2 }],  
-                    [{ condition: () => true, step: 2 }],
-                    [{ condition: () => true, step: 3 }],
-                ]);
+
+                const stepsQty = steps.value.length;
 
                 //manage questions
                 const questions = ref([
@@ -115,7 +194,7 @@
                       errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 3), msg: "Entry is not multiple of 3" }, { condition: () => !isMultipleOf(questions.value[0].value, 5), msg: "Entry is not multiple of 5" }], 
                       error: '', options : null, showif : () => true
                     , help: 'this is a help message', placeholder: 'this is a placeholder'},
-                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: null, required: false, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of q1 is not multiple of 6" }], error: '' , options : null, showif : () => questions.value[0].value != 0, help: 'this is a help message', placeholder: 'this is a placeholder'},
+                    { step: 0, section : 1, id: 'question_2', type: 'text',  label: 'Email', value: null, required: false, errors: [{ condition: () => !isMultipleOf(questions.value[0].value, 6), msg: "Entry of username is not multiple of 6" }], error: '' , options : null, showif : () => questions.value[0].value != 0, help: 'this is a help message', placeholder: 'this is a placeholder'},
                     { step: 1, section : 0, id: 'question_3', type: 'date',   label: 'Birthdate', value: null, required: true, errors: [], error: '', options : null, showif : () => true, help: 'this is a help message', placeholder: 'this is a placeholder'},
                     { step: 2, section : 0, id: 'question_4', type: 'select', label: 'the select', value: null, required: true, errors: [], error: '', options : [{ condition: () => questions.value[0].value != 0, value: 'option1' }, {condition : () => true , value : 'option 2'}], showif : () => questions.value[1].value != 'hola', help: 'this is a help message', placeholder: 'this is a placeholder'}
                 ]);
@@ -123,9 +202,39 @@
                 //utils
 
                 const isStepValid = computed(() => {
-                    const vq = questions.value.filter((q)=>q.step === currentStep.value && q.showif());
-                    return vq.every((q) => q.error === '' && (!q.required || (q.value && q.value !== '') ));                    ;
+                    const vq = questions.value.filter((q)=>q.step === currentStep.value && q.showif() && steps.value[q.step].sections[q.section].showif());
+                    return vq.every((q) => q.error === '' && (!q.required || (q.value && q.value !== '') ));                    
                 })
+
+                const stepSections = (stepIdx) => {
+                    return steps.value[stepIdx].sections.filter((s, i) => {
+                        if (s.showif()){
+                            return true;
+                        } else {
+                            questions.value.forEach((q) =>{if (q.section === i && q.step === stepIdx) {
+                                    q.value = null
+                                }});
+                            return false;
+                        }
+                    });
+                }
+                
+                const goesToEnd = computed(() => {
+                    if (currentStep.value == steps.value.length - 2) {
+                        return true;
+                    }
+
+                    let shouldGoToEnd = false;
+
+                    for (var getaway of steps.value[currentStep.value].getaways) {
+                        if (getaway.step === steps.value.length - 1 && getaway.condition()) {
+                            shouldGoToEnd = true;
+                            break; 
+                        }
+                    }
+
+                    return shouldGoToEnd;
+                });
 
                 const sectionQuestions = (stepIdx, sectionIdx) => {
                     return questions.value.filter((q) =>
@@ -142,7 +251,7 @@
                 }
 
                 const filteredOptions = (field) => {
-                    if (field.type === 'select' && Array.isArray(field.options)) {
+                    if ((field.type === 'select' || field.type === 'radios' || field.type === 'checkbox') && Array.isArray(field.options)) {
                         return field.options
                         .filter((option) => option.condition && option.condition())
                         .map((option) =>  option.value);
@@ -154,8 +263,8 @@
                     if (currentStep.value < stepsQty - 1) {
                         let next = currentStep.value + 1;
 
-                        if (getaways.value[currentStep.value]) {
-                            getaways.value[currentStep.value].forEach(gateway => {
+                        if (steps.value[currentStep.value].getaways) {
+                            steps.value[currentStep.value].getaways.forEach(gateway => {
                                 if (gateway.condition()) {
                                     next = gateway.step;
                                 }
@@ -191,13 +300,13 @@
                 };
 
                 const submitForm = () => {
-                    questions.value.forEach(field => validateField(field)); 
-                    if (questions.value.every(field => !field.error)) {
-                        alert('Form submitted successfully!');
-                    }
+                    currentStep.value = steps.value.length - 1;
+
+                    //This is the place where you can put your FlowForm submission logic. 
+                    //Thanks for choosing FlowForm. Enjoy!
                 };
 
-                return { currentStep, questions, isStepValid, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps, formTitle, submitText };
+                return { currentStep, questions, isStepValid, goesToEnd, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepSections, stepHistory, steps, formTitle, submitText };
             }
         });
 
@@ -372,4 +481,14 @@
         color: white;
     }
 
+    .w10{
+        width: 10%;
+    }
+    .m1{
+        margin: 1rem;
+    }
+
+    .radios{
+        color: brown;
+    }
 </style>
