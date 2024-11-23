@@ -47,9 +47,10 @@ const int main(const int count, const char ** arguments) {
 		.tableOptions = initTable(sizeof(struct TableOptions)),
 		.tableGlitches = initTable(sizeof(struct TableGlitches)),
 		.contextStack = initStringStack(),
-        .formConfig = malloc(sizeof(FormConfiguration)),
-		.formSpecifiers = malloc(sizeof(FormSpecifiers))
+        .formConfig = calloc(1, sizeof(FormConfiguration)),
+		.formSpecifiers = calloc(1, sizeof(FormSpecifiers))
 	};
+
 	const SyntacticAnalysisStatus syntacticAnalysisStatus = parse(&compilerState);
 	CompilationStatus compilationStatus = SUCCEED;
 	if (syntacticAnalysisStatus == ACCEPT) {
