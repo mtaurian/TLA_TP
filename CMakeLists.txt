@@ -66,11 +66,12 @@ add_executable(Compiler
 	src/main/c/shared/Environment.c
 	src/main/c/shared/Logger.c
 	src/main/c/shared/String.c
-		src/main/c/backend/domain-specific/FlowForm.c
-		src/main/c/backend/domain-specific/symbol-table.c
-		src/main/c/shared/lib/hashmap.c
-		src/main/c/shared/lib/tables.c
-		src/main/c/shared/lib/stringStack.c
+	src/main/c/backend/domain-specific/FlowForm.c
+	src/main/c/backend/domain-specific/symbol-table.c
+	src/main/c/shared/lib/hashmap.c
+	src/main/c/shared/lib/tables.c
+	src/main/c/shared/lib/stringStack.c
+		src/main/c/backend/code-generation/Generator.c
 		# Add more *.c files if needed (otherwise, they won't be compiled).
 	# ...
 )
