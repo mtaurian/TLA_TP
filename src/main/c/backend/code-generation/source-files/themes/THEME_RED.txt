@@ -1,0 +1,134 @@
+<style scoped>
+
+    .background {
+        background-color: #75270D;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container {
+        background-color: #AE896D;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 60%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 5rem;
+        font-weight: bold;
+        color: #921D16;
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        margin-bottom: 1rem;
+    }
+
+    .step-container {
+        margin-top: 1rem;
+        background-color: #613B25;
+    }
+
+    .step {
+        margin-top: 1rem;
+        margin-left: 5%;
+        background-color: #613B25;
+    }
+
+    .step-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #AE896D;
+        margin: 0 0 0.25rem 0;
+        font-family: "Bebas Neue", sans-serif;
+    }
+
+    .step-description {
+        font-size: 1rem;
+        color: #AE896D;
+        font-family: "Bebas Neue", sans-serif;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .section {
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+        background-color: #AE896D;
+    }
+
+    .section-border {
+        width: 55%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+        text-align: center;
+        overflow: hidden;
+        background-color: #AE896D;
+        padding: 0;
+    }
+
+    .section-title {
+        margin-top: 2rem;
+        font-size: 2rem;
+        font-weight: normal;
+        color: black;
+        font-family: "Bebas Neue", sans-serif;
+    }
+
+    .section-description {
+        font-size: 1rem;
+        color: black;
+        font-family: "Bebas Neue", sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .questions {
+        background-color: #AE896D;
+    }
+
+    .v-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .required-note {
+        font-style: italic;
+        font-family: "Bebas Neue", sans-serif;
+        margin-bottom: 1rem;
+    }
+
+    .prev-button {
+        margin-right: 1rem;
+        background-color: #EBE7DB;
+    }
+
+    .next-button, .submit-button {
+        background-color: #EBE7DB;
+        margin-left: 1rem;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-button {
+        background-color: #75270D;
+        color: white;
+    }
+
+    .w10{
+        width: 10%;
+    }
+    .m1{
+        margin: 1rem;
+    }
+
+</style>

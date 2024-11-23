@@ -1,0 +1,134 @@
+<style scoped>
+
+    .background {
+        background-color: #98BEE6;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container {
+        background-color: #F1C0DB;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 60%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 5rem;
+        font-weight: bold;
+        color: #e92174;
+        font-family: "Satisfy", cursive;
+        font-weight: 400;
+        font-style: normal;
+        margin-bottom: 1rem;
+    }
+
+    .step-container {
+        margin-top: 1rem;
+        background-color: #F1C0DB;
+    }
+
+    .step {
+        margin-top: 1rem;
+        margin-left: 5%;
+        background-color: #F1C0DB;
+    }
+
+    .step-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #c877f7;
+        margin: 0 0 0.25rem 0;
+        font-family: "Satisfy", cursive;
+        text-shadow: #1b1b1b;
+    }
+
+    .step-description {
+        font-size: 1rem;
+        color: #e92174;
+        font-family: 'Roboto', sans-serif;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .section {
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+        background-color: #F1C0DB;
+    }
+
+    .section-border {
+        width: 55%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+        text-align: center;
+        overflow: hidden;
+        background-color: #F1C0DB;
+        padding: 0;
+    }
+
+    .section-title {
+        margin-top: 2rem;
+        font-size: 2rem;
+        font-weight: normal;
+        color: #1b1b1b;
+        font-family: "Satisfy", cursive;
+    }
+
+    .section-description {
+        font-size: 1rem;
+        color: #e92174;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .questions {
+        background-color: #F1C0DB;
+    }
+
+    .v-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .required-note {
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .prev-button {
+        margin-right: 1rem;
+        background-color: #FBDECC;
+    }
+
+    .next-button, .submit-button {
+        background-color: #FBDECC;
+        margin-left: 1rem;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-button {
+        background-color: #98BEE6;
+        color: black;
+    }
+
+    .w10{
+        width: 10%;
+    }
+    .m1{
+        margin: 1rem;
+    }
+
+</style>
