@@ -11,6 +11,7 @@
     <script type="text/x-template" id="app-template">
         <v-app>
             <v-container>
+                {{formTitle}}
                 <template v-if="steps.length">
                     <div v-for="(step, index) in steps" :key="index">
                         <v-card v-if="currentStep === index" flat>
@@ -56,7 +57,7 @@
                 <p><span style="color: red;">*</span> means field is required</p>
                 <v-btn @click="previousStep" v-if="stepHistory.length > 0">Previous</v-btn>
                 <v-btn :disabled="!isStepValid" @click="nextStep" v-if="currentStep < steps.length - 1">Next</v-btn>
-                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1">Submit</v-btn>
+                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1">{{submitText}}</v-btn>
             </v-container>
         </v-app>
     </script>
@@ -69,6 +70,9 @@
         const app = createApp({
             template: "#app-template",
             setup() {
+
+                const formTitle = 'Flowform';
+                const submitText = 'Submit';
 
                 //manage steps
                 const currentStep = ref(0);
@@ -180,7 +184,7 @@
                     }
                 };
 
-                return { currentStep, questions, isStepValid, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps };
+                return { currentStep, questions, isStepValid, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepHistory, steps, formTitle, submitText };
             }
         });
 
