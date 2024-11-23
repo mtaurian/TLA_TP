@@ -1,5 +1,5 @@
 #Title "Non-Existance Reference"
-#Description "In this case, there's a referennce to a question that does not exist"
+#Description "In this case, there's a referennce to a step that does not exist"
 #Closure "Thanks for submiting the form"
 
 @Step s1 {
