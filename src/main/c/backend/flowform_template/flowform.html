@@ -10,26 +10,38 @@
     <div id="app"></div>
     <script type="text/x-template" id="app-template">
         <v-app>
-            <v-container>
-                {{formTitle}}
+            <div class="background">
+            <v-container class="container">
+                <h1 class="form-title">{{ formTitle }}</h1>
                 <template v-if="steps.length">
                     <div v-for="(step, index) in steps" :key="index">
-                        <v-card v-if="currentStep === index" flat>
-                            <div>
-                                <h1>{{step.title}}</h1>
-                                <p>{{step.description}}</p>
+                        <v-card v-if="currentStep === index" flat class="step-container">
+                            <div class="step">
+                                <h2 class="step-title">{{step.title}}</h2>
+                                <p class="step-description">{{ step.description }}</p>
                             </div>
                             <div v-if="step.sections.length" v-for="(section, sectionIdx) in step.sections">
-                                <div>
-                                    <h1>{{section.title}}</h1>
-                                    <p>{{section.description}}</p>
+                                <div class="section">
+                                    <div class="section-border">
+                                    </div>
+                                    <h3 class="section-title">{{ section.title }}</h3>
+                                    <p class="section-description">{{ section.description }}</p>
                                 </div>
-                                <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)">
-                                    <v-card-title>
-                                        {{ field.label }}
-                                        <span v-if="field.required" style="color: red;">*</span>
-                                    </v-card-title>
-                                    <p v-if="field.help && field.help.length">{{ field.help }}</p>
+                                <div v-if="index === currentStep" v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)" class="questions">
+                                    <v-row>
+                                        <v-card-title>
+                                            {{ field.label }}
+                                            <span v-if="field.required" style="color: red;">*</span>
+                                        </v-card-title>
+                                        <div class="help-icon-container">
+                                            <span :title=field.help>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                                </svg>
+                                            </span>
+                                          </div>
+                                    </v-row>
                                     <v-card-text>
                                         <v-text-field
                                         v-if="field.type !== 'select'"
@@ -54,11 +66,12 @@
                         </v-card>
                     </div>
                 </template>
-                <p><span style="color: red;">*</span> means field is required</p>
-                <v-btn @click="previousStep" v-if="stepHistory.length > 0">Previous</v-btn>
-                <v-btn :disabled="!isStepValid" @click="nextStep" v-if="currentStep < steps.length - 1">Next</v-btn>
-                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1">{{submitText}}</v-btn>
+                <p class="required-note"><span style="color: red;">*</span> means field is required</p>
+                <v-btn @click="previousStep" v-if="stepHistory.length > 0" class="prev-button">Previous</v-btn>
+                <v-btn :disabled="!isStepValid" @click="nextStep" v-if="currentStep < steps.length - 1" class="prev-button next-button">Next</v-btn>
+                <v-btn :disabled="!isStepValid" @click="submitForm" v-if="currentStep === steps.length - 1" class="prev-button submit-button">{{submitText}}</v-btn>
             </v-container>
+        </div>
         </v-app>
     </script>
     <script>
@@ -234,4 +247,129 @@
         const day = new Date(date).getDay();
         return day === 0 || day === 6;
     }
+
+    const showHelpText = ref(false);  // This will toggle the visibility of the help text
+
 </script>
+
+<style scoped>
+    .background {
+        background-color: #8DA290;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .container {
+        background-color: #DEE2D9;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 60%;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #8DA290;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 1rem;
+    }
+
+    .step-container {
+        margin-top: 1rem;
+        background-color: #bec7b4;
+    }
+
+    .step {
+        margin-top: 1rem;
+        margin-left: 5%;
+        background-color: #bec7b4;
+    }
+
+    .step-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #555555;
+        margin: 0 0 0.25rem 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .step-description {
+        font-size: 1rem;
+        color: #777777;
+        font-family: 'Roboto', sans-serif;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+
+    .section {
+        margin-top: 1rem;
+        padding-bottom: 1rem;
+        background-color: #DEE2D9;
+    }
+
+    .section-border {
+        width: 55%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 1rem;
+        text-align: center;
+        overflow: hidden;
+        background-color: #DEE2D9;
+        padding: 0;
+    }
+
+    .section-title {
+        margin-top: 2rem;
+        font-size: 2rem;
+        font-weight: normal;
+        color: #333333;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .section-description {
+        font-size: 1rem;
+        color: #777777;
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .questions {
+        background-color: #DEE2D9;
+    }
+
+    .v-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .required-note {
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .prev-button {
+        margin-right: 1rem;
+    }
+
+    .next-button, .submit-button {
+        margin-left: 1rem;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-button {
+        background-color: #8DA290;
+        color: white;
+    }
+
+</style>
