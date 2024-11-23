@@ -17,7 +17,8 @@
  */
 
 void printCompilerState(CompilerState * cs);
-
+void logComputedResults(Logger *logger,CompilerState *cs);
+void freeTables(CompilerState *cs);
 const int main(const int count, const char ** arguments) {
 	Logger * logger = createLogger("EntryPoint");
 	initializeFlexActionsModule();
@@ -58,6 +59,7 @@ const int main(const int count, const char ** arguments) {
 		FormFg * program = compilerState.abstractSyntaxtTree;
 		FormFlags initialFormFlags = { .state = FORM_NOT_DEFINED, .formConfigDone = false };
         boolean computationResult = computeFormFg(program,&compilerState, &initialFormFlags);
+	    logComputedResults(logger, &compilerState);
 		if (computationResult) {
 			//generate(&compilerState);
 		}
@@ -67,8 +69,11 @@ const int main(const int count, const char ** arguments) {
 		}
 		//// ...end of the Backend. -----------------------------------------------------------------
 		//// ----------------------------------------------------------------------------------------
-		//logDebugging(logger, "Releasing AST resources...");
         printCompilerState(&compilerState);
+		logDebugging(logger, "Releasing AST resources...");
+	    freeTables(&compilerState);
+	    hashmap_free(compilerState.tableSymbols);
+	    freeStack(compilerState.contextStack);
 		releaseFormFg(program);
 	}
 	else {
@@ -88,8 +93,28 @@ const int main(const int count, const char ** arguments) {
 	return compilationStatus;
 }
 
+void logComputedResults(Logger *logger,CompilerState *cs) {
+    logInformation(logger, "Computed %zu steps successfully",cs->tableSteps->size);
+    logInformation(logger, "Computed %zu sections successfully",cs->tableSections->size);
+    logInformation(logger, "Computed %zu getaways successfully",cs->tableGetaways->size);
+    logInformation(logger, "Computed %zu options successfully",cs->tableOptions->size);
+    logInformation(logger, "Computed %zu showIf declarations successfully",cs->tableShowIfDeclarations->size);
+    logInformation(logger, "Computed %zu glitches successfully",cs->tableGlitches->size);
+    logInformation(logger, "Computed %zu questions successfully",cs->tableQuestions->size);
+    logInformation(logger, "Computed %zu symbols successfully",hashmap_count(cs->tableSymbols));
+}
 
-#include <stdio.h>
+
+void freeTables(CompilerState *cs) {
+    freeTable(cs->tableSections);
+    freeTable(cs->tableSteps);
+    freeTable(cs->tableGetaways);
+    freeTable(cs->tableOptions);
+    freeTable(cs->tableShowIfDeclarations);
+    freeTable(cs->tableGlitches);
+    freeTable(cs->tableQuestions);
+}
+
 
 void printTableSections(struct TableSections **table, size_t size) {
     for (size_t i = 0; i < size; i++) {
@@ -140,16 +165,16 @@ void printTableOptions(struct TableOptions **table, size_t size) {
         }
         if (table[i]->optionValue != NULL) {
             switch (table[i]->optionValue->type) {
-                case STRING:
+                case TYPE_STRING:
                     printf("  Option Value: %s\n", table[i]->optionValue->v_string);
                     break;
-                case INTEGER:
+                case TYPE_INTEGER:
                     printf("  Option Value: %d\n", table[i]->optionValue->v_integer);
                     break;
-                case FLOAT:
+                case TYPE_FLOAT:
                     printf("  Option Value: %f\n", table[i]->optionValue->v_float);
                     break;
-                case DATE:
+                case TYPE_DATE:
                     printf("  Option Value: %d-%d-%d\n", table[i]->optionValue->v_date->day, table[i]->optionValue->v_date->month, table[i]->optionValue->v_date->year);
                     break;
                 default:
@@ -176,7 +201,6 @@ void printTableGlitches(struct TableGlitches **table, size_t size) {
     }
 }
 
-#include <stdio.h>
 
 void printTableQuestions(struct TableQuestions **table, size_t size) {
     for (size_t i = 0; i < size; i++) {
@@ -187,25 +211,19 @@ void printTableQuestions(struct TableQuestions **table, size_t size) {
         printf("  Title: %s\n", table[i]->title);
         printf("  Placeholder: %s\n", table[i]->placeholder);
         printf("  Required: %d\n", table[i]->required);
-        if (true) {
-            switch (table[i]->defaultValue.type) {
-                case STRING:
-                    printf("  Default Value: %s\n", table[i]->defaultValue.v_string);
-                    break;
-                case INTEGER:
-                    printf("  Default Value: %d\n", table[i]->defaultValue.v_integer);
-                    break;
-                case FLOAT:
-                    printf("  Default Value: %f\n", table[i]->defaultValue.v_float);
-                    break;
-                case DATE:
-                    printf("  Default Value: %d-%d-%d\n", table[i]->defaultValue.v_date->day, table[i]->defaultValue.v_date->month, table[i]->defaultValue.v_date->year);
-                    break;
-                default:
-                    printf("  Default Value: Unknown type\n");
-            }
-        } else {
-            printf("  Default Value: NULL\n");
+        switch (table[i]->defaultValue.type) {
+            case TYPE_FLOAT:
+                printf("Defaul Value: %f\n",table[i]->defaultValue.v_float);
+            break;
+            case TYPE_INTEGER:
+                printf("Defaul Value: %d\n",table[i]->defaultValue.v_integer);
+            break;
+            case TYPE_STRING:
+                printf("Defaul Value: %s\n",table[i]->defaultValue.v_string);
+            break;
+            default:
+                printf("Default Value: NULL\n");
+            break;
         }
         printf("  Help: %s\n", table[i]->help);
         if (table[i]->showIf != NULL) {

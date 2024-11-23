@@ -12,7 +12,6 @@ static boolean _invalidComputation(char * msg) {
     return false;
 };
 static boolean _unnecessaryComputation(){
-    printf("CASO BASE \n");
 	return true;
 };
 
@@ -46,7 +45,7 @@ boolean computeQuestionSpOptions(ListOptions * option, CompilerState * cs){
 
             if(declaration==NULL) {
                 logError(_logger, "ShowIf declaration not previously defined: %s", option->showIfCall->conditionId);
-                return false;
+                ret = false;
             } else {
                 if(rowsOptions[cs->tableOptions->size-1 ]->condition!=NULL){
                     logError(_logger, "Multiple declaration of @ShowIf condition in option");
@@ -67,8 +66,7 @@ boolean computeQuestionSpOptions(ListOptions * option, CompilerState * cs){
         default:
             break;
     }
-
-    return ret;
+    return ret && computeQuestionSpOptions(option->nextOptions, cs);;
 }
 
 boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionFlags * flags){
@@ -77,7 +75,6 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
 
     boolean ret=true;
     struct TableQuestions ** rowsQuestions = ROWS(cs->tableQuestions, TableQuestions);
-    printf("SOY TIPO: %d\n", questionSp->type);
     switch (questionSp->type) {
         case QUESTION_SP_DEFAULT_STRING:
             if(flags->defaultValueDone){
@@ -86,6 +83,7 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
             }
             flags->defaultValueDone=true;
             rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_string=questionSp->v_string;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.type=TYPE_STRING;
             break;
         case QUESTION_SP_DEFAULT_FLOAT:
             if(flags->defaultValueDone){
@@ -94,6 +92,8 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
             }
             flags->defaultValueDone=true;
             rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_float=questionSp->v_float;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.type=TYPE_FLOAT;
+
             break;
         case QUESTION_SP_DEFAULT_INTEGER:
             if(flags->defaultValueDone){
@@ -102,6 +102,8 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
             }
             flags->defaultValueDone=true;
             rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_integer=questionSp->v_integer;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.type=TYPE_INTEGER;
+
             break;
         case QUESTION_SP_OPTIONS:
             if(flags->optionsDone){

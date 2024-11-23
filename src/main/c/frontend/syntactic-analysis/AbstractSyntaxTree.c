@@ -81,6 +81,7 @@ void releaseListOptions(ListOptions * options){
 		switch (options->hasShowIf){
 			case CALL : releaseShowIfCall(options->showIfCall); break;
 			case SCOPE : releaseShowIfOnScope(options->showIfOnScope);break;		
+			case NONE :break;
 			default:
 			logError(_logger, "Invalid status on: %s", __FUNCTION__);
 			break;
