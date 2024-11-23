@@ -48,11 +48,5 @@ typedef struct QuestionFlags {
 
 void initializeFlowFormModule();
 boolean computeFormFg(const FormFg * form, CompilerState * cs, FormFlags* flags);
-boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFlags *flags);
-boolean computeFormConfigFg(const FormConfigFg *formConfigFg, CompilerState * cs, FormConfigFlags *flags);
-//boolean computeStep(const Step * step,struct hashmap * table);
-//boolean computeQuestion(const Question * question,struct hashmap * table);
-//boolean computeSection(const SectionFg * section,struct hashmap * table);
-//boolean computeStepFg(const StepFg *stepFg,struct hashmap *table);
 
 #endif //FLOWFORM_H

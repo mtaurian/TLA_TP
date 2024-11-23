@@ -24,6 +24,12 @@ typedef enum EntrySymbolsType {
     ENTRY_SYMBOLS_GLITCH
 } EntrySymbolsType;
 
+typedef struct FormSpecifiers {
+	char * title;
+	char * description;
+	char * closure;
+}FormSpecifiers;
+
 struct EntrySymbols {
 	char * id;
     EntrySymbolsType  entrySymbolsType;
@@ -40,15 +46,15 @@ struct TableSteps {
 };
 
 struct TableSections {
-	size_t stepId;
+	size_t stepIdx;
 	char * title;
 	char * description;
 	Condition * showIf;
 };
 
 struct TableQuestions {
-	size_t stepId;
-	size_t sectionId;
+	size_t stepIdx;
+	size_t sectionIdx;
 	QuestionType type;
 	char * title;
 	char * placeholder;
@@ -59,28 +65,28 @@ struct TableQuestions {
 };
 
 struct TableGetaways {
-	size_t stepId;
+	size_t stepIdx;
 	Condition * condition;
-	size_t gotoStep;
+	char * gotoStepId;
 };
 
 struct TableOptions {
-	size_t questionId;
+	size_t questionIdx;
 	Condition * condition;
 	Value * optionValue;
 };
 
 struct TableGlitches {
-	size_t questionId;
+	size_t questionIdx;
 	Condition * condition;
 	char * errorMessage;
 };
 
-struct formConfiguration {
+typedef struct FormConfiguration {
     ThemeSp theme;
     char * submitText;
     boolean safeAndSound;
-};
+}FormConfiguration;
 
 /**
  * The global state of the compiler. Should transport every data structure
@@ -93,7 +99,7 @@ typedef struct {
 	// A flag that indicates the current state of the compilation so far.
 	boolean succeed;
 
-    struct formConfiguration * formConfig;
+    FormConfiguration * formConfig;
 
 	struct hashmap * tableSymbols;
 	struct Table * tableShowIfDeclarations;
@@ -104,6 +110,8 @@ typedef struct {
 	struct Table * tableOptions;
 	struct Table * tableGlitches;
 	stringStack * contextStack;
+
+	FormSpecifiers formSpecifiers;
 
 } CompilerState;
 
