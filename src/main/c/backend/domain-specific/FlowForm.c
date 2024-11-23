@@ -12,6 +12,7 @@ static boolean _invalidComputation(char * msg) {
     return false;
 };
 static boolean _unnecessaryComputation(){
+    printf("CASO BASE \n");
 	return true;
 };
 
@@ -23,8 +24,275 @@ boolean computeStepFg(const StepFg *stepFg,  CompilerState * cs, StepFlags *flag
 boolean computeStepSp(StepSp * stepSp, CompilerState * cs);
 boolean computeGetaway(Transports * getaway, CompilerState * cs);
 boolean computeSectionFgOrSp(SectionFg * section, CompilerState * cs);
-boolean computeSectionSubFg(SectionFg * section, CompilerState * cs);
+boolean computeSectionSubFg(SectionSubFg * section, CompilerState * cs);
+boolean computeQuestionFg(QuestionFg * question, CompilerState * cs, QuestionFlags * flags);
+boolean computeQuestionSubFg(QuestionSubFg * question, CompilerState * cs, QuestionFlags * flags);
+boolean computeGlitchFg(GlitchFg * glitchFg, CompilerState * cs);
+boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionFlags * flags);
+boolean computeQuestionSpOptions(ListOptions * option, CompilerState * cs);
 
+
+boolean computeQuestionSpOptions(ListOptions * option, CompilerState * cs){
+    logDebugging(_logger, __FUNCTION__ );
+    if(option==NULL) return _unnecessaryComputation();
+    boolean ret=true;
+    struct TableOptions ** rowsOptions = ROWS(cs->tableOptions, TableOptions);
+    struct TableShowIfDeclarations ** rowsShowIfDeclarations = ROWS(cs->tableShowIfDeclarations, TableShowIfDeclarations);
+
+    switch (option->hasShowIf) {
+        case CALL:
+            const struct EntrySymbols * declaration = hashmap_get(cs->tableSymbols,
+                    &(struct EntrySymbols){.id = option->showIfCall->conditionId});
+
+            if(declaration==NULL) {
+                logError(_logger, "ShowIf declaration not previously defined: %s", option->showIfCall->conditionId);
+                return false;
+            } else {
+                if(rowsOptions[cs->tableOptions->size-1 ]->condition!=NULL){
+                    logError(_logger, "Multiple declaration of @ShowIf condition in option");
+                    ret=false;
+                }
+                addRow(cs->tableOptions, &(struct TableOptions){.condition=rowsShowIfDeclarations[declaration->index]->condition,.optionValue=option->value,.questionIdx=cs->tableQuestions->size-1});
+            }
+            break;
+        case SCOPE:
+            if(rowsOptions[cs->tableOptions->size-1 ]->condition!=NULL){
+                logError(_logger, "Multiple declaration of @ShowIf condition in option");
+                ret=false;
+            }
+            addRow(cs->tableOptions, &(struct TableOptions){.condition=option->showIfOnScope->condition,.optionValue=option->value,.questionIdx=cs->tableQuestions->size-1});
+            break;
+        case NONE:
+            addRow(cs->tableOptions, &(struct TableOptions){.condition=NULL,.optionValue=option->value,.questionIdx=cs->tableQuestions->size-1});
+        default:
+            break;
+    }
+
+    return ret;
+}
+
+boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionFlags * flags){
+    logDebugging(_logger, __FUNCTION__ );
+    if(questionSp==NULL) return _unnecessaryComputation();
+
+    boolean ret=true;
+    struct TableQuestions ** rowsQuestions = ROWS(cs->tableQuestions, TableQuestions);
+    printf("SOY TIPO: %d\n", questionSp->type);
+    switch (questionSp->type) {
+        case QUESTION_SP_DEFAULT_STRING:
+            if(flags->defaultValueDone){
+                logError(_logger, "Multiple declaration of #DefaultValue in question");
+                ret=false;
+            }
+            flags->defaultValueDone=true;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_string=questionSp->v_string;
+            break;
+        case QUESTION_SP_DEFAULT_FLOAT:
+            if(flags->defaultValueDone){
+                logError(_logger, "Multiple declaration of #DefaultValue in question");
+                ret=false;
+            }
+            flags->defaultValueDone=true;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_float=questionSp->v_float;
+            break;
+        case QUESTION_SP_DEFAULT_INTEGER:
+            if(flags->defaultValueDone){
+                logError(_logger, "Multiple declaration of #DefaultValue in question");
+                ret=false;
+            }
+            flags->defaultValueDone=true;
+            rowsQuestions[cs->tableQuestions->size-1]->defaultValue.v_integer=questionSp->v_integer;
+            break;
+        case QUESTION_SP_OPTIONS:
+            if(flags->optionsDone){
+                logError(_logger, "Multiple declaration of #Options in question");
+                ret=false;
+            }
+            flags->optionsDone=true;
+            ret = computeQuestionSpOptions(questionSp->options, cs);
+            break;
+        case QUESTION_SP_TITLE:
+            if(rowsQuestions[cs->tableQuestions->size-1]->title!=NULL){
+                logError(_logger, "Multiple declaration of #Title in question");
+                ret=false;
+            }
+            rowsQuestions[cs->tableQuestions->size-1]->title=questionSp->v_string;
+            break;
+        case QUESTION_SP_HELP:
+            if(rowsQuestions[cs->tableQuestions->size-1]->help!=NULL){
+                logError(_logger, "Multiple declaration of #Help in question");
+                ret=false;
+            }
+            rowsQuestions[cs->tableQuestions->size-1]->help=questionSp->v_string;
+            break;
+        case QUESTION_SP_PLACE_HOLDER:
+            if(rowsQuestions[cs->tableQuestions->size-1]->help!=NULL){
+                logError(_logger, "Multiple declaration of #Placeholder in question");
+                ret=false;
+            }
+            rowsQuestions[cs->tableQuestions->size-1]->placeholder=questionSp->v_string;
+            break;
+        case QUESTION_SP_REQUIRED:
+            if(flags->requiredDone){
+                logError(_logger, "Multiple declaration of #Required in question");
+                ret=false;
+            }
+            rowsQuestions[cs->tableQuestions->size-1]->help=questionSp->v_string;
+            break;
+        case QUESTION_SP_QUESTION_TYPE:
+            if(flags->typeDone){
+                logError(_logger, "Multiple declaration of #QuestionType in question");
+                ret=false;
+            }
+            flags->typeDone=true;
+            switch(questionSp->questionType){
+                    case QUESTION_TYPE_CHECKBOX:
+                        rowsQuestions[cs->tableQuestions->size-1]->type = "checkbox";
+                        break;
+                    case QUESTION_TYPE_RADIOS:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "radios"; ;
+                        break;
+                    case QUESTION_TYPE_SELECT_TEXT:
+                    case QUESTION_TYPE_SELECT_DATE:
+                    case QUESTION_TYPE_SELECT_NUMERIC:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "select";
+                        break;
+                    case QUESTION_TYPE_TEXT:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "text";
+                        break;
+                    case QUESTION_TYPE_IMAGE:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "image";
+                        break;
+                    case QUESTION_TYPE_DOCUMENT:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "file" ;
+                        break;
+                    case QUESTION_TYPE_LONGTEXT:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "textarea";
+                        break;
+                    case QUESTION_TYPE_NUMERIC:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "number";
+                        break;
+                    case QUESTION_TYPE_PASSWORD:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "password";
+                        break;
+                    case QUESTION_TYPE_DATE:
+                        rowsQuestions[cs->tableQuestions->size-1]->type= "date";
+                        break;
+            }
+            break;
+        default:
+            break;
+    }
+    return ret;
+}
+
+boolean computeGlitchFg(GlitchFg * glitchFg, CompilerState * cs){
+    logDebugging(_logger, __FUNCTION__ );
+    if(glitchFg==NULL) return _unnecessaryComputation();
+    boolean ret = true;
+    struct TableShowIfDeclarations ** rowsShowIfDeclarations = ROWS(cs->tableShowIfDeclarations, TableShowIfDeclarations);
+    struct TableGlitches ** rowsGlitches= ROWS(cs->tableGlitches, TableGlitches);
+
+    addRow(cs->tableGlitches, &(struct TableGlitches){.questionIdx = cs->tableQuestions->size-1, .errorMessage=glitchFg->error->message});
+
+    switch(glitchFg->error->showIfType){
+        case SHOW_IF_CALL:
+            const struct EntrySymbols * declaration = hashmap_get(cs->tableSymbols,
+                                                                  &(struct EntrySymbols){.id = glitchFg->error->showIfCall->conditionId});
+            if(declaration==NULL) {
+                logError(_logger, "ShowIf declaration not previously defined: %s", glitchFg->error->showIfCall->conditionId);
+                return false;
+            } else {
+                if(rowsGlitches[cs->tableGlitches->size -1 ]->condition!=NULL){
+                    logError(_logger, "Multiple declaration of @ShowIf condition in error");
+                    ret=false;
+                }
+                rowsGlitches[cs->tableGlitches->size-1]->condition=rowsShowIfDeclarations[declaration->index]->condition;
+            }
+            break;
+        case SHOW_IF_ON_SCOPE:
+            if(rowsGlitches[cs->tableGlitches->size-1]->condition!=NULL){
+                logError(_logger, "Multiple declaration of @ShowIf condition in error");
+                ret=false;
+            }
+            rowsGlitches[cs->tableGlitches->size-1]->condition=glitchFg->error->showIfOnScope->condition;
+            break;
+        default:
+            return _invalidComputation("Invalid state on Glitch");
+    }
+
+    return ret && computeGlitchFg(glitchFg->nextErrors, cs);
+}
+
+boolean computeQuestionSubFg(QuestionSubFg * questionSubFg, CompilerState * cs, QuestionFlags * flags){
+    logDebugging(_logger, __FUNCTION__ );
+    if(questionSubFg==NULL) return _unnecessaryComputation();
+    boolean ret = true;
+    struct TableShowIfDeclarations ** rowsShowIfDeclarations = ROWS(cs->tableShowIfDeclarations, TableShowIfDeclarations);
+    struct TableQuestions ** rowsQuestions = ROWS(cs->tableQuestions, TableQuestions);
+
+    switch(questionSubFg->type){
+        case QUESTION_SUB_FG_SHOW_IF_CALL:
+            const struct EntrySymbols * declaration = hashmap_get(cs->tableSymbols,
+                                                                  &(struct EntrySymbols){.id = questionSubFg->showIfCall->conditionId});
+            if(declaration==NULL) {
+                logError(_logger, "ShowIf declaration not previously defined: %s", questionSubFg->showIfCall->conditionId);
+                ret=false;
+            } else {
+                if(rowsQuestions[cs->tableQuestions->size -1 ]->showIf!=NULL){
+                    logError(_logger, "Multiple declaration of @ShowIf condition in question");
+                    ret=false;
+                }
+                rowsQuestions[cs->tableQuestions->size -1 ]->showIf=rowsShowIfDeclarations[declaration->index]->condition;
+            }
+            break;
+        case QUESTION_SUB_FG_SHOW_IF_ON_SCOPE:
+            if(rowsQuestions[cs->tableQuestions->size -1 ]->showIf!=NULL){
+                logError(_logger, "Multiple declaration of @ShowIf condition in question");
+                ret=false;
+            }
+            rowsQuestions[cs->tableQuestions->size -1 ]->showIf=questionSubFg->showIfOnScope->condition;
+            break;
+        case QUESTION_SUB_FG_SHOW_IF_DECLARATION:
+            if(hashmap_get(cs->tableSymbols, &(struct EntrySymbols) {.id = questionSubFg->showIfDeclaration->id})){
+                ret = false;
+                logError(_logger, "Redeclaration of identifier: %s", questionSubFg->showIfDeclaration->id);
+            }
+            hashmap_set(cs->tableSymbols, &(struct EntrySymbols) {.entrySymbolsType=ENTRY_SYMBOLS_SHOWIF_DECLARATION, .id = questionSubFg->showIfDeclaration->id, .index = cs->tableShowIfDeclarations->size});
+            addRow(cs->tableShowIfDeclarations, &(struct TableShowIfDeclarations){.condition = questionSubFg->showIfDeclaration->condtion});
+            break;
+        case QUESTION_SUB_FG_GLITCH:
+            if(flags->glitchDone){
+                logError(_logger, "Multiple declaration of @Glitch in question");
+                ret=false;
+            }
+            flags->glitchDone=true;
+            ret = ret && computeGlitchFg(questionSubFg->glitchFg, cs);
+            break;
+        default:
+            return _invalidComputation("Invalid state on Question");
+    }
+    return ret;
+}
+
+boolean computeQuestionFg(QuestionFg * question, CompilerState * cs, QuestionFlags * flags){
+    logDebugging(_logger, __FUNCTION__ );
+    if(question==NULL) return _unnecessaryComputation();
+    boolean ret = true;
+
+    switch (question->type) {
+        case QUESTION_FG_SUB_FG:
+            ret = computeQuestionSubFg(question->questionSubFg, cs, flags);
+            break;
+        case QUESTION_FG_SP:
+            ret = computeQuestionSp(question->questionSp, cs, flags);
+            break;
+        default:
+            return _invalidComputation("Invalid specification on Form");
+    }
+
+    return ret && computeQuestionFg(question->nextQuestionSubFgsOrSps, cs, flags);
+}
 
 boolean computeSectionSp(SectionSp * sectionSp, CompilerState * cs) {
     logDebugging(_logger, __FUNCTION__ );
@@ -36,9 +304,9 @@ boolean computeSectionSp(SectionSp * sectionSp, CompilerState * cs) {
     switch (sectionSp->type) {
         case SECTION_SP_TITLE:
             if(tableSections[cs->tableSections->size-1]->title!=NULL){
-                ret = _invalidComputation("Redeclaration of #Title encountered");
+                ret = _invalidComputation("Redeclaration of #Title encountered on section");
             }
-            tableSections[cs->tableSteps->size-1]->title=sectionSp->string;
+            tableSections[cs->tableSections->size-1]->title=sectionSp->string;
 
             break;
         case SECTION_SP_DESCRIPTION:
@@ -77,7 +345,6 @@ boolean computeSectionSubFg(SectionSubFg * sectionSubFg, CompilerState * cs) {
             }
             break;
         case SECTION_SUB_FG_SHOW_IF_ON_SCOPE:
-
             if(rowsSections[cs->tableSections->size -1]->showIf!=NULL){
                 logError(_logger, "Multiple declaration of @ShowIf condition in section");
                 ret=false;
@@ -104,15 +371,14 @@ boolean computeSectionSubFg(SectionSubFg * sectionSubFg, CompilerState * cs) {
                 addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size-1, .sectionIdx = cs->tableSections->size-1});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_SECTION};
                 pushStringStack(cs->contextStack, sectionSubFg->question->id);
-                ret = ret && computeQuestion(sectionSubFg->question, cs, &questionFlags);
+                ret = ret && computeQuestionFg(sectionSubFg->question->questionFg, cs, &questionFlags);
                 popStringStack(cs->contextStack);
 
             break;
         default:
         return _invalidComputation("Invalid specification on Form");
     }
-
-
+    return ret;
 }
 
 boolean computeSectionFgOrSp(SectionFg * section, CompilerState * cs) {
@@ -147,20 +413,20 @@ boolean computeStepSp(StepSp * stepSp, CompilerState * cs) {
     if(stepSp==NULL) return _unnecessaryComputation();
 
     boolean ret=true;
-    struct TableSteps ** tableSteps = ROWS(cs->tableSteps, TableSteps);
+    struct TableSteps ** rowsSteps = ROWS(cs->tableSteps, TableSteps);
     switch (stepSp->type) {
         case STEP_SP_TITLE:
-            if(tableSteps[cs->tableSteps->size-1]->title!=NULL){
-                ret = _invalidComputation("Redeclaration of #Title encountered");
+            if(rowsSteps[cs->tableSteps->size-1]->title!=NULL){
+                ret = _invalidComputation("Redeclaration of #Title encountered on step");
             }
-            tableSteps[cs->tableSteps->size-1]->title=stepSp->string;
+            rowsSteps[cs->tableSteps->size-1]->title=stepSp->string;
 
             break;
         case STEP_SP_DESCRIPTION:
-            if(tableSteps[cs->tableSteps->size-1]->description!=NULL){
+            if(rowsSteps[cs->tableSteps->size-1]->description!=NULL){
                 ret = _invalidComputation("Redeclaration of #Description encountered");
             }
-            tableSteps[cs->tableSteps->size-1]->description=stepSp->string;
+            rowsSteps[cs->tableSteps->size-1]->description=stepSp->string;
             break;
         default:
             return _invalidComputation("Invalid specification on Form");
@@ -181,7 +447,6 @@ boolean computeStepFg(const StepFg *stepFg,  CompilerState * cs, StepFlags *flag
                 ret = _invalidComputation("Redeclaration of #Getaway encountered");
             } else {
                 flags->getawayDone=true;
-                addRow(cs->tableGetaways, &(struct TableGetaways){.stepIdx =cs->tableSteps->size-1});
                 ret = computeGetaway(stepFg->getaway,cs);
             }
             break;
@@ -209,12 +474,12 @@ boolean computeStepFg(const StepFg *stepFg,  CompilerState * cs, StepFlags *flag
                 addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size-1, .sectionIdx = 0});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_STEP};
                 pushStringStack(cs->contextStack, stepFg->question->id);
-                ret = ret && computeQuestion(stepFg->question, cs, &questionFlags);
+                ret = ret && computeQuestionFg(stepFg->question->questionFg, cs, &questionFlags);
                 popStringStack(cs->contextStack);
             }
             break;
-        return ret && computeStepFg(stepFg->nextStepFg, cs, flags);
     }
+    return ret && computeStepFg(stepFg->nextStepFg, cs, flags);
 }
 
 
@@ -224,23 +489,23 @@ boolean computeFormSp(const FormSp *formSp, CompilerState * cs) {
     boolean ret=true;
     switch (formSp->type) {
         case FORM_SP_TITLE:
-            if(cs->formSpecifiers.title!=NULL){
-                ret = _invalidComputation("Redeclaration of #Title encountered");
+            if(cs->formSpecifiers->title!=NULL){
+                ret = _invalidComputation("Redeclaration of #Title encountered on form");
             }
-            cs->formSpecifiers.title = formSp->v_string;
+            cs->formSpecifiers->title = formSp->v_string;
 
             break;
         case FORM_SP_DESCRIPTION:
-            if(cs->formSpecifiers.description!=NULL){
+            if(cs->formSpecifiers->description!=NULL){
                 ret = _invalidComputation("Redeclaration of #Description encountered");
             }
-            cs->formSpecifiers.description = formSp->v_string;
+            cs->formSpecifiers->description = formSp->v_string;
             break;
         case FORM_SP_CLOSURE:
-            if(cs->formSpecifiers.closure!=NULL){
+            if(cs->formSpecifiers->closure!=NULL){
                 ret = _invalidComputation("Redeclaration of #Closure encountered");
             }
-            cs->formSpecifiers.closure = formSp->v_string;
+            cs->formSpecifiers->closure = formSp->v_string;
             break;
         default:
             return _invalidComputation("Invalid specification on Form");
@@ -252,7 +517,7 @@ boolean computeFormSp(const FormSp *formSp, CompilerState * cs) {
 boolean computeFormFg(const FormFg * form, CompilerState * cs, FormFlags * flags) {
     logDebugging(_logger, __FUNCTION__ );
     if(form==NULL) return _unnecessaryComputation();
-    const boolean retRec=computeFormFg(form->nextFormFgs,cs, flags);
+
 	boolean ret=true;
     if(form->type==FORM_FG_SUB_FG){
         ret=computeFormSubFg(form->formSubFg,cs, flags);
@@ -261,7 +526,7 @@ boolean computeFormFg(const FormFg * form, CompilerState * cs, FormFlags * flags
     } else {
         ret = _invalidComputation("Invalid state on Form");
     }
-    return ret && retRec;
+    return ret && computeFormFg(form->nextFormFgs,cs, flags);;
 }
 
 boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFlags * flags) {
@@ -293,7 +558,7 @@ boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFla
                 }
 
                 hashmap_set(cs->tableSymbols, &(struct EntrySymbols){.entrySymbolsType=ENTRY_SYMBOLS_STEP, .id = formSubFg->step->id, .index = cs->tableSteps->size});
-                addRow(cs->tableSteps, &(struct TableSteps){.description = NULL, .title = NULL});
+                addRow(cs->tableSteps, &(struct TableSteps){});
                 StepFlags stepFlags = {.state = STEP_NOT_DEFINED, .getawayDone = false};
                 pushStringStack(cs->contextStack, formSubFg->step->id);
                 ret = ret && computeStepFg(formSubFg->step->stepFg, cs, &stepFlags);
@@ -315,7 +580,7 @@ boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFla
                 addRow(cs->tableQuestions, &(struct TableQuestions) {.stepIdx = 0, .sectionIdx = 0});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_FORM};
                 pushStringStack(cs->contextStack, formSubFg->question->id);
-                ret = ret && computeQuestion(formSubFg->question, cs, &questionFlags);
+                ret = ret && computeQuestionFg(formSubFg->question->questionFg, cs, &questionFlags);
                 popStringStack(cs->contextStack);
             }
             break;
@@ -336,7 +601,7 @@ boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFla
 }
 
 boolean computeFormConfigFg(const FormConfigFg * formConfigFg, CompilerState * cs, FormConfigFlags * flags){
-
+    logDebugging(_logger, __FUNCTION__ );
     if(formConfigFg==NULL) return _unnecessaryComputation();
 
     boolean ret = true;

@@ -42,6 +42,7 @@ typedef struct QuestionFlags {
 	boolean optionsDone;
     boolean typeDone;
     boolean requiredDone;
+    boolean defaultValueDone;
 	boolean glitchDone;
     QuestionComingFrom comingFrom;
 } QuestionFlags;

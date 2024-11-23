@@ -13,7 +13,7 @@ int entrySymbolCompare(const void *a, const void *b, void *udata) {
 
 boolean entrySymbolIter(const void *item, void *udata) {
     const struct EntrySymbols *entry = item;
-    printf(" Entry: %s\n", entry->id);
+    printf(" Entry: %s, type: %d, index = %zu\n", entry->id, entry->entrySymbolsType, entry->index);
     return true;
 }
 

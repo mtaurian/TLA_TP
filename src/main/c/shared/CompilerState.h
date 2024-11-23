@@ -55,11 +55,11 @@ struct TableSections {
 struct TableQuestions {
 	size_t stepIdx;
 	size_t sectionIdx;
-	QuestionType type;
+	char * type;
 	char * title;
 	char * placeholder;
 	boolean required;
-	Value * defaultValue;
+	Value  defaultValue;
 	char * help;
 	Condition * showIf;
 };
@@ -111,7 +111,7 @@ typedef struct {
 	struct Table * tableGlitches;
 	stringStack * contextStack;
 
-	FormSpecifiers formSpecifiers;
+	FormSpecifiers * formSpecifiers;
 
 } CompilerState;
 

@@ -269,7 +269,9 @@ GlErrorFg * GlErrorFgShowIfCallSemanticAction(char * the_message, ShowIfCall * t
 	GlErrorFg * glErrorFg = calloc(1, sizeof(GlErrorFg));
 	glErrorFg->message = the_message;
 	glErrorFg->showIfCall = the_showIfCall;
-	return glErrorFg;
+    glErrorFg->showIfType = SHOW_IF_CALL;
+
+    return glErrorFg;
 }
 
 GlErrorFg * GlErrorFgShowIfOnScopeSemanticAction(char * the_message, ShowIfOnScope * the_showIfOnScope){
@@ -277,6 +279,7 @@ GlErrorFg * GlErrorFgShowIfOnScopeSemanticAction(char * the_message, ShowIfOnSco
 	GlErrorFg * glErrorFg = calloc(1, sizeof(GlErrorFg));
 	glErrorFg->message = the_message;
 	glErrorFg->showIfOnScope = the_showIfOnScope;
+    glErrorFg->showIfType = SHOW_IF_ON_SCOPE;
 	return glErrorFg;
 }
 
@@ -557,6 +560,7 @@ StepFg * StepFgGetawayExtendedSemanticAction(Transports * the_getaway,StepFg * t
 		StepFg * stepFg=calloc(1,sizeof(StepFg));
 		stepFg->getaway=the_getaway;
 		stepFg->type=STEP_FG_GETAWAY;
+        stepFg->nextStepFg=the_nextStepFG;
 		return stepFg;
 }
 StepFg * StepFgSectionExtendedSemanticAction(SectionFg * the_section,StepFg * the_nextStepFG){

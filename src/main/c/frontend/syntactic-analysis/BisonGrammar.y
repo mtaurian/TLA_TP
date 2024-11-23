@@ -290,7 +290,7 @@ stepFg : stepSp						{$$=StepFgStepSpSemanticAction($1);}
 	;
 
 stepSp: TITLE STRING									{$$ = StepSpSemanticAction(STEP_SP_TITLE, $2);}
-	| DESCRIPTION STRING								{$$ = StepSpSemanticAction(STEP_SP_TITLE, $2);}
+	| DESCRIPTION STRING								{$$ = StepSpSemanticAction(STEP_SP_DESCRIPTION, $2);}
 	;
 
 sectionFg: sectionSubFg									{$$ = SectionFgSubFgSemanticAction($1);}

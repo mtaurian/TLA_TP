@@ -18,13 +18,11 @@ stringStack * initStringStack(){
 }
 
 void growStack(stringStack * stack){
-    printf("Growing stack\n");
     stack->capacity += STACK_CHUNK_SIZE;
     stack->stack = (char **)realloc(stack->stack, stack->capacity * sizeof(char *));
 }
 
 void reduceStack(stringStack * stack){
-    printf("Reducing stack\n");
     stack->capacity -= STACK_CHUNK_SIZE;
     stack->stack = (char **)realloc(stack->stack, stack->capacity * sizeof(char *));
 }
