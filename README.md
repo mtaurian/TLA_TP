@@ -1,7 +1,7 @@
 
-<picture align="center">
+<p align="center">
   <img alt="FlowForm" src="https://github.com/mtaurian/TLA_TP/blob/development/doc/asset/ff_logo.png">
-</picture>
+</p>
 
 
 # FlowForm Compiler
