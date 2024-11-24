@@ -1,5 +1,4 @@
 #include "backend/code-generation/Generator.h"
-#include "backend/domain-specific/Calculator.h"
 #include "frontend/lexical-analysis/FlexActions.h"
 #include "frontend/syntactic-analysis/AbstractSyntaxTree.h"
 #include "frontend/syntactic-analysis/BisonActions.h"
@@ -59,18 +58,18 @@ const int main(const int count, const char ** arguments) {
 		logDebugging(logger, "Computing expression value...");
 		FormFg * program = compilerState.abstractSyntaxtTree;
 		FormFlags initialFormFlags = { .state = FORM_NOT_DEFINED, .formConfigDone = false };
-        boolean computationResult = computeFormFg(program,&compilerState, &initialFormFlags);
+        compilerState.succeed = computeFormFg(program,&compilerState, &initialFormFlags);
 	    logComputedResults(logger, &compilerState);
-		if (computationResult) {
-			//generate(&compilerState);
+		if (compilerState.succeed) {
+			generate(&compilerState);
 		}
-		else {
-			logError(logger, "The computation phase rejects the input program.");
-			compilationStatus = FAILED;
+		if( compilerState.succeed==false) {
+		    logError(logger, "The computation phase rejects the input program.");
+		    compilationStatus = FAILED;
 		}
 		//// ...end of the Backend. -----------------------------------------------------------------
 		//// ----------------------------------------------------------------------------------------
-        printCompilerState(&compilerState);
+        // printCompilerState(&compilerState);
 		logDebugging(logger, "Releasing AST resources...");
 	    freeTables(&compilerState);
 	    hashmap_free(compilerState.tableSymbols);
@@ -208,7 +207,7 @@ void printTableQuestions(struct TableQuestions **table, size_t size) {
         printf("Question %zu:\n", i + 1);
         printf("  Step Index: %zu\n", table[i]->stepIdx);
         printf("  Section Index: %zu\n", table[i]->sectionIdx);
-        printf("  Type: %s\n", table[i]->type);
+        printf("  Type: %i\n", table[i]->type);
         printf("  Title: %s\n", table[i]->title);
         printf("  Placeholder: %s\n", table[i]->placeholder);
         printf("  Required: %d\n", table[i]->required);

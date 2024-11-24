@@ -95,10 +95,3 @@
                         return true;
                     }
                 };
-
-                const submitForm = () => {
-                    currentStep.value = steps.value.length - 1;
-
-                    //This is the place where you can put your FlowForm submission logic.
-                    //Thanks for choosing FlowForm. Enjoy!
-                };
