@@ -149,7 +149,7 @@ void _addSectionsForStep(FILE * file, CompilerState * compilerState, size_t step
 		"								description : '',\n"
 		"								showif : () => true\n"
 		"							}\n"
-		"						]");
+		"						]\n");
 	}else {
 		//close sections
 		fprintf(file,
@@ -267,7 +267,7 @@ void _addSteps(FILE *file, CompilerState * compilerState) {
 
 		//close item
 		fprintf(file,
-		"					}\n");
+		"					}");
 
 	}
 	//close steps variable
@@ -392,10 +392,10 @@ void _addQuestions(FILE *fileHtml, FILE* fileGs,CompilerState * compilerState) {
 	"				const questions = ref([\n");
 	struct TableQuestions ** questions = ROWS(compilerState->tableQuestions,TableQuestions);
 	for(size_t i=0;i<compilerState->tableQuestions->size;i++) {
-		if(i!=0){
+        if(i!=0){
 			fprintf(fileHtml,
 			",\n");
-			fprintf(fileGs,", ");
+			if(fileGs != NULL) fprintf(fileGs,", ");
 		}
 		if(fileGs!=NULL) {
 			fprintf(fileGs,"\"%s\"",questions[i]->title == NULL ? "" : questions[i]->title);
@@ -521,7 +521,6 @@ void _addQuestions(FILE *fileHtml, FILE* fileGs,CompilerState * compilerState) {
 		//closer item
 		fprintf(fileHtml,
 		"					}");
-
 	}
 
 	//closer quesions variable
@@ -956,22 +955,27 @@ static void generateBasicCondition(FILE * file, CompilerState * state, BasicProp
                     fprintf(file, " ) ");
                     break;
                 case LIB_FUNCTION_MATH_VALID:
-                    logWarning(_logger, "Function MathValid is not supported in this version of compiler");
+                    logWarning(_logger, "Function MathValid is not supported in this version of compiler. Condition will be set to TRUE");
+                    fprintf(file, "true");
                     break;
                 case LIB_FUNCTION_SATISFIES:
-                    logWarning(_logger, "Function Satisfies is not supported in this version of compiler");
+                    logWarning(_logger, "Function Satisfies is not supported in this version of compiler. Condition will be set to TRUE");
+                    fprintf(file, "true");
                     break;
                 case LIB_FUNCTION_CONTAINS:
-                    logWarning(_logger, "Function Contains is not supported in this version of compiler");
+                    logWarning(_logger, "Function Contains is not supported in this version of compiler. Condition will be set to TRUE");
+                    fprintf(file, "true");
                     break;
                 case LIB_FUNCTION_IS_LOWEST:
-                    logWarning(_logger, "Function Lowest is not supported in this version of compiler");
-                    break;
+                    logWarning(_logger, "Function Lowest is not supported in this version of compiler. Condition will be set to TRUE");
+                    fprintf(file, "true");
                 case LIB_FUNCTION_IS_GREATEST:
-                    logWarning(_logger, "Function Greatest is not supported in this version of compiler");
+                    logWarning(_logger, "Function Greatest is not supported in this version of compiler. Condition will be set to TRUE");
+                    fprintf(file, "true");
                     break;
                 default:
-                    logError(_logger, "Invalid State: Function not found on the standard flow form library");
+                    logError(_logger, "Invalid State: Function not found on the standard flow form library.");
+                    state->succeed=false;
             }
             break;
         default:
