@@ -67,8 +67,17 @@ void releaseValue(Value * value){
 		switch (value->type){
 			case TYPE_STRING : free(value->v_string);break;
 			case TYPE_DATE : releaseDate(value->v_date); break;		
+			case TYPE_FLOAT:
+			case TYPE_INTEGER:
+			case TYPE_ID:
+			case TYPE_NONE:
+			case TYPE_VALUE:
+			case TYPE_NUMBER:
+			case TYPE_TRUE:
+			case TYPE_FALSE:
+				break;
 			default:
-			logError(_logger, "Invalid status on: %s", __FUNCTION__);
+				logError(_logger, "Invalid status on: %s", __FUNCTION__);
 			break;
 		}
 		free(value);
