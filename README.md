@@ -1,5 +1,6 @@
-[logo]: ttps://github.com/mtaurian/TLA_TP/blob/development/doc/asset/ff_logo.png "Logo Title Text"
 ![alt text][logo]
+[logo]: ttps://github.com/mtaurian/TLA_TP/blob/development/doc/asset/ff_logo.png "Logo Title Text"
+
 
 # FlowForm Compiler
 
