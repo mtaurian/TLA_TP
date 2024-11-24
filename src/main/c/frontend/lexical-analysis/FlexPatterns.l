@@ -89,17 +89,17 @@
 "PASSWORD"                          {return TypesLexemeAction(createLexicalAnalyzerContext(), PASSWORD);}
 "DATE"                              {return TypesLexemeAction(createLexicalAnalyzerContext(), DATE);}
 
-"Debut"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), DEBUT);}
-"Fearless"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FEARLESS);}
-"SpeakNow"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), SPEAK_NOW);}
-"Red"                               {return ThemesLexemeAction(createLexicalAnalyzerContext(), RED);}
-"1989"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), NINETEEN_EIGHTY_NINE);}
-"Reputation"                        {return ThemesLexemeAction(createLexicalAnalyzerContext(), REPUTATION);}
-"Lover"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), LOVER);}
-"Folklore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FOLKLORE);}
-"Evermore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), EVERMORE);}
-"Midnights"                         {return ThemesLexemeAction(createLexicalAnalyzerContext(), MIDNIGHTS);}
-"TTPD"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), TTPD);}
+"_Debut"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), DEBUT);}
+"_Fearless"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FEARLESS);}
+"_SpeakNow"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), SPEAK_NOW);}
+"_Red"                               {return ThemesLexemeAction(createLexicalAnalyzerContext(), RED);}
+"_1989"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), NINETEEN_EIGHTY_NINE);}
+"_Reputation"                        {return ThemesLexemeAction(createLexicalAnalyzerContext(), REPUTATION);}
+"_Lover"                             {return ThemesLexemeAction(createLexicalAnalyzerContext(), LOVER);}
+"_Folklore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), FOLKLORE);}
+"_Evermore"                          {return ThemesLexemeAction(createLexicalAnalyzerContext(), EVERMORE);}
+"_Midnights"                         {return ThemesLexemeAction(createLexicalAnalyzerContext(), MIDNIGHTS);}
+"_TTPD"                              {return ThemesLexemeAction(createLexicalAnalyzerContext(), TTPD);}
 
 "["                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), OPEN_BRACKETS);}
 "]"                                 { return BracketsLexemeAction(createLexicalAnalyzerContext(), CLOSE_BRACKETS);}
