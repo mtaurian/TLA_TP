@@ -1,0 +1,146 @@
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.3/dist/vuetify.min.js"></script>
+    <div id="app"></div>
+    <script type="text/x-template" id="app-template">
+        <v-app>
+            <div class="background">
+                <v-container class="container">
+                    <form @submit.prevent="submitForm">
+                        <h1 class="form-title">{{ formTitle }}</h1>
+                        <template v-if="steps.length">
+                            <div v-for="(step, index) in steps" :key="index">
+                                <v-card v-if="currentStep === index" flat class="step-container">
+                                    <div class="step">
+                                        <h2 class="step-title">{{ step.title }}</h2>
+                                        <p class="step-description">{{ step.description }}</p>
+                                    </div>
+                                    <div
+                                        v-if="step.sections.length"
+                                        v-for="(section, sectionIdx) in stepSections(index)"
+                                        :key="sectionIdx"
+                                    >
+                                        <div class="section">
+                                            <div class="section-border"></div>
+                                            <h3 class="section-title">{{ section.title }}</h3>
+                                            <p class="section-description">{{ section.description }}</p>
+                                        </div>
+                                        <div
+                                            v-if="index === currentStep"
+                                            v-for="(field, fieldIndx) in sectionQuestions(index, sectionIdx)"
+                                            :key="fieldIndx"
+                                            class="questions"
+                                        >
+                                            <v-row>
+                                                <v-card-title>
+                                                    {{ field.label }}
+                                                    <span v-if="field.required" style="color: red;">*</span>
+                                                </v-card-title>
+                                                <div class="help-icon-container" v-if="field.help && field.help.length">
+                                                    <span :title="field.help">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </v-row>
+                                            <v-card-text>
+                                                <v-text-field
+                                                    v-if="['text', 'number', 'date', 'file', 'password'].includes(field.type)"
+                                                    v-model="field.value"
+                                                    :type="field.type"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                />
+                                                <v-select
+                                                    v-if="field.type === 'select'"
+                                                    :id="field.id"
+                                                    v-model="field.value"
+                                                    :items="filteredOptions(field)"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                    solo
+                                                />
+                                                <div v-if="field.type ==='checkbox'">
+                                                    <<v-radio-group v-model="field.value" :id="field.id" :multiple="true">
+                                                        <v-radio
+                                                            v-for="(option, optionIdx) in filteredOptions(field)"
+                                                            :key="optionIdx"
+                                                            :label="option"
+                                                            :value="option"
+                                                            />
+                                                        <v-btn @click="field.value = null" class="w10 m1 prev-button">Clear</v-btn>
+                                                    </v-radio-group>
+                                                </div>
+                                                <div v-if="field.type === 'radios'">
+                                                    <v-radio-group v-model="field.value" :id="field.id">
+                                                        <v-radio
+                                                            v-for="(option, optionIdx) in filteredOptions(field)"
+                                                            :key="optionIdx"
+                                                            :label="option"
+                                                            :value="option"
+                                                            />
+                                                        <v-btn @click="field.value = null; " class="w10 m1 prev-button">Clear</v-btn>
+                                                    </v-radio-group>
+                                                </div>
+                                                <div v-if="field.type === 'image'">
+                                                    <v-file-input
+                                                    accept="image/png, image/jpeg, image/bmp"
+                                                    :label="field.label"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                    v-model="field.value"
+                                                  ></v-file-input>
+                                                </div>
+                                                <div v-if="field.type === 'textarea'">
+                                                    <v-textarea
+                                                    v-model="field.value"
+                                                    :type="field.type"
+                                                    :id="field.id"
+                                                    @blur="validateField(field)"
+                                                    :error-messages="field.error"
+                                                    :placeholder="field.placeholder"
+                                                />
+                                                </div>
+                                            </v-card-text>
+                                        </div>
+                                    </div>
+                                </v-card>
+                            </div>
+                        </template>
+                        <p v-if="currentStep != steps.length - 1" class="required-note">
+                            <span style="color: red;">*</span> means field is required
+                        </p>
+                        <v-btn
+                            @click="previousStep"
+                            v-if="stepHistory.length > 0 && currentStep != steps.length - 1"
+                            class="prev-button"
+                        >
+                            Previous
+                        </v-btn>
+                        <v-btn
+                            :disabled="!isStepValid"
+                            @click="nextStep"
+                            v-if="currentStep < steps.length - 2 && !goesToEnd"
+                            class="prev-button next-button"
+                        >
+                            Next
+                        </v-btn>
+                        <v-btn
+                            type="submit"
+                            :disabled="!isStepValid"
+                            v-if="goesToEnd"
+                            class="prev-button submit-button"
+                        >
+                            {{ submitText }}
+                        </v-btn>
+                    </form>
+                </v-container>
+            </div>
+        </v-app>
+    </script>

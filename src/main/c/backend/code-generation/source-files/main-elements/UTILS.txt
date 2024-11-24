@@ -1,0 +1,104 @@
+                const isStepValid = computed(() => {
+                    const vq = questions.value.filter((q)=>q.step === currentStep.value && q.showif() && steps.value[q.step].sections[q.section].showif());
+                    return vq.every((q) => q.error === '' && (!q.required || (q.value && q.value !== '') ));
+                })
+
+                const stepSections = (stepIdx) => {
+                    return steps.value[stepIdx].sections.filter((s, i) => {
+                        if (s.showif()){
+                            return true;
+                        } else {
+                            questions.value.forEach((q) =>{if (q.section === i && q.step === stepIdx) {
+                                    q.value = null
+                                }});
+                            return false;
+                        }
+                    });
+                }
+
+                const goesToEnd = computed(() => {
+                    if (currentStep.value == steps.value.length - 2) {
+                        return true;
+                    }
+
+                    let shouldGoToEnd = false;
+
+                    for (var getaway of steps.value[currentStep.value].getaways) {
+                        if (getaway.step === steps.value.length - 1 && getaway.condition()) {
+                            shouldGoToEnd = true;
+                            break;
+                        }
+                    }
+
+                    return shouldGoToEnd;
+                });
+
+                const sectionQuestions = (stepIdx, sectionIdx) => {
+                    return questions.value.filter((q) =>
+                    {   if(q.section === sectionIdx && q.step === stepIdx){
+                            if(q.showif()){
+                                return true;
+                            }  else {
+                                q.value = null;
+                                return false;
+                            }
+                        }
+                        return false
+                    } );
+                }
+
+                const filteredOptions = (field) => {
+                    if ((field.type === 'select' || field.type === 'radios' || field.type === 'checkbox') && Array.isArray(field.options)) {
+                        return field.options
+                        .filter((option) => option.condition && option.condition())
+                        .map((option) =>  option.value);
+                    }
+                    return [];
+                };
+
+                const nextStep = () => {
+                    if (currentStep.value < stepsQty - 1) {
+                        let next = currentStep.value + 1;
+
+                        if (steps.value[currentStep.value].getaways) {
+                            steps.value[currentStep.value].getaways.forEach(gateway => {
+                                if (gateway.condition()) {
+                                    next = gateway.step;
+                                }
+                            });
+                        }
+
+                        stepHistory.value.push(currentStep.value);
+                        currentStep.value = next;
+                    }
+                };
+
+                const previousStep = () => {
+                    if (stepHistory.value.length > 0) {
+                        currentStep.value = stepHistory.value.pop();
+                    }
+                };
+
+                const validateField = (field) => {
+                    if (field.required && field.value == ''){
+                        field.error = 'This field is required'
+                        return false
+                    }
+
+                    field.error = field.errors
+                        .map((error) => error.condition(field.value) ? error.msg + ' ' : "").filter((e) => e.length).toString()
+
+                    if (field.error.length >= 0){
+                        return false;
+                    }else {
+                        field.error = "";
+                        return true;
+                    }
+                };
+
+                const submitForm = () => {
+                    currentStep.value = steps.value.length - 1;
+
+                    //This is the place where you can put your FlowForm submission logic.
+                    //Thanks for choosing FlowForm. Enjoy!
+                };
