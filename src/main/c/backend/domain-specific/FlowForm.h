@@ -49,5 +49,6 @@ typedef struct QuestionFlags {
 
 void initializeFlowFormModule();
 boolean computeFormFg(const FormFg * form, CompilerState * cs, FormFlags* flags);
+void checkMandatorySpecifiers(CompilerState * compilerState);
 
 #endif //FLOWFORM_H

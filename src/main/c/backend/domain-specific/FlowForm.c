@@ -609,3 +609,44 @@ boolean computeFormConfigFg(const FormConfigFg * formConfigFg, CompilerState * c
     }
     return ret && computeFormConfigFg(formConfigFg->nextFgs,cs, flags);
 }
+
+void checkMandatorySpecifiers(CompilerState * compilerState){
+    logDebugging(_logger, __FUNCTION__ );
+    struct TableSteps ** tableSteps = ROWS(compilerState->tableSteps, TableSteps);
+    struct TableGetaways ** tableGetaways = ROWS(compilerState->tableGetaways, TableGetaways);
+    struct TableSections ** tableSections = ROWS(compilerState->tableSections, TableSections);
+    struct TableQuestions ** tableQuestions = ROWS(compilerState->tableQuestions, TableQuestions);
+    struct TableOptions ** tableOptions = ROWS(compilerState->tableOptions, TableOptions);
+    struct TableGlitches ** tableGlitches = ROWS(compilerState->tableGlitches, TableGlitches);
+
+    if(compilerState->formSpecifiers->title == NULL){
+        logError(_logger,"Missing Form Title");
+        compilerState->succeed=false;
+    }
+
+    if(compilerState->tableQuestions->size == 0){
+        logError(_logger,"At least one question must be defined");
+        compilerState->succeed=false;
+    }
+
+    for (size_t i = 0 ; i < compilerState->tableQuestions->size; i++){
+        if(tableQuestions[i]->title == NULL){
+            logError(_logger,"Missing title in question %zu", i);
+            compilerState->succeed=false;
+        }
+    }
+
+    for (size_t i = 0 ; i < compilerState->tableSteps->size; i++){
+        if(tableSteps[i]->title == NULL){
+            logError(_logger,"Missing title in step %zu", i);
+            compilerState->succeed=false;
+        }
+    }
+
+    for (size_t i = 0 ; i < compilerState->tableSections->size; i++){
+        if(tableSections[i]->title == NULL){
+            logError(_logger,"Missing title in section %zu", i);
+            compilerState->succeed=false;
+        }
+    }
+}
