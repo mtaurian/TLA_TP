@@ -353,7 +353,6 @@ QuestionSp * QuestionSpDefaultFloatSemanticAction(float the_float){
 }
 QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
-	printf("Aca llego un question TYPE: %d\n",the_questionType);
 	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
 	questionSp->type=QUESTION_SP_QUESTION_TYPE;
 	questionSp->questionType=the_questionType;

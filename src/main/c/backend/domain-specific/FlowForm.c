@@ -148,9 +148,7 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
             }
             flags->typeDone=true;
 
-            logError(_logger,"Tipo de dato: %d\n",questionSp->questionType);
             rowsQuestions[cs->tableQuestions->size-1]->type = questionSp->questionType;
-
 
             break;
         default:
