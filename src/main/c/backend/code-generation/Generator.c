@@ -548,10 +548,16 @@ void _generateApp(FILE * fileHtml,FILE * fileGs,CompilerState * compilerState) {
 	"				const formTitle = \"");
     fprintf(fileHtml,"%s",compilerState->formSpecifiers->title == NULL? "Form":compilerState->formSpecifiers->title );	fprintf(fileHtml,"\";\n");
 
+    //set desc Form
+    fprintf(fileHtml,
+            "				const formDescription = \"");
+    fprintf(fileHtml,"%s",compilerState->formSpecifiers->description == NULL? "":compilerState->formSpecifiers->description );	fprintf(fileHtml,"\";\n");
+
+
 	//set submitText
 	fprintf(fileHtml,
 	"				const submitText = \"");
-    fprintf(fileHtml,"%s",compilerState->formConfig->submitText==NULL ? "":compilerState->formConfig->submitText );
+    fprintf(fileHtml,"%s",compilerState->formConfig->submitText==NULL ? "Submit":compilerState->formConfig->submitText );
 	fprintf(fileHtml,"\";\n");
 
 	//manage steps
@@ -625,7 +631,7 @@ void _generateApp(FILE * fileHtml,FILE * fileGs,CompilerState * compilerState) {
 
 	//close setup
 	fprintf(fileHtml,
-				"				return { currentStep, questions, isStepValid, goesToEnd, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepSections, stepHistory, steps, formTitle, submitText };\n"
+				"				return { currentStep, questions, isStepValid, goesToEnd, nextStep, previousStep, submitForm, validateField, filteredOptions,sectionQuestions, stepSections, stepHistory, steps, formTitle, submitText, formDescription };\n"
 					"			}\n");
 
 	//close app variable

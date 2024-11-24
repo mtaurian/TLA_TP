@@ -1,4 +1,5 @@
 #Title "The Form Title"
+#Description "The form description"
 #Closure "Thanks for submiting the form"
 @FormConfig {
 	#SubmitBtnText "Submit"

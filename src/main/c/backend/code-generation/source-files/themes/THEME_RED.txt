@@ -30,6 +30,14 @@
         margin-bottom: 1rem;
     }
 
+    .form-description {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #921D16;
+        font-family: "Bebas Neue", sans-serif;
+        margin-bottom: 1rem;
+    }
+
     .step-container {
         margin-top: 1rem;
         background-color: #613B25;

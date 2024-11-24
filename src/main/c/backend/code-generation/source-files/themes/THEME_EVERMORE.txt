@@ -29,6 +29,14 @@
         margin-bottom: 1rem;
     }
 
+    .form-description {
+            text-align: center;
+            font-size: 1rem;
+            color: #B05925;
+            font-family: "Roboto", serif;
+            margin-bottom: 1rem;
+    }
+
     .step-container {
         margin-top: 1rem;
         background-color: #55291E;

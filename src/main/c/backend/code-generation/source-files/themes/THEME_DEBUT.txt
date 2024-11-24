@@ -30,6 +30,16 @@
         margin-bottom: 1rem;
     }
 
+    .form-description {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #C28086;
+            font-family: "Roboto", sans-serif;
+            font-weight: 600;
+            font-style: normal;
+            margin-bottom: 0.5rem;
+    }
+
     .step-container {
         margin-top: 1rem;
         background-color: #3B5D32;

@@ -7,6 +7,7 @@
                 <v-container class="container">
                     <form @submit.prevent="submitForm">
                         <h1 class="form-title">{{ formTitle }}</h1>
+                        <p class="form-description">{{ formDescription }}</p>
                         <template v-if="steps.length">
                             <div v-for="(step, index) in steps" :key="index">
                                 <v-card v-if="currentStep === index" flat class="step-container">
