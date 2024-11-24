@@ -120,13 +120,13 @@ void _addSectionsForStep(FILE * file, CompilerState * compilerState, size_t step
 			//add title
 			fprintf(file,
 			"								title : \"");
-			fprintf(file,"%s",sections[i]->title );
+			fprintf(file,"%s",sections[i]->title == NULL ? "" : sections[i]->title);
 			fprintf(file,"\",\n");
 
 			//add description
 			fprintf(file,
 			"								description : \"");
-			fprintf(file,"%s",sections[i]->description );
+			fprintf(file,"%s",sections[i]->description == NULL ? "" : sections[i]->description);
 			fprintf(file,"\",\n");
 
 			//add showIf
@@ -234,13 +234,13 @@ void _addSteps(FILE *file, CompilerState * compilerState) {
 		//add title
 		fprintf(file,
 		"						title : \"");
-		fprintf(file,"%s",steps[i]->title );
+		fprintf(file,"%s",steps[i]->title == NULL ? "" : steps[i]->title);
 		fprintf(file,"\",\n");
 
 		//add description
 		fprintf(file,
 		"						description : \"");
-		fprintf(file,"%s",steps[i]->description );
+		fprintf(file,"%s",steps[i]->description == NULL ? "" : steps[i]->description);
 		fprintf(file,"\",\n");
 		_addSectionsForStep(file,compilerState,i,true);
 
@@ -309,7 +309,7 @@ void _addGlitches(FILE *file, CompilerState *compilerState, size_t questionIdx) 
 
 			//add showIf
 			fprintf(file,
-			"								msg : \"%s\"\n",glitches[i]->errorMessage);
+			"								msg : \"%s\"\n",glitches[i]->errorMessage == NULL ? "" : glitches[i]->errorMessage);
 
 			//close item
 			fprintf(file,
@@ -398,7 +398,7 @@ void _addQuestions(FILE *fileHtml, FILE* fileGs,CompilerState * compilerState) {
 			fprintf(fileGs,", ");
 		}
 		if(fileGs!=NULL) {
-			fprintf(fileGs,"\"%s\"",questions[i]->title);
+			fprintf(fileGs,"\"%s\"",questions[i]->title == NULL ? "" : questions[i]->title);
 		}
 		//open item
 		fprintf(fileHtml,
@@ -463,7 +463,7 @@ void _addQuestions(FILE *fileHtml, FILE* fileGs,CompilerState * compilerState) {
 		}
 		//add label
 		fprintf(fileHtml,
-		"						label : \"%s\",\n", questions[i]->title);
+		"						label : \"%s\",\n", questions[i]->title == NULL ? "" : questions[i]->title);
 
 		//add type
 		switch (questions[i]->defaultValue.type) {
@@ -547,13 +547,12 @@ void _generateApp(FILE * fileHtml,FILE * fileGs,CompilerState * compilerState) {
 	//set name Form
 	fprintf(fileHtml,
 	"				const formTitle = \"");
-	fprintf(fileHtml,"%s",compilerState->formSpecifiers->title);
-	fprintf(fileHtml,"\";\n");
+    fprintf(fileHtml,"%s",compilerState->formSpecifiers->title == NULL? "Form":compilerState->formSpecifiers->title );	fprintf(fileHtml,"\";\n");
 
 	//set submitText
 	fprintf(fileHtml,
 	"				const submitText = \"");
-	fprintf(fileHtml,"%s",compilerState->formConfig->submitText);
+    fprintf(fileHtml,"%s",compilerState->formConfig->submitText==NULL ? "":compilerState->formConfig->submitText );
 	fprintf(fileHtml,"\";\n");
 
 	//manage steps
@@ -562,7 +561,7 @@ void _generateApp(FILE * fileHtml,FILE * fileGs,CompilerState * compilerState) {
 		"				const stepHistory = ref([]);\n");
 	fprintf(fileHtml,
 	"				const closure = \"");
-	fprintf(fileHtml,"%s",compilerState->formSpecifiers->closure);
+    fprintf(fileHtml,"%s",compilerState->formSpecifiers->closure==NULL ? "":compilerState->formSpecifiers->closure );
 	fprintf(fileHtml,"\"\n");
 
 	_addSteps(fileHtml,compilerState);
@@ -1083,11 +1082,13 @@ void generate(CompilerState * compilerState) {
 	logDebugging(_logger, "Generation is done.");
 
 	fclose(fileHtml);
-	fclose(fileGs);
+    if(compilerState->formConfig->safeAndSound) fclose(fileGs);
+
+	logDebugging(_logger, "Files closed.");
 	if (compilerState->succeed==false) {
 		logError(_logger, "Error generation output file");
 		remove(fileOutputHtml);
-		remove(fileOutputGs);
+        if(compilerState->formConfig->safeAndSound) remove(fileOutputGs);
 		rmdir(directory);
 		return;
 	}
