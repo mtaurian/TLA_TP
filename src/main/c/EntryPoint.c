@@ -45,7 +45,6 @@ const int main(const int count, const char ** arguments) {
 		.tableGetaways = initTable(sizeof(struct TableGetaways)),
 		.tableOptions = initTable(sizeof(struct TableOptions)),
 		.tableGlitches = initTable(sizeof(struct TableGlitches)),
-		.contextStack = initStringStack(),
         .formConfig = calloc(1, sizeof(FormConfiguration)),
 		.formSpecifiers = calloc(1, sizeof(FormSpecifiers))
 	};
@@ -73,7 +72,6 @@ const int main(const int count, const char ** arguments) {
 		logDebugging(logger, "Releasing AST resources...");
 	    freeTables(&compilerState);
 	    hashmap_free(compilerState.tableSymbols);
-	    freeStack(compilerState.contextStack);
 		releaseFormFg(program);
 	}
 	else {

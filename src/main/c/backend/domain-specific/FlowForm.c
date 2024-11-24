@@ -341,9 +341,7 @@ boolean computeSectionSubFg(SectionSubFg * sectionSubFg, CompilerState * cs) {
                     &(struct EntrySymbols) {.entrySymbolsType=ENTRY_SYMBOLS_QUESTION, .id = sectionSubFg->question->id, .index = cs->tableQuestions->size});
                 addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size-1, .sectionIdx = cs->tableSections->size-1});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_SECTION};
-                pushStringStack(cs->contextStack, sectionSubFg->question->id);
                 ret = ret && computeQuestionFg(sectionSubFg->question->questionFg, cs, &questionFlags);
-                popStringStack(cs->contextStack);
 
             break;
         default:
@@ -444,9 +442,7 @@ boolean computeStepFg(const StepFg *stepFg,  CompilerState * cs, StepFlags *flag
                     &(struct EntrySymbols) {.entrySymbolsType=ENTRY_SYMBOLS_QUESTION, .id = stepFg->question->id, .index = cs->tableQuestions->size});
                 addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size-1, .sectionIdx = 0});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_STEP};
-                pushStringStack(cs->contextStack, stepFg->question->id);
                 ret = ret && computeQuestionFg(stepFg->question->questionFg, cs, &questionFlags);
-                popStringStack(cs->contextStack);
             }
             break;
     }
@@ -531,9 +527,7 @@ boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFla
                 hashmap_set(cs->tableSymbols, &(struct EntrySymbols){.entrySymbolsType=ENTRY_SYMBOLS_STEP, .id = formSubFg->step->id, .index = cs->tableSteps->size});
                 addRow(cs->tableSteps, &(struct TableSteps){});
                 StepFlags stepFlags = {.state = STEP_NOT_DEFINED, .getawayDone = false};
-                pushStringStack(cs->contextStack, formSubFg->step->id);
                 ret = ret && computeStepFg(formSubFg->step->stepFg, cs, &stepFlags);
-                popStringStack(cs->contextStack);
             }
             break;
 		case FORM_SUB_FG_QUESTION:
@@ -550,9 +544,7 @@ boolean computeFormSubFg(const FormSubFg *formSubFg, CompilerState * cs, FormFla
                             &(struct EntrySymbols) {.entrySymbolsType=ENTRY_SYMBOLS_QUESTION, .id = formSubFg->question->id, .index = cs->tableQuestions->size});
                 addRow(cs->tableQuestions, &(struct TableQuestions) {.stepIdx = 0, .sectionIdx = 0});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_FORM};
-                pushStringStack(cs->contextStack, formSubFg->question->id);
                 ret = ret && computeQuestionFg(formSubFg->question->questionFg, cs, &questionFlags);
-                popStringStack(cs->contextStack);
             }
             break;
 		case FORM_SUB_FG_SECTION:
