@@ -139,7 +139,7 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
                 logError(_logger, "Multiple declaration of #Required in question");
                 ret=false;
             }
-            rowsQuestions[cs->tableQuestions->size-1]->help=questionSp->v_string;
+            rowsQuestions[cs->tableQuestions->size-1]->required=true;
             break;
         case QUESTION_SP_QUESTION_TYPE:
             if(flags->typeDone){
@@ -147,40 +147,11 @@ boolean computeQuestionSp(QuestionSp * questionSp, CompilerState * cs, QuestionF
                 ret=false;
             }
             flags->typeDone=true;
-            switch(questionSp->questionType){
-                    case QUESTION_TYPE_CHECKBOX:
-                        rowsQuestions[cs->tableQuestions->size-1]->type = "checkbox";
-                        break;
-                    case QUESTION_TYPE_RADIOS:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "radios"; ;
-                        break;
-                    case QUESTION_TYPE_SELECT_TEXT:
-                    case QUESTION_TYPE_SELECT_DATE:
-                    case QUESTION_TYPE_SELECT_NUMERIC:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "select";
-                        break;
-                    case QUESTION_TYPE_TEXT:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "text";
-                        break;
-                    case QUESTION_TYPE_IMAGE:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "image";
-                        break;
-                    case QUESTION_TYPE_DOCUMENT:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "file" ;
-                        break;
-                    case QUESTION_TYPE_LONGTEXT:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "textarea";
-                        break;
-                    case QUESTION_TYPE_NUMERIC:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "number";
-                        break;
-                    case QUESTION_TYPE_PASSWORD:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "password";
-                        break;
-                    case QUESTION_TYPE_DATE:
-                        rowsQuestions[cs->tableQuestions->size-1]->type= "date";
-                        break;
-            }
+
+            logError(_logger,"Tipo de dato: %d\n",questionSp->questionType);
+            rowsQuestions[cs->tableQuestions->size-1]->type = questionSp->questionType;
+
+
             break;
         default:
             break;

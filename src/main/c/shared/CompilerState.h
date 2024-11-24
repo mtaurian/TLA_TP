@@ -55,7 +55,7 @@ struct TableSections {
 struct TableQuestions {
 	size_t stepIdx;
 	size_t sectionIdx;
-	char * type;
+	QuestionType	type;
 	char * title;
 	char * placeholder;
 	boolean required;
