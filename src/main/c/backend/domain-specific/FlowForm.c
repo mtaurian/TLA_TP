@@ -339,7 +339,7 @@ boolean computeSectionSubFg(SectionSubFg * sectionSubFg, CompilerState * cs) {
                 }
                 hashmap_set(cs->tableSymbols,
                     &(struct EntrySymbols) {.entrySymbolsType=ENTRY_SYMBOLS_QUESTION, .id = sectionSubFg->question->id, .index = cs->tableQuestions->size});
-                addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size-1, .sectionIdx = cs->tableSections->size-1});
+                addRow(cs->tableQuestions, &(struct TableQuestions){.stepIdx = cs->tableSteps->size== 0 ? 0:cs->tableSteps->size-1, .sectionIdx = cs->tableSections->size-1});
                 QuestionFlags questionFlags = {.glitchDone = false, .optionsDone = false, .requiredDone = false, .typeDone = false, .comingFrom = QUESTION_FROM_SECTION};
                 ret = ret && computeQuestionFg(sectionSubFg->question->questionFg, cs, &questionFlags);
 

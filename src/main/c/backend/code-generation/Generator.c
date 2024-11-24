@@ -149,7 +149,7 @@ void _addSectionsForStep(FILE * file, CompilerState * compilerState, size_t step
 		"								description : '',\n"
 		"								showif : () => true\n"
 		"							}\n"
-		"						]\n");
+		"						]");
 	}else {
 		//close sections
 		fprintf(file,
@@ -264,7 +264,8 @@ void _addSteps(FILE *file, CompilerState * compilerState) {
 			"						description : '',\n");
 
 		_addSectionsForStep(file,compilerState,0,false);
-
+		fprintf(file,
+		",\n");
 		//close item
 		fprintf(file,
 		"					}");
@@ -531,7 +532,7 @@ void _addQuestions(FILE *fileHtml, FILE* fileGs,CompilerState * compilerState) {
 void _generateApp(FILE * fileHtml,FILE * fileGs,CompilerState * compilerState) {
 	logDebugging(_logger,__FUNCTION__);
 
-	fprintf(fileHtml,"	<script>");
+	fprintf(fileHtml,"\n	<script>\n");
 
 	//define some variables and open app variable
 	fprintf(fileHtml,
@@ -668,10 +669,12 @@ static char * _indentation(const unsigned int level) {
 }
 
 
-void _generateEpilogue(FILE *file) {
+void _generateInitialScripts(FILE *file) {
 	logDebugging(_logger,__FUNCTION__);
-	copyFile(PATH("main-elements/FOOTER_SCRIPTS.txt"),file);
-	logDebugging(_logger,"Script for footer generated");
+	fprintf(file,"\n");
+	copyFile(PATH("main-elements/INITIAL_SCRIPTS.txt"),file);
+	fprintf(file,"\n");
+	logDebugging(_logger,"Scripts generated");
 }
 
 
@@ -1085,8 +1088,8 @@ void generate(CompilerState * compilerState) {
 	}
 
 	_generateHeader(fileHtml);
+	_generateInitialScripts(fileHtml);
 	_generateBody(fileHtml,fileGs, compilerState);
-	_generateEpilogue(fileHtml);
 	fprintf(fileHtml,"\n");
 	_applyTheme(fileHtml, compilerState);
 	logDebugging(_logger, "Generation is done.");
