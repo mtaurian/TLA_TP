@@ -160,7 +160,7 @@ Condition * ConditionAndSemanticAction(Condition * the_left, Condition * the_rig
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_AND;
 	condition->leftCondition = the_left;
-	condition->leftCondition = the_right;
+	condition->rightCondition = the_right;
 	return condition;
 }
 
@@ -169,7 +169,7 @@ Condition * ConditionOrSemanticAction(Condition * the_left, Condition * the_righ
 	Condition * condition = calloc(1, sizeof(Condition));
 	condition->type = CONDITION_TYPE_OR;
 	condition->leftCondition = the_left;
-	condition->leftCondition = the_right;
+	condition->rightCondition = the_right;
 	return condition;
 }
 
@@ -353,6 +353,7 @@ QuestionSp * QuestionSpDefaultFloatSemanticAction(float the_float){
 }
 QuestionSp * QuestionSpQuestionTypeSemanticAction(QuestionType the_questionType){
 	_logSyntacticAnalyzerAction(__FUNCTION__);
+	printf("Aca llego un question TYPE: %d\n",the_questionType);
 	QuestionSp * questionSp=calloc(1,sizeof(QuestionSp));
 	questionSp->type=QUESTION_SP_QUESTION_TYPE;
 	questionSp->questionType=the_questionType;
