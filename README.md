@@ -1,4 +1,5 @@
-![alt text]([https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png](https://github.com/mtaurian/TLA_TP/blob/development/doc/asset/ff_logo.png) "Logo Title Text")
+[logo]: ttps://github.com/mtaurian/TLA_TP/blob/development/doc/asset/ff_logo.png "Logo Title Text"
+![alt text][logo]
 
 # FlowForm Compiler
 
