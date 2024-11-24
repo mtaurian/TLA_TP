@@ -8,12 +8,23 @@
 Un compilador construido a partir de https://github.com/agustin-golmar/Flex-Bison-Compiler.
 
 ## Construcción:
--
+
 Para construir el proyecto por completo, ejecute:
+
+En Linux:
+    script/ubuntu/build.sh 
+
+En Windows 
+| ------------- | ------------- |
+| | script\windows\build.bat  |
+
+## Testing:
+
+Para ejecitar todos los tests del proyecto, ejecute:
 
 | En Linux  | En Windows |
 | ------------- | ------------- |
-| script/ubuntu/build.sh | script\windows\build.bat  |
+| script/ubuntu/test.sh | script\windows\build.bat  |
 
 
 
