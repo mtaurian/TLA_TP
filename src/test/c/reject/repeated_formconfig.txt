@@ -3,7 +3,7 @@
 @FormConfig {
 	#SubmitBtnText "Submit"
 	#SafeAndSound
-	#Theme Fearless
+	#Theme _Fearless
 }
 @Question name {
     #Type TEXT
@@ -12,5 +12,5 @@
 }
 @FormConfig {
 	#SubmitBtnText "Submit Form"
-	#Theme Red
+	#Theme _Red
 }

@@ -2,6 +2,7 @@
 #Description "also we have turned on the safe and sound config"
 #Closure "Thanks for submiting the form"
 @Section {
+    #Title "Section 1"
 	@Question q1 {
 		#Type TEXT
 		#Title "Name"
@@ -12,6 +13,7 @@
 	#SafeAndSound
 }
 @Section {
+    #Title "Section 2"
 	@Question q2 {
 		#Type NUMERIC
 		#Title "How old are you?"
@@ -21,6 +23,7 @@
 }
 
 @Section {
+    #Title "Section 3"
 	@Question q3 {
 		#Type TEXT
 		#Title "Step 2 question"

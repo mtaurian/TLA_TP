@@ -1,5 +1,6 @@
 #Title "question inside step, no section"
 @Step s1 {
+    #Title "step 1 title"
 	@Question q1 {
 		#Title "q1"
 		#Type LONGTEXT
