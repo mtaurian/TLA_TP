@@ -7,6 +7,7 @@
 # FlowForm Compiler
 
 Un compilador construido a partir de https://github.com/agustin-golmar/Flex-Bison-Compiler.
+FlowForm busca facilitar la creación de formularios y permite otorgarle mayor personalización al mismo. FlowForm genera un archivo HTML que contiene todo lo necesario para que al abrirlo sea un formulario con estilos predefinidos inspirados en Taylor Swift. 
 
 ## Construcción:
 
@@ -44,8 +45,12 @@ En Windows:
 
     script\windows\start.bat <path del programa>
 
+---
+
 ### Librerías externas:
-- Hashmap: https://github.com/tidwall/hashmap.c 
+- Hashmap: https://github.com/tidwall/hashmap.c
+
+---
 
 ## Autores:
 
