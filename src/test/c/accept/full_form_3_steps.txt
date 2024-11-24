@@ -45,7 +45,7 @@
 		@Question favoriteBeer {
 			#Type SELECT TEXT
 			#Title "What's your favorite beer?"
-			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
+			#Options ["Brahma", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
 			@ShowIf(isOlderThan18)
 		}		
 	}
@@ -53,10 +53,10 @@
 		#Title "Second Section of s1"
 		#Description "Second Section Desc"
 
-		@Question brhama {
+		@Question brahma {
 			#Type TEXT
-			#Title "What's your favorite Brhama?"
-			@ShowIf { favoriteBeer equals "Brhama" }
+			#Title "What's your favorite Brahma?"
+			@ShowIf { favoriteBeer equals "Brahma" }
 		}
 		
 		@Question patagonia {
@@ -66,7 +66,7 @@
 		}
 		
 		@ShowIf {
-			(favoriteBeer equals "Brhama" OR favoriteBeer equals "Patagonia") AND howOld isGreaterThan 18
+			(favoriteBeer equals "Brahma" OR favoriteBeer equals "Patagonia") AND howOld isGreaterThan 18
 		}
 	}
 	
