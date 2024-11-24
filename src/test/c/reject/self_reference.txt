@@ -11,7 +11,7 @@
 	#Description "Fill your personal Data"
 	@GetAwayCar {
 		WHEN howOld isLowerThan 13 GOTO END
-		WHEN howOld isGreaterThan 18 OR howOld isEmpty GOTO s3 
+		WHEN howOld isGreaterThan 18 OR howOld isEmpty GOTO s1
 	}
 	@Section {
 		#Title "First Section of s1"

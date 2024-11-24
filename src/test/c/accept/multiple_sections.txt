@@ -16,7 +16,7 @@
 		@Question favoriteBeer {
 			#Type SELECT TEXT
 			#Title "Whats your favorite beer"
-			#Options ["Brhama", "Patagonia", "Heineken" @ShowIf { howOld isGreaterThan 21 }]
+			#Options ["Brahma", "Patagonia", "Heineken"]
 		}		
 	}
 	@Section {
