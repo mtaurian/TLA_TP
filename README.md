@@ -47,6 +47,13 @@ En Windows:
 
 ---
 
+### Archivos de salida:
+Los archivos generados por el compilador se encuentran en una carpeta llamada "FlowForm".
+- El archivo "Form.html" contendrá el HTML, JavaScript y CSS correspondiente al formulario.
+- El archivo "Form.gs" [cuando aplique] contendrá el código necesario para deployar el formulario en GoogleScripts. Para más información, leer la sección Adicionales del informe en "doc/TLA TPE - FlowForm - Stage III.pdf"
+
+---
+
 ### Librerías externas:
 - Hashmap: https://github.com/tidwall/hashmap.c
 
